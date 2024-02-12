@@ -67,27 +67,6 @@
 #define							kWarpConstantStringErrorInvalidVoltage	"\rInvalid supply voltage [%d] mV!"
 #define							kWarpConstantStringErrorSanity		"\rSanity check failed!"
 
-#define WARP_BUILD_ENABLE_DEVADXL362 0
-#define WARP_BUILD_ENABLE_DEVIS25xP 0
-#define WARP_BUILD_ENABLE_DEVISL23415 0
-#define WARP_BUILD_ENABLE_DEVAT45DB 0
-#define WARP_BUILD_ENABLE_DEVICE40 0
-#define WARP_BUILD_ENABLE_DEVBMX055 0
-#define WARP_BUILD_ENABLE_DEVLPS25H 0
-#define WARP_BUILD_ENABLE_DEVHDC1000 0
-#define WARP_BUILD_ENABLE_DEVMAG3110 0
-#define WARP_BUILD_ENABLE_DEVSI7021 0
-#define WARP_BUILD_ENABLE_DEVL3GD20H 0
-#define WARP_BUILD_ENABLE_DEVBME680 0
-#define WARP_BUILD_ENABLE_DEVTCS34725 0
-#define WARP_BUILD_ENABLE_DEVSI4705 0
-#define WARP_BUILD_ENABLE_DEVCCS811 0
-#define WARP_BUILD_ENABLE_DEVAMG8834 0
-#define WARP_BUILD_ENABLE_DEVAS7262 0
-#define WARP_BUILD_ENABLE_DEVAS7263 0
-#define WARP_BUILD_ENABLE_DEVRV8803C7 0
-#define WARP_BUILD_ENABLE_DEVBGX 0
-
 #if (WARP_BUILD_ENABLE_DEVAT45DB || WARP_BUILD_ENABLE_DEVIS25xP)
 	#define WARP_BUILD_ENABLE_FLASH 1
 #else
@@ -97,17 +76,16 @@
 /*
 * Include all sensors because they will be needed to decode flash.
 */
-	
-// #include "devADXL362.h"
-// #include "devAMG8834.h"
+#include "devADXL362.h"
+#include "devAMG8834.h"
 #include "devMMA8451Q.h"
-// #include "devMAG3110.h"
-// #include "devL3GD20H.h"
-// #include "devBME680.h"
-// #include "devBMX055.h"
-// #include "devCCS811.h"
-// #include "devHDC1000.h"
-// #include "devRV8803C7.h"
+#include "devMAG3110.h"
+#include "devL3GD20H.h"
+#include "devBME680.h"
+#include "devBMX055.h"
+#include "devCCS811.h"
+#include "devHDC1000.h"
+#include "devRV8803C7.h"
 
 
 #if (WARP_BUILD_ENABLE_DEVADXL362)
