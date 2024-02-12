@@ -87,98 +87,12 @@
 #include "devHDC1000.h"
 #include "devRV8803C7.h"
 
-
-#if (WARP_BUILD_ENABLE_DEVADXL362)
-	volatile WarpSPIDeviceState			deviceADXL362State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVIS25xP)
-	#include "devIS25xP.h"
-	volatile WarpSPIDeviceState			deviceIS25xPState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVISL23415)
-	#include "devISL23415.h"
-	volatile WarpSPIDeviceState			deviceISL23415State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAT45DB)
-	#include "devAT45DB.h"
-	volatile WarpSPIDeviceState			deviceAT45DBState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVICE40)
-	#include "devICE40.h"
-	volatile WarpSPIDeviceState			deviceICE40State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVBMX055)
-	volatile WarpI2CDeviceState			deviceBMX055accelState;
-	volatile WarpI2CDeviceState			deviceBMX055gyroState;
-	volatile WarpI2CDeviceState			deviceBMX055magState;
-#endif
-
 #if (WARP_BUILD_ENABLE_DEVMMA8451Q)
 	volatile WarpI2CDeviceState			deviceMMA8451QState;
 #endif
 
-#if (WARP_BUILD_ENABLE_DEVLPS25H)
-	#include "devLPS25H.h"
-	volatile WarpI2CDeviceState			deviceLPS25HState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVHDC1000)
-	volatile WarpI2CDeviceState			deviceHDC1000State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVMAG3110)
-	volatile WarpI2CDeviceState			deviceMAG3110State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVSI7021)
-	#include "devSI7021.h"
-	volatile WarpI2CDeviceState			deviceSI7021State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVL3GD20H)
-	volatile WarpI2CDeviceState			deviceL3GD20HState;
-#endif
-
 #if (WARP_BUILD_ENABLE_DEVBME680)
-	volatile WarpI2CDeviceState			deviceBME680State;
 	volatile uint8_t				deviceBME680CalibrationValues[kWarpSizesBME680CalibrationValuesCount];
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVTCS34725)
-	#include "devTCS34725.h"
-	volatile WarpI2CDeviceState			deviceTCS34725State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVSI4705)
-	#include "devSI4705.h"
-	volatile WarpI2CDeviceState			deviceSI4705State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVCCS811)
-	volatile WarpI2CDeviceState			deviceCCS811State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAMG8834)
-	volatile WarpI2CDeviceState			deviceAMG8834State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAS7262)
-	#include "devAS7262.h"
-	volatile WarpI2CDeviceState			deviceAS7262State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAS7263)
-	#include "devAS7263.h"
-	volatile WarpI2CDeviceState			deviceAS7263State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVRV8803C7)
-	volatile WarpI2CDeviceState			deviceRV8803C7State;
 #endif
 
 #if (WARP_BUILD_ENABLE_DEVBGX)
