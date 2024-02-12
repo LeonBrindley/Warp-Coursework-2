@@ -248,7 +248,6 @@ static void						lowPowerPinStates(void);
 
 static void						dumpProcessorState(void);
 static int						char2int(int character);
-static void						powerupAllSensors(void);
 static uint8_t						readHexByte(void);
 static int						read4digits(void);
 static void 					writeAllSensorsToFlash(int menuDelayBetweenEachRun, int loopForever);
@@ -2626,7 +2625,6 @@ main(void)
 			case 's':
 			{
 				warpPrint("\r\n\tNOTE: First power sensors and enable I2C\n\n");
-				powerupAllSensors();
 				break;
 			}
 
@@ -3878,29 +3876,6 @@ writeBytesToSpi(uint8_t *  payloadBytes, int payloadLength)
 	warpDisableSPIpins();
 
 	return (status == kStatus_SPI_Success ? kWarpStatusOK : kWarpStatusCommsError);
-}
-
-void
-powerupAllSensors(void)
-{
-/*
- *	BMX055mag
- *
- *	Write '1' to power control bit of register 0x4B. See page 134.
- */
-#if (WARP_BUILD_ENABLE_DEVBMX055)
-		WarpStatus	status = writeByteToI2cDeviceRegister(	deviceBMX055magState.i2cAddress		/*	i2cAddress		*/,
-							true					/*	sendCommandByte		*/,
-							0x4B					/*	commandByte		*/,
-							true					/*	sendPayloadByte		*/,
-							(1 << 0)				/*	payloadByte		*/);
-	if (status != kWarpStatusOK)
-	{
-			warpPrint("\r\tPowerup command failed, code=%d, for BMX055mag @ 0x%02x.\n", status, deviceBMX055magState.i2cAddress);
-	}
-#else
-	warpPrint("\r\tPowerup command failed. BMX055 disabled \n");
-#endif
 }
 
 #if (WARP_BUILD_ENABLE_FLASH)
