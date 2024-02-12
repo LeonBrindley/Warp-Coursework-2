@@ -1739,13 +1739,13 @@ main(void)
 	}
 	else
 	{
-		warpPrint("ISL23415 ACR=[0x%02X], ", deviceISL23415State.spiSinkBuffer[3]);
+	//	warpPrint("ISL23415 ACR=[0x%02X], ", deviceISL23415State.spiSinkBuffer[3]);
 	}
 
 		status = readDeviceRegisterISL23415(kWarpSensorConfigurationRegisterISL23415WRreadInstruction);
 	if (status != kWarpStatusOK)
 	{
-		warpPrint("ISL23415: SPI transaction to read WR failed...\n");
+	//	warpPrint("ISL23415: SPI transaction to read WR failed...\n");
 	}
 	else
 	{
@@ -1763,18 +1763,18 @@ main(void)
 		warpPrint("AT45DB: initAT45DB() failed...\n");
 	}
 
-	status = spiTransactionAT45DB(&deviceAT45DBState, (uint8_t *)"\x9F\x00\x00\x00\x00\x00", 6 /* opCount */);
-	if (status != kWarpStatusOK)
-	{
-		warpPrint("AT45DB: SPI transaction to read Manufacturer ID failed...\n");
-	}
-	else
-	{
-		warpPrint("AT45DB Manufacturer ID=[0x%02X], Device ID=[0x%02X 0x%02X], Extended Device Information=[0x%02X 0x%02X]\n",
-			deviceAT45DBState.spiSinkBuffer[1],
-			deviceAT45DBState.spiSinkBuffer[2], deviceAT45DBState.spiSinkBuffer[3],
-			deviceAT45DBState.spiSinkBuffer[4], deviceAT45DBState.spiSinkBuffer[5]);
-	}
+	// status = spiTransactionAT45DB(&deviceAT45DBState, (uint8_t *)"\x9F\x00\x00\x00\x00\x00", 6 /* opCount */);
+	// if (status != kWarpStatusOK)
+	// {
+	// 	warpPrint("AT45DB: SPI transaction to read Manufacturer ID failed...\n");
+	// }
+	// else
+	// {
+	// 	warpPrint("AT45DB Manufacturer ID=[0x%02X], Device ID=[0x%02X 0x%02X], Extended Device Information=[0x%02X 0x%02X]\n",
+	// 		deviceAT45DBState.spiSinkBuffer[1],
+	// 		deviceAT45DBState.spiSinkBuffer[2], deviceAT45DBState.spiSinkBuffer[3],
+	// 		deviceAT45DBState.spiSinkBuffer[4], deviceAT45DBState.spiSinkBuffer[5]);
+	// }
 #endif
 
 #if (WARP_BUILD_ENABLE_DEVICE40)
@@ -2100,32 +2100,32 @@ main(void)
 					}
 #endif
 
-#if (WARP_BUILD_ENABLE_DEVBMX055)
-					case '2':
-					{
-						menuTargetSensor = kWarpSensorBMX055accel;
-							menuI2cDevice = &deviceBMX055accelState;
-						break;
-					}
-#endif
+// #if (WARP_BUILD_ENABLE_DEVBMX055)
+// 					case '2':
+// 					{
+// 						menuTargetSensor = kWarpSensorBMX055accel;
+// 							menuI2cDevice = &deviceBMX055accelState;
+// 						break;
+// 					}
+// #endif
 
-#if (WARP_BUILD_ENABLE_DEVBMX055)
-					case '3':
-					{
-						menuTargetSensor = kWarpSensorBMX055gyro;
-							menuI2cDevice = &deviceBMX055gyroState;
-						break;
-					}
-#endif
+// #if (WARP_BUILD_ENABLE_DEVBMX055)
+// 					case '3':
+// 					{
+// 						menuTargetSensor = kWarpSensorBMX055gyro;
+// 							menuI2cDevice = &deviceBMX055gyroState;
+// 						break;
+// 					}
+// #endif
 
-#if (WARP_BUILD_ENABLE_DEVBMX055)
-					case '4':
-					{
-						menuTargetSensor = kWarpSensorBMX055mag;
-							menuI2cDevice = &deviceBMX055magState;
-						break;
-					}
-#endif
+// #if (WARP_BUILD_ENABLE_DEVBMX055)
+// 					case '4':
+// 					{
+// 						menuTargetSensor = kWarpSensorBMX055mag;
+// 							menuI2cDevice = &deviceBMX055magState;
+// 						break;
+// 					}
+// #endif
 
 #if (WARP_BUILD_ENABLE_DEVMMA8451Q)
 					case '5':
@@ -2171,14 +2171,14 @@ main(void)
 						break;
 					}
 #endif
-#if (WARP_BUILD_ENABLE_DEVL3GD20H)
-					case 'a':
-					{
-						menuTargetSensor = kWarpSensorL3GD20H;
-						menuI2cDevice = &deviceL3GD20HState;
-						break;
-					}
-#endif
+// #if (WARP_BUILD_ENABLE_DEVL3GD20H)
+// 					case 'a':
+// 					{
+// 						menuTargetSensor = kWarpSensorL3GD20H;
+// 						menuI2cDevice = &deviceL3GD20HState;
+// 						break;
+// 					}
+// #endif
 #if (WARP_BUILD_ENABLE_DEVBME680)
 					case 'b':
 					{
@@ -3928,10 +3928,10 @@ flashReadAllMemory()
 
 #if (WARP_BUILD_ENABLE_DEVAT45DB)
 	pageSizeBytes				= kWarpSizeAT45DBPageSizeBytes;
-	pageOffsetStoragePage		= kWarpAT45DBPageOffsetStoragePage;
-	pageOffsetStorageSize		= kWarpAT45DBPageOffsetStorageSize;
-	initialPageNumber			= kWarpInitialPageNumberAT45DB;
-	initialPageOffset			= kWarpInitialPageOffsetAT45DB;
+	// pageOffsetStoragePage		= kWarpAT45DBPageOffsetStoragePage;
+	// pageOffsetStorageSize		= kWarpAT45DBPageOffsetStorageSize;
+	// initialPageNumber			= kWarpInitialPageNumberAT45DB;
+	// initialPageOffset			= kWarpInitialPageOffsetAT45DB;
 #elif (WARP_BUILD_ENABLE_DEVIS25xP)
 	pageSizeBytes				= kWarpSizeIS25xPPageSizeBytes;
 	pageOffsetStoragePage		= kWarpIS25xPPageOffsetStoragePage;
