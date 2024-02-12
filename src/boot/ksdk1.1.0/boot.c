@@ -1739,7 +1739,7 @@ main(void)
 	}
 	else
 	{
-	//	warpPrint("ISL23415 ACR=[0x%02X], ", deviceISL23415State.spiSinkBuffer[3]);
+	//	warpPrint("ISL23415 ACR=[0x%02X], ", .spiSinkBuffer[3]);
 	}
 
 		status = readDeviceRegisterISL23415(kWarpSensorConfigurationRegisterISL23415WRreadInstruction);
@@ -1749,7 +1749,7 @@ main(void)
 	}
 	else
 	{
-		warpPrint("WR=[0x%02X]\n", deviceISL23415State.spiSinkBuffer[3]);
+		// warpPrint("WR=[0x%02X]\n", deviceISL23415State.spiSinkBuffer[3]);
 	}
 #endif
 
