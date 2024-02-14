@@ -1737,7 +1737,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtn.o
                 0x0000000000000000                __VECTOR_RAM = DEFINED (__ram_vector_table__)?__VECTOR_RAM__:ORIGIN (m_interrupts)
                 0x0000000000000000                __RAM_VECTOR_TABLE_SIZE_BYTES = DEFINED (__ram_vector_table__)?(__interrupts_ram_end__ - __interrupts_ram_start__):0x0
 
-.data           0x000000001ffffe00       0xbc load address 0x0000000000006134
+.data           0x000000001ffffe00       0xf8 load address 0x0000000000006134
                 0x000000001ffffe00                . = ALIGN (0x4)
                 0x000000001ffffe00                __DATA_RAM = .
                 0x000000001ffffe00                __data_start__ = .
@@ -1779,120 +1779,121 @@ LOAD /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtn.o
                 0x000000001ffffe90        0x8 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/boards/Warp/gpio_pins.c.obj
                 0x000000001ffffe90                inputPins
  .data.outputPins
-                0x000000001ffffe98        0xc CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/boards/Warp/gpio_pins.c.obj
+                0x000000001ffffe98       0x48 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/boards/Warp/gpio_pins.c.obj
                 0x000000001ffffe98                outputPins
  .data.g_defaultClockConfigurations
-                0x000000001ffffea4       0x18 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_clock_MKL03Z4.c.obj)
-                0x000000001ffffea4                g_defaultClockConfigurations
+                0x000000001ffffee0       0x18 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_clock_MKL03Z4.c.obj)
+                0x000000001ffffee0                g_defaultClockConfigurations
  *(.jcr*)
-                0x000000001ffffebc                . = ALIGN (0x4)
-                0x000000001ffffebc                __data_end__ = .
-                0x00000000000061f0                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+                0x000000001ffffef8                . = ALIGN (0x4)
+                0x000000001ffffef8                __data_end__ = .
+                0x000000000000622c                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
 
 .tm_clone_table
-                0x000000001ffffebc        0x0 load address 0x00000000000061f0
+                0x000000001ffffef8        0x0 load address 0x000000000000622c
  .tm_clone_table
-                0x000000001ffffebc        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtbegin.o
+                0x000000001ffffef8        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtbegin.o
  .tm_clone_table
-                0x000000001ffffebc        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtend.o
+                0x000000001ffffef8        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtend.o
 
-.igot.plt       0x000000001ffffebc        0x0 load address 0x00000000000061f0
- .igot.plt      0x000000001ffffebc        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtbegin.o
+.igot.plt       0x000000001ffffef8        0x0 load address 0x000000000000622c
+ .igot.plt      0x000000001ffffef8        0x0 /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtbegin.o
 
-.bss            0x000000001ffffebc      0x2e4 load address 0x00000000000061f0
-                0x000000001ffffebc                . = ALIGN (0x4)
-                0x000000001ffffebc                __START_BSS = .
-                0x000000001ffffebc                __bss_start__ = .
+.bss            0x000000001ffffef8      0x2e4 load address 0x000000000000622c
+                0x000000001ffffef8                . = ALIGN (0x4)
+                0x000000001ffffef8                __START_BSS = .
+                0x000000001ffffef8                __bss_start__ = .
  *(.bss)
- .bss           0x000000001ffffebc       0x1c /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtbegin.o
- .bss           0x000000001ffffed8        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
-                0x000000001ffffed8                __malloc_free_list
-                0x000000001ffffedc                __malloc_sbrk_start
- .bss           0x000000001ffffee0       0x8c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-__atexit.o)
- .bss           0x000000001fffff6c        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
-                0x000000001fffff6c                _global_atexit
+ .bss           0x000000001ffffef8       0x1c /usr/lib/gcc/arm-none-eabi/9.2.1/thumb/v6-m/nofp/crtbegin.o
+ .bss           0x000000001fffff14        0x8 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-nano-mallocr.o)
+                0x000000001fffff14                __malloc_free_list
+                0x000000001fffff18                __malloc_sbrk_start
+ .bss           0x000000001fffff1c       0x8c /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-__atexit.o)
+ .bss           0x000000001fffffa8        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-__call_atexit.o)
+                0x000000001fffffa8                _global_atexit
  *(.bss*)
  .bss.heap_end.5296
-                0x000000001fffff70        0x4 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/platform/utilities/src/fsl_misc_utilities.c.obj
+                0x000000001fffffac        0x4 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/platform/utilities/src/fsl_misc_utilities.c.obj
  .bss.deviceMMA8451QState
-                0x000000001fffff74        0x8 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
-                0x000000001fffff74                deviceMMA8451QState
+                0x000000001fffffb0        0x8 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
+                0x000000001fffffb0                deviceMMA8451QState
  .bss.gWarpBooted
-                0x000000001fffff7c        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
-                0x000000001fffff7c                gWarpBooted
+                0x000000001fffffb8        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
+                0x000000001fffffb8                gWarpBooted
  .bss.gWarpPrintBuffer
-                0x000000001fffff7d       0x40 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
-                0x000000001fffff7d                gWarpPrintBuffer
- *fill*         0x000000001fffffbd        0x3 
+                0x000000001fffffb9       0x40 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
+                0x000000001fffffb9                gWarpPrintBuffer
+ *fill*         0x000000001ffffff9        0x3 
  .bss.i2cMasterState
-                0x000000001fffffc0       0x24 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
-                0x000000001fffffc0                i2cMasterState
+                0x000000001ffffffc       0x24 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
+                0x000000001ffffffc                i2cMasterState
  .bss.spiMasterState
-                0x000000001fffffe4       0x30 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
-                0x000000001fffffe4                spiMasterState
+                0x0000000020000020       0x30 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
+                0x0000000020000020                spiMasterState
  .bss.spiUserConfig
-                0x0000000020000014        0x8 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
-                0x0000000020000014                spiUserConfig
+                0x0000000020000050        0x8 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
+                0x0000000020000050                spiUserConfig
  .bss._SEGGER_RTT
-                0x000000002000001c       0x78 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/SEGGER_RTT.c.obj
-                0x000000002000001c                _SEGGER_RTT
+                0x0000000020000058       0x78 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/SEGGER_RTT.c.obj
+                0x0000000020000058                _SEGGER_RTT
  .bss._acDownBuffer
-                0x0000000020000094        0x4 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/SEGGER_RTT.c.obj
+                0x00000000200000d0        0x4 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/SEGGER_RTT.c.obj
  .bss._acUpBuffer
-                0x0000000020000098       0x64 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/SEGGER_RTT.c.obj
- .bss.inBuffer  0x00000000200000fc        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devSSD1331.c.obj
-                0x00000000200000fc                inBuffer
+                0x00000000200000d4       0x64 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/SEGGER_RTT.c.obj
+ .bss.inBuffer  0x0000000020000138        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devSSD1331.c.obj
+                0x0000000020000138                inBuffer
  .bss.payloadBytes
-                0x00000000200000fd        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devSSD1331.c.obj
-                0x00000000200000fd                payloadBytes
- *fill*         0x00000000200000fe        0x2 
+                0x0000000020000139        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devSSD1331.c.obj
+                0x0000000020000139                payloadBytes
+ *fill*         0x000000002000013a        0x2 
  .bss.g_freeTaskControlBlock
-                0x0000000020000100        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_os_abstraction_bm.c.obj)
+                0x000000002000013c        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_os_abstraction_bm.c.obj)
  .bss.g_taskControlBlockPool
-                0x0000000020000104       0x50 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_os_abstraction_bm.c.obj)
+                0x0000000020000140       0x50 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_os_abstraction_bm.c.obj)
  .bss.g_taskListHead
-                0x0000000020000154       0x10 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_os_abstraction_bm.c.obj)
+                0x0000000020000190       0x10 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_os_abstraction_bm.c.obj)
  .bss.g_clockState
-                0x0000000020000164       0x10 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_clock_manager.c.obj)
+                0x00000000200001a0       0x10 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_clock_manager.c.obj)
  .bss.g_interruptDisableCount
-                0x0000000020000174        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_interrupt_manager.c.obj)
-                0x0000000020000174                g_interruptDisableCount
+                0x00000000200001b0        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_interrupt_manager.c.obj)
+                0x00000000200001b0                g_interruptDisableCount
  .bss.gPowerManagerState
-                0x0000000020000178       0x10 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_power_manager.c.obj)
+                0x00000000200001b4       0x10 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_power_manager.c.obj)
  .bss.g_i2cStatePtr
-                0x0000000020000188        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_i2c_common.c.obj)
-                0x0000000020000188                g_i2cStatePtr
+                0x00000000200001c4        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_i2c_common.c.obj)
+                0x00000000200001c4                g_i2cStatePtr
  .bss.g_lpuartStatePtr
-                0x000000002000018c        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_lpuart_common.c.obj)
-                0x000000002000018c                g_lpuartStatePtr
+                0x00000000200001c8        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_lpuart_common.c.obj)
+                0x00000000200001c8                g_lpuartStatePtr
  .bss.g_xtal0ClkFreq
-                0x0000000020000190        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_mcglite_hal.c.obj)
-                0x0000000020000190                g_xtal0ClkFreq
+                0x00000000200001cc        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_mcglite_hal.c.obj)
+                0x00000000200001cc                g_xtal0ClkFreq
  .bss.g_xtalRtcClkFreq
-                0x0000000020000194        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_mcglite_hal.c.obj)
-                0x0000000020000194                g_xtalRtcClkFreq
+                0x00000000200001d0        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_mcglite_hal.c.obj)
+                0x00000000200001d0                g_xtalRtcClkFreq
  .bss.g_spiStatePtr
-                0x0000000020000198        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_spi_shared_function.c.obj)
-                0x0000000020000198                g_spiStatePtr
+                0x00000000200001d4        0x4 ../../../../lib/ksdk_platform_lib/armgcc/KL03Z4/release/libksdk_platform.a(fsl_spi_shared_function.c.obj)
+                0x00000000200001d4                g_spiStatePtr
  *(COMMON)
- COMMON         0x000000002000019c        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-reent.o)
-                0x000000002000019c                errno
-                0x00000000200001a0                . = ALIGN (0x4)
-                0x00000000200001a0                __bss_end__ = .
-                0x00000000200001a0                __END_BSS = .
+ COMMON         0x00000000200001d8        0x4 /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-reent.o)
+                0x00000000200001d8                errno
+                0x00000000200001dc                . = ALIGN (0x4)
+                0x00000000200001dc                __bss_end__ = .
+                0x00000000200001dc                __END_BSS = .
 
-.heap           0x00000000200001a0        0x0
-                0x00000000200001a0                . = ALIGN (0x8)
-                0x00000000200001a0                __end__ = .
-                0x00000000200001a0                PROVIDE (end = .)
-                0x00000000200001a0                __HeapBase = .
-                0x00000000200001a0                . = (. + HEAP_SIZE)
-                0x00000000200001a0                __HeapLimit = .
+.heap           0x00000000200001dc        0x4 load address 0x0000000000006510
+                0x00000000200001e0                . = ALIGN (0x8)
+ *fill*         0x00000000200001dc        0x4 
+                0x00000000200001e0                __end__ = .
+                0x00000000200001e0                PROVIDE (end = .)
+                0x00000000200001e0                __HeapBase = .
+                0x00000000200001e0                . = (. + HEAP_SIZE)
+                0x00000000200001e0                __HeapLimit = .
 
-.stack          0x00000000200001a0      0x200 load address 0x00000000000064d4
-                0x00000000200001a0                . = ALIGN (0x8)
-                0x00000000200003a0                . = (. + STACK_SIZE)
- *fill*         0x00000000200001a0      0x200 
+.stack          0x00000000200001e0      0x200 load address 0x0000000000006514
+                0x00000000200001e0                . = ALIGN (0x8)
+                0x00000000200003e0                . = (. + STACK_SIZE)
+ *fill*         0x00000000200001e0      0x200 
                 0x0000000020000600                __StackTop = (ORIGIN (m_data) + LENGTH (m_data))
                 0x0000000020000400                __StackLimit = (__StackTop - STACK_SIZE)
                 0x0000000020000600                PROVIDE (__stack = __StackTop)
