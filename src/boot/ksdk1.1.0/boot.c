@@ -2015,6 +2015,11 @@ main(void)
 	}
 #endif
 
+	/*
+	 *	Call the display initialisation code in devSSD1331.c.
+	 */
+	devSSD1331init();
+	
 	while (1)
 	{
 		/*
@@ -3131,11 +3136,6 @@ main(void)
 			}
 		}
 	}
-
-	/*
-	 *	Call the initialisation code in devSSD1331.c.
-	 */
-	devSSD1331init();
 	
 	return 0;
 }
