@@ -3131,6 +3131,12 @@ main(void)
 			}
 		}
 	}
+
+	/*
+	 *	Call the initialisation code in devSSD1331.c.
+	 */
+	devSSD1331init();
+	
 	return 0;
 }
 
