@@ -217,7 +217,7 @@ devSSD1331init(void)
 	writeCommand(kSSD1331CommandDRAWRECT);
 	writeCommand(0x00); // A[6:0]:  Column Address of Start 
 	writeCommand(0x00); // B[5:0]:  Row Address of Start
-	writeCommand(0x7F); // C[6:0]:  Column Address of End
+	writeCommand(0x5F); // C[6:0]:  Column Address of End
 	writeCommand(0x3F); // D[5:0]:  Row Address of End
 	writeCommand(0x00); // E[5:1]:  Color C of the line (BLUE)
 	writeCommand(0x3F); // F[5:0]:  Color B of the line (GREEN)
