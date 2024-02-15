@@ -139,7 +139,7 @@ devSSD1331init(void)
 	writeCommand(kSSD1331CommandCONTRASTC);		// 0x83
 	writeCommand(0x7D);
 	writeCommand(kSSD1331CommandDISPLAYON);		// Turn on oled panel
-
+	
 	/*
 	 *	To use fill commands, you will have to issue a command to the display to enable them. See the manual.
 	 */
@@ -155,14 +155,52 @@ devSSD1331init(void)
 	writeCommand(0x5F);
 	writeCommand(0x3F);
 
-
-
 	/*
-	 *	Any post-initialization drawing commands go here.
+	 *	Any post-initialization drawing commands (i.e. turning the screen bright green) go here.
 	 */
 	//...
 
+	/*
+	 *	Find the maximum values of each setting in the SSD1331 manual:
+	 *	https://www.vle.cam.ac.uk/pluginfile.php/13561382/mod_resource/content/1/SSD1331_1.2.pdf
+	 */
+	
+	/*
+	 *	Set the precharge factor of channels A, B and C to their maximum value of 0xFF (0b11111111).
+	 */	
+	writeCommand(kSSD1331CommandPRECHARGEA);
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEB);
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEC);
+	writeCommand(0xFF);
 
+	/*
+	 *	Set the precharge voltage to its maximum value of 0x1F (0b11111).
+	 */
+	writeCommand(kSSD1331CommandPRECHARGELEVEL);
+	writeCommand(0x1F);
+	
+	/*
+	 *	Set the master current to its maximum value of 0x0F (0b1111).
+	 */
+	writeCommand(kSSD1331CommandMASTERCURRENT);
+	writeCommand(0x0F);
+	
+	/*
+	 *	Set the contrast of channels A, B and C to their maximum value of 0xFF (0b11111111).
+	 */	
+	writeCommand(kSSD1331CommandCONTRASTA);
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandCONTRASTB);
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandCONTRASTC);
+	writeCommand(0xFF);
 
+	/*
+	 *	Ensure the OLED display is turned on.
+	 */	
+	writeCommand(kSSD1331CommandDISPLAYON);
+	
 	return 0;
 }
