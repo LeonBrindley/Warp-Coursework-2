@@ -181,65 +181,11 @@ Discarded input sections
                 0x0000000000000000        0x4 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
  .data.gWarpUartTimeoutMilliseconds
                 0x0000000000000000        0x4 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementADXL362
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementAMG8834
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementBME680
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementBMX055
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementCCS811
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementHDC1000
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementL3GD20H
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementMAG3110
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
  .rodata.bytesPerMeasurementMMA8451Q
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerMeasurementRV8803C7
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingADXL362
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingAMG8834
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingBME680
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingBMX055
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingCCS811
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingHDC1000
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingL3GD20H
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingMAG3110
                 0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
  .rodata.bytesPerReadingMMA8451Q
                 0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.bytesPerReadingRV8803C7
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementADXL362
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementAMG8834
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementBME680
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementBMX055
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementCCS811
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementHDC1000
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementL3GD20H
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementMAG3110
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
  .rodata.numberOfReadingsPerMeasurementMMA8451Q
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
- .rodata.numberOfReadingsPerMeasurementRV8803C7
                 0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/boot.c.obj
  .text          0x0000000000000000        0x0 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/errstrsEN.c.obj
  .data          0x0000000000000000        0x0 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/errstrsEN.c.obj
@@ -265,12 +211,6 @@ Discarded input sections
                 0x0000000000000000       0x1a CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/powermodes.c.obj
  .text.update_clock_mode
                 0x0000000000000000       0x24 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/powermodes.c.obj
- .rodata.bytesPerMeasurementRV8803C7
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/powermodes.c.obj
- .rodata.bytesPerReadingRV8803C7
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/powermodes.c.obj
- .rodata.numberOfReadingsPerMeasurementRV8803C7
-                0x0000000000000000        0x1 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/powermodes.c.obj
  .text          0x0000000000000000        0x0 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devMMA8451Q.c.obj
  .data          0x0000000000000000        0x0 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devMMA8451Q.c.obj
  .bss           0x0000000000000000        0x0 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devMMA8451Q.c.obj
