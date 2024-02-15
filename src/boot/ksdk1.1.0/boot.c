@@ -72,20 +72,27 @@
 	#define WARP_BUILD_ENABLE_FLASH 0
 #endif
 
+
 /*
-* Include all sensors because they will be needed to decode flash.
+* These header files will also need to be included when using the FRDM-KL03 variant.
 */
-#include "devADXL362.h"
-#include "devAMG8834.h"
 #include "devMMA8451Q.h"
-#include "devMAG3110.h"
-#include "devL3GD20H.h"
-#include "devBME680.h"
-#include "devBMX055.h"
-#include "devCCS811.h"
-#include "devHDC1000.h"
-#include "devRV8803C7.h"
 #include "devSSD1331.h"
+
+/*
+* Include all sensors when not using the FRDM-KL03 variant because they will be needed to decode flash.
+*/
+#if (!WARP_BUILD_ENABLE_FRDMKL03)
+	#include "devADXL362.h"
+	#include "devAMG8834.h"
+	#include "devMAG3110.h"
+	#include "devL3GD20H.h"
+	#include "devBME680.h"
+	#include "devBMX055.h"
+	#include "devCCS811.h"
+	#include "devHDC1000.h"
+	#include "devRV8803C7.h"
+#endif
 
 #if (WARP_BUILD_ENABLE_DEVADXL362)
 	volatile WarpSPIDeviceState			deviceADXL362State;
