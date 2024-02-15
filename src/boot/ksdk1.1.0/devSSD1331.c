@@ -201,6 +201,27 @@ devSSD1331init(void)
 	 *	Ensure the OLED display is turned on.
 	 */	
 	writeCommand(kSSD1331CommandDISPLAYON);
+
+	/*
+	 *	See devSSD1331.h for drawing commands.
+	 *	See the SSD1331 manual for explanations.  	
+	 */	
+
+	/*
+	 *	writeCommand(kSSD1331CommandDISPLAYALLON);
+	 */
+	
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00); // A[6:0]:  Column Address of Start 
+	writeCommand(0x00); // B[5:0]:  Row Address of Start
+	writeCommand(0x7F); // C[6:0]:  Column Address of End
+	writeCommand(0x3F); // D[5:0]:  Row Address of End
+	writeCommand(0x00); // E[5:1]:  Color C of the line (BLUE)
+	writeCommand(0x3F); // F[5:0]:  Color B of the line (GREEN)
+	writeCommand(0x00); // G[5:1]:  Color A of the line (RED)
+	writeCommand(0x00); // H[5:1]:  Color C of the fill area (BLUE)
+	writeCommand(0x3F); // I[5:0]:  Color B of the fill area (GREEN)
+	writeCommand(0x00); // J[5:1]:  Color A of the fill area (RED)
 	
 	return 0;
 }
