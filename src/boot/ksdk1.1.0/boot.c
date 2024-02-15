@@ -61,8 +61,6 @@
 #include "errstrs.h"
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
-#include "devSSD1331.h"
-
 
 #define							kWarpConstantStringI2cFailure		"\rI2C failed, reg 0x%02x, code %d\n"
 #define							kWarpConstantStringErrorInvalidVoltage	"\rInvalid supply voltage [%d] mV!"
@@ -87,7 +85,7 @@
 #include "devCCS811.h"
 #include "devHDC1000.h"
 #include "devRV8803C7.h"
-
+#include "devSSD1331.h"
 
 #if (WARP_BUILD_ENABLE_DEVADXL362)
 	volatile WarpSPIDeviceState			deviceADXL362State;
