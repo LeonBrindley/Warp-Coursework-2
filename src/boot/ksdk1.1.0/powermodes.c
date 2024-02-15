@@ -18,9 +18,10 @@
 #include "glaux.h"
 #include "warp.h"
 #include "gpio_pins.h"
-#include "devRV8803C7.h"
 
-
+#if (!WARP_BUILD_ENABLE_FRDMKL03)
+	#include "devRV8803C7.h"
+#endif
 
 /*
  *	From KSDK power_manager_demo.c BEGIN>>>
