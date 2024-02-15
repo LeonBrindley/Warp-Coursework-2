@@ -182,7 +182,7 @@ devSSD1331init(void)
 	 *	Set the precharge voltage to its maximum value of 0x1F (0b11111).
 	 */
 	writeCommand(kSSD1331CommandPRECHARGELEVEL);
-	writeCommand(0x1F);
+	writeCommand(0x3E);
 	
 	/*
 	 *	Set the master current to its maximum value of 0x0F (0b1111).
