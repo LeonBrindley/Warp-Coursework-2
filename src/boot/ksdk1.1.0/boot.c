@@ -2023,7 +2023,9 @@ main(void)
 	/*
 	 *	Call the display initialisation code in devSSD1331.c.
 	 */
+	warpPrint("\nCalling devSSD1331init() now.\n");
 	devSSD1331init();
+	warpPrint("\nFinished calling devSSD1331init().\n");
 	
 	while (1)
 	{
