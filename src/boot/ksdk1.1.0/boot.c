@@ -305,6 +305,9 @@ static clock_manager_callback_user_config_t *	clockCallbackTable[] =
 										&clockManagerCallbackUserlevelStructure
 									};
 
+static void                                                activateAllLowPowerSensorModes(bool verbose);
+static void                                                powerupAllSensors(void);
+
 clock_manager_error_code_t
 clockManagerCallbackRoutine(clock_notify_struct_t *  notify, void *  callbackData)
 {
@@ -2502,7 +2505,7 @@ main(void)
 			case 'h':
 			{
 				warpPrint("\r\n\tNOTE: First power sensors and enable I2C\n\n");
-
+                                activateAllLowPowerSensorModes(true /* verbose */);
 				break;
 			}
 
@@ -2656,6 +2659,7 @@ main(void)
 			case 's':
 			{
 				warpPrint("\r\n\tNOTE: First power sensors and enable I2C\n\n");
+                                powerupAllSensors();
 				break;
 			}
 
@@ -4381,6 +4385,158 @@ writeBytesToSpi(uint8_t *  payloadBytes, int payloadLength)
 	warpDisableSPIpins();
 
 	return (status == kStatus_SPI_Success ? kWarpStatusOK : kWarpStatusCommsError);
+}
+
+void
+powerupAllSensors(void)
+{
+/*
+ *        BMX055mag
+ *
+ *        Write '1' to power control bit of register 0x4B. See page 134.
+ */
+#if (WARP_BUILD_ENABLE_DEVBMX055)
+                WarpStatus        status = writeByteToI2cDeviceRegister(        deviceBMX055magState.i2cAddress                /*        i2cAddress                */,
+                                                        true                                        /*        sendCommandByte                */,
+                                                        0x4B                                        /*        commandByte                */,
+                                                        true                                        /*        sendPayloadByte                */,
+                                                        (1 << 0)                                /*        payloadByte                */);
+        if (status != kWarpStatusOK)
+        {
+                        warpPrint("\r\tPowerup command failed, code=%d, for BMX055mag @ 0x%02x.\n", status, deviceBMX055magState.i2cAddress);
+        }
+#else
+        warpPrint("\r\tPowerup command failed. BMX055 disabled \n");
+#endif
+}
+void
+activateAllLowPowerSensorModes(bool verbose)
+{
+        WarpStatus        status;
+/*
+ *        ADXL362:        See Power Control Register (Address: 0x2D, Reset: 0x00).
+ *
+ *        POR values are OK.
+ */
+/*
+ *        IS25XP:        Put in powerdown momde
+ */
+#if (WARP_BUILD_ENABLE_DEVIS25xP)
+        /*
+         *        Put the Flash in deep power-down
+         */
+                //TODO: move 0xB9 into a named constant
+                //spiTransactionIS25xP({0xB9 /* op0 */,  0x00 /* op1 */,  0x00 /* op2 */, 0x00 /* op3 */, 0x00 /* op4 */, 0x00 /* op5 */, 0x00 /* op6 */}, 1 /* opCount */);
+#endif
+/*
+         *        BMX055accel: At POR, device is in Normal mode. Move it to Deep Suspend mode.
+ *
+         *        Write '1' to deep suspend bit of register 0x11, and write '0' to suspend bit of register 0x11. See page 23.
+ */
+#if WARP_BUILD_ENABLE_DEVBMX055
+                status = writeByteToI2cDeviceRegister(        deviceBMX055accelState.i2cAddress        /*        i2cAddress                */,
+                                                        true                                        /*        sendCommandByte                */,
+                                                        0x11                                        /*        commandByte                */,
+                                                        true                                        /*        sendPayloadByte                */,
+                                                        (1 << 5)                                /*        payloadByte                */);
+        if ((status != kWarpStatusOK) && verbose)
+        {
+                        warpPrint("\r\tPowerdown command failed, code=%d, for BMX055accel @ 0x%02x.\n", status, deviceBMX055accelState.i2cAddress);
+        }
+#else
+        warpPrint("\r\tPowerdown command abandoned. BMX055 disabled\n");
+#endif
+/*
+         *        BMX055gyro: At POR, device is in Normal mode. Move it to Deep Suspend mode.
+ *
+ *        Write '1' to deep suspend bit of register 0x11. See page 81.
+ */
+#if (WARP_BUILD_ENABLE_DEVBMX055)
+                status = writeByteToI2cDeviceRegister(        deviceBMX055gyroState.i2cAddress        /*        i2cAddress                */,
+                                                        true                                        /*        sendCommandByte                */,
+                                                        0x11                                        /*        commandByte                */,
+                                                        true                                        /*        sendPayloadByte                */,
+                                                        (1 << 5)                                /*        payloadByte                */);
+        if ((status != kWarpStatusOK) && verbose)
+        {
+                        warpPrint("\r\tPowerdown command failed, code=%d, for BMX055gyro @ 0x%02x.\n", status, deviceBMX055gyroState.i2cAddress);
+        }
+#else
+        warpPrint("\r\tPowerdown command abandoned. BMX055 disabled\n");
+#endif
+/*
+ *        BMX055mag: At POR, device is in Suspend mode. See page 121.
+ *
+ *        POR state seems to be powered down.
+ */
+/*
+ *        MMA8451Q: See 0x2B: CTRL_REG2 System Control 2 Register (page 43).
+ *
+ *        POR state seems to be not too bad.
+ */
+/*
+ *        LPS25H: See Register CTRL_REG1, at address 0x20 (page 26).
+ *
+ *        POR state seems to be powered down.
+ */
+/*
+ *        MAG3110: See Register CTRL_REG1 at 0x10. (page 19).
+ *
+ *        POR state seems to be powered down.
+ */
+/*
+ *        HDC1000: currently can't turn it on (3V)
+ */
+/*
+ *        SI7021: Can't talk to it correctly yet.
+ */
+/*
+ *        L3GD20H: See CTRL1 at 0x20 (page 36).
+ *
+ *        POR state seems to be powered down.
+ */
+#if (WARP_BUILD_ENABLE_DEVL3GD20H)
+                status = writeByteToI2cDeviceRegister(        deviceL3GD20HState.i2cAddress        /*        i2cAddress                */,
+                                                        true                                /*        sendCommandByte                */,
+                                                        0x20                                /*        commandByte                */,
+                                                        true                                /*        sendPayloadByte                */,
+                                                        0x00                                /*        payloadByte                */);
+                if ((status != kWarpStatusOK) && verbose)
+        {
+                        warpPrint("\r\tPowerdown command failed, code=%d, for L3GD20H @ 0x%02x.\n", status, deviceL3GD20HState.i2cAddress);
+        }
+#else
+        warpPrint("\r\tPowerdown command abandoned. L3GD20H disabled\n");
+#endif
+/*
+ *        BME680: TODO
+ */
+/*
+ *        TCS34725: By default, is in the "start" state (see page 9).
+ *
+ *        Make it go to sleep state. See page 17, 18, and 19.
+ */
+#if (WARP_BUILD_ENABLE_DEVTCS34725)
+                status = writeByteToI2cDeviceRegister(        deviceTCS34725State.i2cAddress        /*        i2cAddress                */,
+                                                        true                                /*        sendCommandByte                */,
+                                                        0x00                                /*        commandByte                */,
+                                                        true                                /*        sendPayloadByte                */,
+                                                        0x00                                /*        payloadByte                */);
+        if ((status != kWarpStatusOK) && verbose)
+        {
+                        warpPrint("\r\tPowerdown command failed, code=%d, for TCS34725 @ 0x%02x.\n", status, deviceTCS34725State.i2cAddress);
+        }
+#else
+        warpPrint("\r\tPowerdown command abandoned. TCS34725 disabled\n");
+#endif
+/*
+         *        SI4705: Send a POWER_DOWN command (byte 0x17). See AN332 page 124 and page 132.
+ *
+ *        For now, simply hold its reset line low.
+ */
+#if (WARP_BUILD_ENABLE_DEVSI4705)
+        GPIO_DRV_ClearPinOutput(kWarpPinSI4705_nRST);
+#endif
 }
 
 #if (WARP_BUILD_ENABLE_FLASH)
