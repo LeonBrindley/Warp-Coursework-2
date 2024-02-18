@@ -26,17 +26,44 @@ extern volatile uint32_t		gWarpI2cBaudRateKbps;
 extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
 extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
-void
-initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
-{
-	deviceINA219State.i2cAddress			            = i2cAddress;
+void initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts){
+	deviceINA219State.i2cAddress			= i2cAddress;
 	deviceINA219State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 
 	// Set the configuration register to the POR value of 14751: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
 	writeSensorRegisterINA219(kINA219RegConfiguration, 0b0011100110011111);
-	
 	// Set the calibration register to 4096 by default: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
 	writeSensorRegisterINA219(kINA219RegCalibration, 0x1000);
+
+	OSA_TimeDelay(20);
+	
 	return;
 }
 
+WarpStatus readSensorRegisterINA219(void){
+	i2c_status_t status;
+}
+
+WarpStatus writeSensorRegisterINA219(void){
+	i2c_status_t status;
+}
+
+int returnShunt(void){
+	int16_t ShuntVoltage;
+	WarpStatus status;
+}
+
+int returnBus(void){
+	int16_t BusVoltage;
+	WarpStatus status;
+}
+
+int returnCurrent(void){
+	int16_t Current;
+	WarpStatus status;
+}
+
+int returnPower(void){
+	int16_t Power;
+	WarpStatus status;
+}
