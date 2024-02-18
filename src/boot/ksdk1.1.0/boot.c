@@ -1682,6 +1682,9 @@ main(void)
  */
 #if (WARP_BUILD_ENABLE_DEVINA219)
 		warpPrint("Initialising INA219 sensor.\n");
+	
+		// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
+		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
 #endif
 	
 #if (WARP_BUILD_ENABLE_DEVBMX055)
