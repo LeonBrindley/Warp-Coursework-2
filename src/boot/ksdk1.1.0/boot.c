@@ -4306,6 +4306,34 @@ repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t
 #endif
                         break;
                 }
+                case kWarpSensorINA219:
+                {
+/*
+ *        INA219: VDD 3.0--5.5
+ *        0x0: Configuration, 0x1: Shunt, 0x2: Bus, 0x3: Power, 0x4: Current, 0x5: Calibration
+ */
+#if WARP_BUILD_ENABLE_DEVINA219
+                                loopForSensor(        "\r\nINA219:\n\r",                /*        tagString                        */
+                                                &readSensorRegisterINA219,        /*        readSensorRegisterFunction        */
+                                                &deviceINA219State,                /*        i2cDeviceState                        */
+                                                NULL,                                /*        spiDeviceState                        */
+                                                baseAddress,                        /*        baseAddress                        */
+                                                0x00,                                /*        minAddress                        */
+                                                0x05,                                /*        maxAddress                        */
+                                                repetitionsPerAddress,                /*        repetitionsPerAddress                */
+                                                chunkReadsPerAddress,                /*        chunkReadsPerAddress                */
+                                                spinDelay,                        /*        spinDelay                        */
+                                                autoIncrement,                        /*        autoIncrement                        */
+                                                sssupplyMillivolts,                /*        sssupplyMillivolts                */
+                                                referenceByte,                        /*        referenceByte                        */
+                                                adaptiveSssupplyMaxMillivolts,        /*        adaptiveSssupplyMaxMillivolts        */
+                                                chatty                                /*        chatty                                */
+                        );
+#else
+                        warpPrint("\r\n\tINA219 Read Aborted. Device Disabled :( ");
+#endif
+                        break;
+                }
                 default:
                 {
                         warpPrint("\r\tInvalid warpSensorDevice [%d] passed to repeatRegisterReadForDeviceAndAddress.\n", warpSensorDevice);
