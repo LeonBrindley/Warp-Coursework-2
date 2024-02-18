@@ -15,9 +15,11 @@
 #include "fsl_mcglite_hal.h"
 #include "fsl_port_hal.h"
 
+#include "errstrs.h"
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
 #include "warp.h"
+#include "devINA219.h"
 
 extern volatile WarpI2CDeviceState    deviceINA219State;
 extern volatile uint32_t		gWarpI2cBaudRateKbps;
