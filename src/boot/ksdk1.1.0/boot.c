@@ -192,6 +192,11 @@
 	volatile WarpUARTDeviceState			deviceBGXState;
 #endif
 
+#if (WARP_BUILD_ENABLE_DEVINA219)
+	#include "devINA219.h"
+	volatile WarpUARTDeviceState			deviceINA219State;
+#endif
+
 typedef enum
 {
 	kWarpFlashReadingCountBitField 	= 0b1,
