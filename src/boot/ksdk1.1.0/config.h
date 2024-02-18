@@ -198,4 +198,6 @@ typedef enum
 	kWarpDefaultSupplyVoltageMillivoltsISL23415    = 1800,
 	kWarpDefaultSupplyVoltageMillivoltsAT45DB      = 1800,
 	kWarpDefaultSupplyVoltageMillivoltsICE40       = 1800,
+	// INA219 VDD = 3.3V to 5V: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
+	kWarpDefaultSupplyVoltageMillivoltsINA219      = 3300,
 } WarpDefaults;
