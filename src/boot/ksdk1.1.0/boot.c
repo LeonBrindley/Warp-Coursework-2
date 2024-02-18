@@ -1678,8 +1678,12 @@ main(void)
 #endif
 
 /*
- *	Initialize all the sensors
+ *	Initialize all the sensors (including the INA219).
  */
+#if (WARP_BUILD_ENABLE_DEVINA219)
+		warpPrint("Initialising INA219 sensor.\n");
+#endif
+	
 #if (WARP_BUILD_ENABLE_DEVBMX055)
 		initBMX055accel(0x18	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsBMX055accel	);
 		initBMX055gyro(	0x68	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsBMX055gyro	);
