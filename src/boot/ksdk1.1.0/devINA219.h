@@ -13,5 +13,19 @@ typedef enum
 } INA219Constants;
 
 void		initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts);
-WarpStatus	readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes);
-WarpStatus	writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload);
+
+// Functions to read from the INA219 registers.
+WarpStatus	readSensorRegisterINA219Configuration(uint8_t deviceRegister, int numberOfBytes);
+WarpStatus	readSensorRegisterINA219Shunt(uint8_t deviceRegister, int numberOfBytes);
+WarpStatus	readSensorRegisterINA219Bus(uint8_t deviceRegister, int numberOfBytes);
+WarpStatus	readSensorRegisterINA219Power(uint8_t deviceRegister, int numberOfBytes);
+WarpStatus	readSensorRegisterINA219Current(uint8_t deviceRegister, int numberOfBytes);
+WarpStatus	readSensorRegisterINA219Calibration(uint8_t deviceRegister, int numberOfBytes);
+
+// Functions to write to the INA219 registers.
+WarpStatus	writeSensorRegisterINA219Configuration(uint8_t deviceRegister, uint8_t payload);
+WarpStatus	writeSensorRegisterINA219Shunt(uint8_t deviceRegister, uint8_t payload);
+WarpStatus	writeSensorRegisterINA219Bus(uint8_t deviceRegister, uint8_t payload);
+WarpStatus	writeSensorRegisterINA219Power(uint8_t deviceRegister, uint8_t payload);
+WarpStatus	writeSensorRegisterINA219Current(uint8_t deviceRegister, uint8_t payload);
+WarpStatus	writeSensorRegisterINA219Calibration(uint8_t deviceRegister, uint8_t payload);
