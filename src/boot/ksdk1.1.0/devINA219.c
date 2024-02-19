@@ -125,7 +125,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 		commandByte,
 		1,
 		payloadByte,
-		1,
+		2,
 		gWarpI2cTimeoutMilliseconds);
 	if (status != kStatus_I2C_Success)
 	{
@@ -137,32 +137,64 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 
 uint16_t returnShunt(void){
 	uint16_t Shunt;
-	WarpStatus status;
+	WarpStatus i2cReadStatus;
 
-	Shunt = readSensorRegisterINA219(kINA219RegShunt, 2);
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegShunt, 2);
+	if (i2cReadStatus != kWarpStatusOK)
+	{
+		warpPrint(" ----,");
+		return 0;
+	}
+
+	Shunt = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
+	
 	return Shunt;
 }
 
 uint16_t returnBus(void){
 	uint16_t Bus;
-	WarpStatus status;
+	WarpStatus i2cReadStatus;
 	
-	Bus = readSensorRegisterINA219(kINA219RegBus, 2);
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegBus, 2);
+	if (i2cReadStatus != kWarpStatusOK)
+	{
+		warpPrint(" ----,");
+		return 0;
+	}
+
+	Bus = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
+	
 	return Bus;
 }
 
 uint16_t returnCurrent(void){
 	uint16_t Current;
-	WarpStatus status;
+	WarpStatus i2cReadStatus;
 
-	Current = readSensorRegisterINA219(kINA219RegCurrent, 2);
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegCurrent, 2);
+	if (i2cReadStatus != kWarpStatusOK)
+	{
+		warpPrint(" ----,");
+		return 0;
+	}
+
+	Current = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
+	
 	return Current;
 }
 
 uint16_t returnPower(void){
 	uint16_t Power;
-	WarpStatus status;
+	WarpStatus i2cReadStatus;
 
-	Power = readSensorRegisterINA219(kINA219RegPower, 2);
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegPower, 2);
+	if (i2cReadStatus != kWarpStatusOK)
+	{
+		warpPrint(" ----,");
+		return 0;
+	}
+
+	Power = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
+	
 	return Power;
 }
