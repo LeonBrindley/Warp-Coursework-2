@@ -49,16 +49,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 	switch (deviceRegister)
 	{
 		case 0x00: case 0x01: case 0x02: case 0x03:
-		case 0x04: case 0x05: case 0x06: case 0x09:
-		case 0x0a: case 0x0b: case 0x0c: case 0x0d:
-		case 0x0e: case 0x0f: case 0x10: case 0x11:
-		case 0x12: case 0x13: case 0x14: case 0x15:
-		case 0x16: case 0x17: case 0x18: case 0x1d:
-		case 0x1e: case 0x1f: case 0x20: case 0x21:
-		case 0x22: case 0x23: case 0x24: case 0x25:
-		case 0x26: case 0x27: case 0x28: case 0x29:
-		case 0x2a: case 0x2b: case 0x2c: case 0x2d:
-		case 0x2e: case 0x2f: case 0x30: case 0x31:
+		case 0x04: case 0x05:
 		{
 			/* OK */
 			break;
@@ -98,19 +89,13 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 }
 
 WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
-	uint8_t		payloadByte[1], commandByte[1];
+	uint8_t		payloadBytes[2], commandByte[1];
 	i2c_status_t	status;
 
 	switch (deviceRegister)
 	{
-		case 0x09: case 0x0a: case 0x0e: case 0x0f:
-		case 0x11: case 0x12: case 0x13: case 0x14:
-		case 0x15: case 0x17: case 0x18: case 0x1d:
-		case 0x1f: case 0x20: case 0x21: case 0x23:
-		case 0x24: case 0x25: case 0x26: case 0x27:
-		case 0x28: case 0x29: case 0x2a: case 0x2b:
-		case 0x2c: case 0x2d: case 0x2e: case 0x2f:
-		case 0x30: case 0x31:
+		case 0x00: case 0x01: case 0x02: case 0x03:
+		case 0x04: case 0x05:
 		{
 			/* OK */
 			break;
@@ -130,7 +115,8 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 
 	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	commandByte[0] = deviceRegister;
-	payloadByte[0] = payload;
+	payloadBytes[0] = payload >> 8; // MSB
+	payloadBytes[1] = payload & 0xFF; // LSB
 	warpEnableI2Cpins();
 
 	status = I2C_DRV_MasterSendDataBlocking(
