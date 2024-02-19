@@ -40,30 +40,43 @@ void initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts){
 	return;
 }
 
-WarpStatus readSensorRegisterINA219(void){
+WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
+	i2c_status_t status;
+	
+}
+
+WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 	i2c_status_t status;
 }
 
-WarpStatus writeSensorRegisterINA219(void){
-	i2c_status_t status;
+uint16_t returnShunt(void){
+	uint16_t Shunt;
+	WarpStatus status;
+
+	Shunt = readSensorRegisterINA219(kINA219RegShunt, 2);
+	return Shunt;
 }
 
-int returnShunt(void){
-	int16_t ShuntVoltage;
+uint16_t returnBus(void){
+	uint16_t Bus;
 	WarpStatus status;
+	
+	Bus = readSensorRegisterINA219(kINA219RegBus, 2);
+	return Bus;
 }
 
-int returnBus(void){
-	int16_t BusVoltage;
+uint16_t returnCurrent(void){
+	uint16_t Current;
 	WarpStatus status;
+
+	Current = readSensorRegisterINA219(kINA219RegCurrent, 2);
+	return Current;
 }
 
-int returnCurrent(void){
-	int16_t Current;
+uint16_t returnPower(void){
+	uint16_t Power;
 	WarpStatus status;
-}
 
-int returnPower(void){
-	int16_t Power;
-	WarpStatus status;
+	Power = readSensorRegisterINA219(kINA219RegPower, 2);
+	return Power;
 }
