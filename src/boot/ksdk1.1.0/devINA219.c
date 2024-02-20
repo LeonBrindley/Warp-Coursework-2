@@ -94,7 +94,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 	return kWarpStatusOK;
 }
 
-WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
+WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 	uint8_t		payloadBytes[2], commandByte[1];
 	i2c_status_t	status;
 
@@ -121,8 +121,8 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 
 	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	commandByte[0] = deviceRegister;
-	payloadBytes[0] = payload >> 8; // MSB
-	payloadBytes[1] = payload & 0xFF; // LSB
+	payloadBytes[0] = (uint8_t) payload >> 8; // MSB
+	payloadBytes[1] = (uint8_t) payload & 0xFF; // LSB
 	warpEnableI2Cpins();
 
 	status = I2C_DRV_MasterSendDataBlocking(
@@ -130,7 +130,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 		&slave,
 		commandByte,
 		1,
-		(uint8_t *)payloadBytes, // * refers to an array of pointers.
+		payloadBytes, // * refers to an array of pointers.
 		2,
 		gWarpI2cTimeoutMilliseconds);
 	if (status != kStatus_I2C_Success)
