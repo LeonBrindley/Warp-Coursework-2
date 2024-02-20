@@ -130,7 +130,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 		&slave,
 		commandByte,
 		1,
-		payloadByte,
+		(uint8_t *)payloadBytes,
 		2,
 		gWarpI2cTimeoutMilliseconds);
 	if (status != kStatus_I2C_Success)
@@ -141,8 +141,10 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 	return kWarpStatusOK;
 }
 
+// Style return functions after printSensorDataMMA8451Q() in devMMA8451Q.c.
+
 uint16_t returnShunt(void){
-	uint16_t Shunt;
+	int16_t Shunt;
 	WarpStatus i2cReadStatus;
 
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegShunt, 2);
@@ -152,13 +154,15 @@ uint16_t returnShunt(void){
 		return 0;
 	}
 
-	Shunt = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
-	
-	return Shunt;
+	// Combined value should be cast to a signed integer as in printSensorDataMMA8451Q().
+	Shunt = (int16_t *) (deviceINA219State.i2cBuffer | deviceINA219State.i2cBuffer[0] << 8);
+
+	// Convert this Shunt variable to real units by multiplying by the LSB (10 microvolts).
+	return (Shunt * 10);
 }
 
 uint16_t returnBus(void){
-	uint16_t Bus;
+	int16_t Bus;
 	WarpStatus i2cReadStatus;
 	
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegBus, 2);
@@ -168,9 +172,11 @@ uint16_t returnBus(void){
 		return 0;
 	}
 
-	Bus = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
-	
-	return Bus;
+	// Combined value should be cast to a signed integer as in printSensorDataMMA8451Q().
+	Bus = (int16_t *) (eviceINA219State.i2cBuffer | deviceINA219State.i2cBuffer[0] << 8);
+
+	// Convert this Bus variable to real units by multiplying by the LSB (10 microvolts).
+	return (Bus * 10);
 }
 
 // The device can measure bidirectional current; thus, the MSB of the Current Register is a sign bit that allows for the rest of the 15
@@ -186,12 +192,15 @@ uint16_t returnCurrent(void){
 		return 0;
 	}
 
+	// Combined value should be cast to a signed integer as in printSensorDataMMA8451Q().
 	Current = (int16_t *) (deviceINA219State.i2cBuffer | deviceINA219State.i2cBuffer[0] << 8);
-	
-	return Current;
+
+	// Convert this Current variable to real units by multiplying by the LSB (10 microamps).
+	return (Current * 10);
 }
 
 uint16_t returnPower(void){
+	// Note that power is unsigned (in contrast to the voltages and currents above).
 	uint16_t Power;
 	WarpStatus i2cReadStatus;
 
@@ -202,7 +211,9 @@ uint16_t returnPower(void){
 		return 0;
 	}
 
-	Power = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
-	
-	return Power;
+	// Combined value should be cast to an unsigned integer.
+	Power = (uint16_t *) (deviceINA219State.i2cBuffer | deviceINA219State.i2cBuffer[0] << 8);
+
+	// Convert this Current variable to real units by multiplying by the LSB (100 microwatts).
+	return (Power * 100);
 }
