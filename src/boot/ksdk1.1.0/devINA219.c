@@ -214,6 +214,6 @@ uint16_t returnPower(void){
 	// Combined value should be cast to an unsigned integer.
 	Power = (uint16_t *) (deviceINA219State.i2cBuffer | deviceINA219State.i2cBuffer[0] << 8);
 
-	// Convert this Power variable to real units by multiplying by the LSB (100 microwatts).
-	return (Power * 100);
+	// Convert this Power variable to real units by multiplying by the LSB (20 * Current LSB = 200 microwatts).
+	return (Power * 200);
 }
