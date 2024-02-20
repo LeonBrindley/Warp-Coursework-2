@@ -82,7 +82,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 		&slave,
 		cmdBuf,
 		1,
-		(uint8_t *)deviceINA219State.i2cBuffer,
+		(uint8_t *)deviceINA219State.i2cBuffer, // * refers to an array of pointers.
 		numberOfBytes,
 		gWarpI2cTimeoutMilliseconds);
 
@@ -130,7 +130,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload){
 		&slave,
 		commandByte,
 		1,
-		(uint8_t *)payloadBytes,
+		(uint8_t *)payloadBytes, // * refers to an array of pointers.
 		2,
 		gWarpI2cTimeoutMilliseconds);
 	if (status != kStatus_I2C_Success)
@@ -214,6 +214,6 @@ uint16_t returnPower(void){
 	// Combined value should be cast to an unsigned integer.
 	Power = (uint16_t *) (deviceINA219State.i2cBuffer | deviceINA219State.i2cBuffer[0] << 8);
 
-	// Convert this Current variable to real units by multiplying by the LSB (100 microwatts).
+	// Convert this Power variable to real units by multiplying by the LSB (100 microwatts).
 	return (Power * 100);
 }
