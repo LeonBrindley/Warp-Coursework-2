@@ -32,7 +32,13 @@ void initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts){
 	
 	// Set the configuration register to the POR value of 14751: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
 	writeSensorRegisterINA219(kINA219RegConfiguration, 0b0011100110011111);
+	
 	// Set the calibration register to 4096 by default: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
+	// Current and power calibration are set by bits D15 to D1 of the Calibration Register. D0 is a void bit and will always be '0'.
+	// Adjust the Calibration Register after taking your initial readings to achieve higher precision.
+	// The Calibration Register (05h) is set in order to provide the device information about the current shunt resistor that was
+	// used to create the measured shunt voltage. By knowing the value of the shunt resistor, the device can then calculate the amount of
+	// current that created the measured shunt voltage drop.
 	writeSensorRegisterINA219(kINA219RegCalibration, 0x1000);
 
 	OSA_TimeDelay(20);
@@ -167,8 +173,10 @@ uint16_t returnBus(void){
 	return Bus;
 }
 
+// The device can measure bidirectional current; thus, the MSB of the Current Register is a sign bit that allows for the rest of the 15
+// bits to be used for the Current Register value.
 uint16_t returnCurrent(void){
-	uint16_t Current;
+	int16_t Current;
 	WarpStatus i2cReadStatus;
 
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegCurrent, 2);
@@ -178,7 +186,7 @@ uint16_t returnCurrent(void){
 		return 0;
 	}
 
-	Current = (uint16_t *)deviceINA219State.i2cBuffer | (uint16_t *)deviceINA219State.i2cBuffer[0] << 8;
+	Current = (int16_t *) (deviceINA219State.i2cBuffer | deviceINA219State.i2cBuffer[0] << 8);
 	
 	return Current;
 }
