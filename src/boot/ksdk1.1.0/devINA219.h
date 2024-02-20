@@ -21,7 +21,7 @@ WarpStatus	readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes);
 WarpStatus	writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload);
 
 // Additional functions to return the shunt voltage, bus voltage, current or power.
-int returnShunt(void);
-int returnBus(void);
-int returnCurrent(void);
-int returnPower(void);
+int16_t returnShunt(void);
+int16_t returnBus(void);
+int16_t returnCurrent(void);
+uint16_t returnPower(void);
