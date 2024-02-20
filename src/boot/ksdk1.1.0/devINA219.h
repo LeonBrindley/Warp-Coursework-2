@@ -18,7 +18,7 @@ void		initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts);
 WarpStatus	readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes);
 
 // Function to write to the INA219 registers.
-WarpStatus	writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload);
+WarpStatus	writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload);
 
 // Additional functions to return the shunt voltage, bus voltage, current or power.
 int16_t returnShunt(void);
