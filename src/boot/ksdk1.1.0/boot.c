@@ -214,6 +214,7 @@ typedef enum
 	kWarpFlashBMX055BitField		= 0b1000000000,
 	kWarpFlashCCS811BitField		= 0b10000000000,
 	kWarpFlashHDC1000BitField		= 0b100000000000,
+	kWarpFlashINA219BitField		= 0b1000000000000,
 	kWarpFlashRV8803C7BitField		= 0b100000000000000,
 	kWarpFlashNumConfigErrors		= 0b1000000000000000,
 } WarpFlashSensorBitFieldEncoding;
