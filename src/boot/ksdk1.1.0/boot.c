@@ -1684,8 +1684,7 @@ main(void)
  *	Initialize all the sensors (including the INA219).
  */
 #if (WARP_BUILD_ENABLE_DEVINA219)
-		warpPrint("Initialising INA219 sensor.\n");
-	
+		warpPrint("Initialising INA219 sensor.\n");	
 		// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
 		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
 #endif
@@ -2206,6 +2205,12 @@ main(void)
 					warpPrint("\r\t- 'k' AS7263			(0x00--0x2B): 2.7V -- 3.6V\n");
 #else
 					warpPrint("\r\t- 'k' AS7263			(0x00--0x2B): 2.7V -- 3.6V (compiled out) \n");
+#endif
+
+#if (WARP_BUILD_ENABLE_DEVINA219)
+					warpPrint("\r\t- 'l' INA219			(0x00--0x05): 3.0V -- 5.5\n");
+#else
+					warpPrint("\r\t- 'l' INA219			(0x00--0x05): 3.0V -- 5.5V (compiled out) \n");
 #endif
 
 				warpPrint("\r\tEnter selection> ");
