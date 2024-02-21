@@ -30,7 +30,7 @@ void initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts){
 	deviceINA219State.i2cAddress			= i2cAddress;
 	deviceINA219State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 	
-	// Set the configuration register. The POR value equals 14751: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
+	// Set the configuration register to 415. The POR value equals 14751: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
 	writeSensorRegisterINA219(kINA219RegConfiguration, (uint16_t) 0b0000000110011111);
 	
 	// Set the calibration register to 4096 by default: https://www.vle.cam.ac.uk/pluginfile.php/13708422/mod_resource/content/1/ina219.pdf
@@ -41,7 +41,7 @@ void initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts){
 	// current that created the measured shunt voltage drop.
 	writeSensorRegisterINA219(kINA219RegCalibration, (uint16_t) 0x1000);
 
-	OSA_TimeDelay(20);
+	OSA_TimeDelay(50);
 	
 	return;
 }
@@ -81,9 +81,9 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 		0 /* I2C peripheral instance */,
 		&slave,
 		cmdBuf,
-		1,
+		1, // Send one command byte.
 		(uint8_t *)deviceINA219State.i2cBuffer, // * refers to an array of pointers.
-		numberOfBytes,
+		numberOfBytes, // The number of payload bytes is not parameterised.
 		gWarpI2cTimeoutMilliseconds);
 
 	if (status != kStatus_I2C_Success)
@@ -129,9 +129,9 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 		0 /* I2C instance */,
 		&slave,
 		commandByte,
-		1,
-		(uint8_t *)payloadBytes, // * refers to an array of pointers.
-		2,
+		1, // Send one command byte.
+		payloadBytes, // * refers to an array of pointers.
+		2, // Send two payload bytes.
 		gWarpI2cTimeoutMilliseconds);
 	if (status != kStatus_I2C_Success)
 	{
@@ -144,76 +144,104 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 // Style return functions after printSensorDataMMA8451Q() in devMMA8451Q.c.
 
 int16_t returnShunt(void){
-	int16_t Shunt;
-	WarpStatus i2cReadStatus;
+	uint16_t	readSensorRegisterValueLSB;
+	uint16_t	readSensorRegisterValueMSB;
+	int16_t		readSensorRegisterValueCombined;
+	int16_t 	Shunt;
+	WarpStatus 	i2cReadStatus;
 
-	i2cReadStatus = readSensorRegisterINA219(kINA219RegShunt, 2);
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
+	
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegShunt, 2 /* numberOfBytes */);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
 		warpPrint(" ----,");
 		return 0;
 	}
 
-	// Combined value should be cast to a signed integer as in printSensorDataMMA8451Q().
-	Shunt = (int16_t) (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
-
 	// Convert this Shunt variable to real units by multiplying by the LSB (10 microvolts).
-	return (Shunt * 10);
+	Shunt = readSensorRegisterValueCombined * kINA219ShuntLSB;
+	return Shunt;
 }
 
 int16_t returnBus(void){
-	int16_t Bus;
-	WarpStatus i2cReadStatus;
+	uint16_t	readSensorRegisterValueLSB;
+	uint16_t	readSensorRegisterValueMSB;
+	int16_t		readSensorRegisterValueCombined;
+	int16_t 	Bus;
+	WarpStatus 	i2cReadStatus;
+
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	
-	i2cReadStatus = readSensorRegisterINA219(kINA219RegBus, 2);
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegBus, 2 /* numberOfBytes */);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
 		warpPrint(" ----,");
 		return 0;
 	}
 
-	// Combined value should be cast to a signed integer as in printSensorDataMMA8451Q().
-	Bus = (int16_t) (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
-
 	// Convert this Bus variable to real units by multiplying by the LSB (10 microvolts).
-	return (Bus * 10);
+	Bus = readSensorRegisterValueCombined * kINA219BusLSB;
+	return Bus;
 }
 
 // The device can measure bidirectional current; thus, the MSB of the Current Register is a sign bit that allows for the rest of the 15
 // bits to be used for the Current Register value.
 int16_t returnCurrent(void){
-	int16_t Current;
-	WarpStatus i2cReadStatus;
+	uint16_t	readSensorRegisterValueLSB;
+	uint16_t	readSensorRegisterValueMSB;
+	int16_t		readSensorRegisterValueCombined;
+	int16_t		Current;
+	WarpStatus 	i2cReadStatus;
 
-	i2cReadStatus = readSensorRegisterINA219(kINA219RegCurrent, 2);
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
+
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegCurrent, 2 /* numberOfBytes */);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
 		warpPrint(" ----,");
 		return 0;
 	}
 
-	// Combined value should be cast to a signed integer as in printSensorDataMMA8451Q().
-	Current = (int16_t) (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
-
 	// Convert this Current variable to real units by multiplying by the LSB (10 microamps).
-	return (Current * 10);
+	Current = readSensorRegisterValueCombined * kINA219CurrentLSB;
+	return Current;
 }
 
 uint16_t returnPower(void){
 	// Note that power is unsigned (in contrast to the voltages and currents above).
-	uint16_t Power;
-	WarpStatus i2cReadStatus;
+	uint16_t	readSensorRegisterValueLSB;
+	uint16_t	readSensorRegisterValueMSB;
+	uint16_t	readSensorRegisterValueCombined;
+	uint16_t 	Power;
+	WarpStatus 	i2cReadStatus;
 
-	i2cReadStatus = readSensorRegisterINA219(kINA219RegPower, 2);
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
+	
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegPower, 2 /* numberOfBytes */);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
 		warpPrint(" ----,");
 		return 0;
 	}
 
-	// Combined value should be cast to an unsigned integer.
-	Power = (uint16_t) (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
-
-	// Convert this Power variable to real units by multiplying by the LSB (20 * Current LSB = 200 microwatts).
-	return (Power * 200);
+	// Convert this Power variable to real units by multiplying by the LSB (100 microwatts).
+	Power = readSensorRegisterValueCombined * kINA219PowerLSB;
+	return Power;
 }
