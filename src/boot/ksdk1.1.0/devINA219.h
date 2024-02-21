@@ -25,6 +25,10 @@ WarpStatus	readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes);
 // Function to write to the INA219 registers.
 WarpStatus	writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload);
 
+// Functions to print or append sensor data in the required format.
+void 		printSensorDataINA219(bool hexModeFlag);
+uint8_t		appendSensorDataINA219(uint8_t* buf);
+
 // Additional functions to return the shunt voltage, bus voltage, current or power.
 int16_t returnShunt(void);
 int16_t returnBus(void);

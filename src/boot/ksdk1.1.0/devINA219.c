@@ -244,3 +244,71 @@ uint16_t returnPower(void){
 	Power = readSensorRegisterValueCombined * kINA219PowerLSB;
 	return Power;
 }
+
+uint8_t appendSensorDataINA219(uint8_t* buf){
+	uint8_t index = 0;
+	uint16_t readSensorRegisterValueLSB;
+	uint16_t readSensorRegisterValueMSB;
+	int16_t readSensorRegisterValueCombined;
+	WarpStatus i2cReadStatus;
+
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
+
+	// Chosen to append the current measurements.
+	i2cReadStatus                   = readSensorRegisterINA219(kINA219RegCurrent, 2 /* numberOfBytes */);
+	readSensorRegisterValueMSB      = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB      = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
+
+	if (i2cReadStatus != kWarpStatusOK)
+	{
+		buf[index] = 0;
+		index += 1;
+
+		buf[index] = 0;
+		index += 1;
+	}
+	else
+	{
+		/*
+		 * MSB first
+		 */
+		buf[index] = (uint8_t)(readSensorRegisterValueCombined >> 8);
+		index += 1;
+
+		buf[index] = (uint8_t)(readSensorRegisterValueCombined);
+		index += 1;
+	}
+	return index;
+}
+
+void printSensorDataINA219(bool hexModeFlag){
+	uint16_t	readSensorRegisterValueLSB;
+	uint16_t	readSensorRegisterValueMSB;
+	int16_t		readSensorRegisterValueCombined;
+	WarpStatus	i2cReadStatus;
+
+
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
+
+	i2cReadStatus = readSensorRegisterINA219(kINA219RegCurrent, 2 /* numberOfBytes */);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
+
+	if (i2cReadStatus != kWarpStatusOK)
+	{
+		warpPrint(" ----,");
+	}
+	else
+	{
+		if (hexModeFlag)
+		{
+			warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
+		}
+		else
+		{
+			warpPrint(" %d,", readSensorRegisterValueCombined);
+		}
+	}
+}
