@@ -155,7 +155,7 @@ int16_t returnShunt(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegShunt, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -180,7 +180,7 @@ int16_t returnBus(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegBus, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -207,7 +207,7 @@ int16_t returnCurrent(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegCurrent, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -233,7 +233,7 @@ uint16_t returnPower(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegPower, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (deviceINA219State.i2cBuffer[1] | deviceINA219State.i2cBuffer[0] << 8);
+	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
