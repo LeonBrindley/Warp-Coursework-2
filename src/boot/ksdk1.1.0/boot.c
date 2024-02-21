@@ -1687,6 +1687,12 @@ main(void)
 		warpPrint("Initialising INA219 sensor.\n");	
 		// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
 		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
+
+		int16_t OLEDCurrent;
+		for (int i = 0; i < 10; i++){
+			OLEDCurrent = returnCurrent();
+			warpPrint("(%4d) INA219 = %4d uA \n", i, OLEDCurrent);
+		}
 #endif
 	
 #if (WARP_BUILD_ENABLE_DEVBMX055)
