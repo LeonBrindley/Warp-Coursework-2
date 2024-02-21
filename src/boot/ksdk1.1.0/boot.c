@@ -3672,6 +3672,10 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag,
 		printSensorDataHDC1000(hexModeFlag);
 #endif
 
+#if (WARP_BUILD_ENABLE_DEVINA219)
+		printSensorDataINA219(hexModeFlag);
+#endif
+
 #if (WARP_CSVSTREAM_FLASH_PRINT_METADATA)
 		warpPrint(" %12d, %6d,", RTC->TSR, RTC->TPR);
 #endif
