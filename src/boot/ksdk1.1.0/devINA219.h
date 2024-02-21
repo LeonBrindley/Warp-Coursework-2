@@ -12,6 +12,11 @@ typedef enum
 	kINA219RegCalibration		= 0x5,
 } INA219Constants;
 
+kINA219ShuntLSB			= 10;
+kINA219BusLSB			= 10;
+kINA219CurrentLSB 		= 10;
+kINA219PowerLSB =		= 100;
+
 void		initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts);
 
 // Function to read from the INA219 registers.
