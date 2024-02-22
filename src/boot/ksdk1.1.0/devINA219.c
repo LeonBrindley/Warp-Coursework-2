@@ -83,7 +83,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 		cmdBuf,
 		1, // Send one command byte.
 		(uint8_t *)deviceINA219State.i2cBuffer, // * refers to an array of pointers.
-		numberOfBytes, // The number of payload bytes is not parameterised.
+		numberOfBytes, // The number of payload bytes is parameterised.
 		gWarpI2cTimeoutMilliseconds);
 
 	if (status != kStatus_I2C_Success)
@@ -129,9 +129,10 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 		&slave,
 		commandByte,
 		1, // Send one command byte.
-		payloadBytes, // * refers to an array of pointers.
+		payloadBytes,
 		2, // Send two payload bytes.
 		gWarpI2cTimeoutMilliseconds);
+	
 	if (status != kStatus_I2C_Success)
 	{
 		return kWarpStatusDeviceCommunicationFailed;
