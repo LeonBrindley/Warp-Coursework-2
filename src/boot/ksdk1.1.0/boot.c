@@ -2048,15 +2048,9 @@ main(void)
 	warpPrint("\nCalling initINA219() now.\n");	
 	// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
 	initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
-	OSA_TimeDelay(500);
-	
-	int16_t OLEDCurrent;
-	for (int i = 0; i < 1000; i++){
-		OLEDCurrent = returnCurrent();
-		warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
-	}
 	warpPrint("\nFinished calling initINA219().\n");
-	
+	OSA_TimeDelay(500);
+
 	while (1)
 	{
 		/*
@@ -2109,6 +2103,14 @@ main(void)
 		warpPrint("\r- 'x': disable SWD and spin for 10 secs.\n");
 		warpPrint("\r- 'z': perpetually dump all sensor data.\n");
 
+		warpPrint("\nRunning INA219 loop now.\n");
+		int16_t OLEDCurrent;
+		for (int i = 0; i < 1000; i++){
+			OLEDCurrent = returnCurrent();
+			warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
+		}
+		warpPrint("\nFinished running INA219 loop.\n");
+		
 		warpPrint("\rEnter selection> ");
 		key = warpWaitKey();
 
