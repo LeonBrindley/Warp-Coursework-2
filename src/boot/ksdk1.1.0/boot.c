@@ -2038,6 +2038,8 @@ main(void)
 	}
 #endif
 
+	gWarpExtraQuietMode = false;
+	
 	/*
 	 *	Call the display initialisation code in devSSD1331.c.
 	 */
@@ -2058,7 +2060,6 @@ main(void)
 		 *	want to use menu to progressively change the machine state with various
 		 *	commands.
 		 */
-		// gWarpExtraQuietMode = false;
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
 
 		warpPrint("\rSelect:\n");
