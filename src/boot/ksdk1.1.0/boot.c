@@ -1684,17 +1684,6 @@ main(void)
 /*
  *	Initialize all the sensors (including the INA219).
  */
-#if (WARP_BUILD_ENABLE_DEVINA219)
-		warpPrint("Initialising INA219 sensor.\n");	
-		// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
-		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
-
-		int16_t OLEDCurrent;
-		for (int i = 0; i < 10; i++){
-			OLEDCurrent = returnCurrent();
-			warpPrint("(%4d) INA219 = %4d uA \n", i, OLEDCurrent);
-		}
-#endif
 	
 #if (WARP_BUILD_ENABLE_DEVBMX055)
 		initBMX055accel(0x18	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsBMX055accel	);
@@ -2055,12 +2044,24 @@ main(void)
 	warpPrint("\nCalling devSSD1331init() now.\n");
 	devSSD1331init();
 	warpPrint("\nFinished calling devSSD1331init().\n");
+
+	warpPrint("\nCalling initINA219() now.\n");	
+	// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
+	initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
+	OSA_TimeDelay(500);
+	
+	int16_t OLEDCurrent;
+	for (int i = 0; i < 1000; i++){
+		OLEDCurrent = returnCurrent();
+		warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
+	}
+	warpPrint("\nFinished calling initINA219().\n");
 	
 	while (1)
 	{
 		/*
 		 *	Do not, e.g., lowPowerPinStates() on each iteration, because we actually
-		 *	want to use menu to progressiveley change the machine state with various
+		 *	want to use menu to progressively change the machine state with various
 		 *	commands.
 		 */
 		gWarpExtraQuietMode = false;
