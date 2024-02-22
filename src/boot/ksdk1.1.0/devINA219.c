@@ -50,6 +50,8 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 	// See MMA8451Q.c for example: https://github.com/LeonBrindley/Warp-Coursework-2/blob/master/src/boot/ksdk1.1.0/devMMA8451Q.c
 	uint8_t		cmdBuf[1] = {0xFF};
 	i2c_status_t status;
+
+	warpPrint("Reading from INA219 register.\n");
 	
 	USED(numberOfBytes);
 	switch (deviceRegister)
@@ -63,6 +65,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 
 		default:
 		{
+			warpPrint("kWarpStatusBadDeviceCommand\n");
 			return kWarpStatusBadDeviceCommand;
 		}
 	}
@@ -88,8 +91,11 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 
 	if (status != kStatus_I2C_Success)
 	{
+		warpPrint("kWarpStatusDeviceCommunicationFailed\n");
 		return kWarpStatusDeviceCommunicationFailed;
 	}
+
+	warpPrint("Finished reading from INA219 register.\n");
 
 	return kWarpStatusOK;
 }
@@ -98,6 +104,8 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 	uint8_t		payloadBytes[2], commandByte[1];
 	i2c_status_t	status;
 
+	warpPrint("Writing to INA219 register.\n");
+	
 	switch (deviceRegister)
 	{
 		case 0x00: case 0x05:
@@ -108,6 +116,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 
 		default:
 		{
+			warpPrint("kWarpStatusBadDeviceCommand\n");
 			return kWarpStatusBadDeviceCommand;
 		}
 	}
@@ -135,8 +144,11 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 	
 	if (status != kStatus_I2C_Success)
 	{
+		warpPrint("kWarpStatusDeviceCommunicationFailed\n");
 		return kWarpStatusDeviceCommunicationFailed;
 	}
+
+	warpPrint("Finished writing to INA219 register.\n");
 
 	return kWarpStatusOK;
 }
