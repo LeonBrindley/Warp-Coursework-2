@@ -168,6 +168,10 @@ int32_t returnShunt(void){
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
+
+	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
+	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
+	warpPrint("readSensorRegisterValueCombined: %d\n", readSensorRegisterValueCombined);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -193,6 +197,10 @@ int32_t returnBus(void){
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
+
+	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
+	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
+	warpPrint("readSensorRegisterValueCombined: %d\n", readSensorRegisterValueCombined);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -221,6 +229,8 @@ int32_t returnCurrent(void){
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
 
+	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
+	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
 	warpPrint("readSensorRegisterValueCombined: %d\n", readSensorRegisterValueCombined);
 	
 	if (i2cReadStatus != kWarpStatusOK)
@@ -249,6 +259,10 @@ uint32_t returnPower(void){
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
+
+	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
+	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
+	warpPrint("readSensorRegisterValueCombined: %d\n", readSensorRegisterValueCombined);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
