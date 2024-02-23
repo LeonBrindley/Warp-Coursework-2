@@ -2046,12 +2046,13 @@ main(void)
 	warpPrint("\nCalling devSSD1331init() now.\n");
 	devSSD1331init();
 	warpPrint("\nFinished calling devSSD1331init().\n");
-
+	OSA_TimeDelay(5000);
+	
 	warpPrint("\nCalling initINA219() now.\n");	
 	// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
 	initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
 	warpPrint("\nFinished calling initINA219().\n");
-	OSA_TimeDelay(500);
+	OSA_TimeDelay(5000);
 
 	while (1)
 	{
