@@ -283,7 +283,7 @@ Discarded input sections
  .text.returnBus
                 0x0000000000000000       0x7c CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devINA219.c.obj
  .text.returnPower
-                0x0000000000000000       0x60 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devINA219.c.obj
+                0x0000000000000000       0x64 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devINA219.c.obj
  .text.appendSensorDataINA219
                 0x0000000000000000       0x3c CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/demos/Warp/src/devINA219.c.obj
  .text          0x0000000000000000        0x0 CMakeFiles/Warp.dir/home/students/lpb32/Warp-Coursework-2/build/ksdk1.1/work/platform/drivers/src/i2c/fsl_i2c_irq.c.obj
