@@ -218,7 +218,7 @@ int32_t returnBus(void){
 int32_t returnCurrent(void){
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
-	int16_t		readSensorRegisterValueCombined;
+	uint16_t	readSensorRegisterValueCombined;
 	int32_t		Current;
 	WarpStatus 	i2cReadStatus;
 
@@ -227,7 +227,7 @@ int32_t returnCurrent(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegCurrent, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (readSensorRegisterValueLSB + (readSensorRegisterValueMSB << 8));
+	readSensorRegisterValueCombined = ((uint16_t)(readSensorRegisterValueLSB) | (uint16_t)(readSensorRegisterValueMSB << 8));
 
 	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
 	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
