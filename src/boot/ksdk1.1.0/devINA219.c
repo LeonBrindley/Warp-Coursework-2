@@ -51,7 +51,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 	uint8_t		cmdBuf[1] = {0xFF};
 	i2c_status_t status;
 
-	warpPrint("Reading from INA219 register.\n");
+	warpPrint("Reading %d bytes from INA219 register %d.\n", numberOfBytes, deviceRegister);
 	
 	USED(numberOfBytes);
 	switch (deviceRegister)
@@ -95,7 +95,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 		return kWarpStatusDeviceCommunicationFailed;
 	}
 
-	warpPrint("Finished reading from INA219 register.\n");
+	warpPrint("Finished reading %d and %d from INA219 register %d.\n", deviceINA219State.i2cBuffer[0], deviceINA219State.i2cBuffer[1], deviceRegister);
 
 	return kWarpStatusOK;
 }
@@ -104,8 +104,6 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 	uint8_t		payloadBytes[2], commandByte[1];
 	i2c_status_t	status;
 
-	warpPrint("Writing to INA219 register.\n");
-	
 	switch (deviceRegister)
 	{
 		case 0x00: case 0x05:
@@ -133,6 +131,8 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 	payloadBytes[1] = (uint8_t)(payload & 0xFF); // LSB
 	warpEnableI2Cpins();
 
+	warpPrint("Writing %d and %d to INA219 register %d.\n", payloadBytes[0], payloadBytes[1], commandByte[0]);
+	
 	status = I2C_DRV_MasterSendDataBlocking(
 		0 /* I2C instance */,
 		&slave,
@@ -148,7 +148,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 		return kWarpStatusDeviceCommunicationFailed;
 	}
 
-	warpPrint("Finished writing to INA219 register.\n");
+	warpPrint("Finished writing to INA219 register %d.\n", deviceRegister);
 
 	return kWarpStatusOK;
 }
@@ -220,6 +220,8 @@ int16_t returnCurrent(void){
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = (readSensorRegisterValueLSB | readSensorRegisterValueMSB << 8);
+
+	warpPrint("readSensorRegisterValueCombined: %d\n", readSensorRegisterValueCombined);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -229,6 +231,7 @@ int16_t returnCurrent(void){
 
 	// Convert this Current variable to real units by multiplying by the LSB (10 microamps).
 	Current = readSensorRegisterValueCombined * kINA219CurrentLSB;
+	warpPrint("Current: %d\n", Current);
 	return Current;
 }
 
