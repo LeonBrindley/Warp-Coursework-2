@@ -155,7 +155,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 
 // Style return functions after printSensorDataMMA8451Q() in devMMA8451Q.c.
 
-int16_t returnShunt(void){
+int32_t returnShunt(void){
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
 	int16_t		readSensorRegisterValueCombined;
@@ -180,7 +180,7 @@ int16_t returnShunt(void){
 	return Shunt;
 }
 
-int16_t returnBus(void){
+int32_t returnBus(void){
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
 	int16_t		readSensorRegisterValueCombined;
@@ -235,7 +235,7 @@ int32_t returnCurrent(void){
 	return Current;
 }
 
-uint16_t returnPower(void){
+uint32_t returnPower(void){
 	// Note that power is unsigned (in contrast to the voltages and currents above).
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
