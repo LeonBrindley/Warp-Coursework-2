@@ -95,7 +95,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 		return kWarpStatusDeviceCommunicationFailed;
 	}
 
-	warpPrint("Finished reading %d from INA219 register %d.\n", (deviceINA219State.i2cBuffer[0]  * pow(2,8)) + deviceINA219State.i2cBuffer[1], deviceRegister);
+	warpPrint("Finished reading %d from INA219 register %d.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1], deviceRegister);
 
 	return kWarpStatusOK;
 }
@@ -131,7 +131,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 	payloadBytes[1] = (uint8_t)(payload & 0xFF); // LSB
 	warpEnableI2Cpins();
 
-	warpPrint("Writing %d to INA219 register %d.\n", (payloadBytes[0] * pow(2,8)) + payloadBytes[1], commandByte[0]);
+	warpPrint("Writing %d to INA219 register %d.\n", (payloadBytes[0] * 256) + payloadBytes[1], commandByte[0]);
 	
 	status = I2C_DRV_MasterSendDataBlocking(
 		0 /* I2C instance */,
