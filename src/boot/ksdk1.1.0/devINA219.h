@@ -30,7 +30,7 @@ void 		printSensorDataINA219(bool hexModeFlag);
 uint8_t		appendSensorDataINA219(uint8_t* buf);
 
 // Additional functions to return the shunt voltage, bus voltage, current or power.
-int16_t returnShunt(void);
-int16_t returnBus(void);
-int16_t returnCurrent(void);
-uint16_t returnPower(void);
+int32_t returnShunt(void);
+int32_t returnBus(void);
+int32_t returnCurrent(void);
+uint32_t returnPower(void);
