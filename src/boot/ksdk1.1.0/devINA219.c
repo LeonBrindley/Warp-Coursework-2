@@ -95,7 +95,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 		return kWarpStatusDeviceCommunicationFailed;
 	}
 
-	warpPrint("Finished reading %d and %d from INA219 register %d.\n", deviceINA219State.i2cBuffer[0], deviceINA219State.i2cBuffer[1], deviceRegister);
+	warpPrint("Finished reading %d from INA219 register %d.\n", (deviceINA219State.i2cBuffer[0]  * pow(2,8)) + deviceINA219State.i2cBuffer[1], deviceRegister);
 
 	return kWarpStatusOK;
 }
@@ -131,7 +131,7 @@ WarpStatus writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload){
 	payloadBytes[1] = (uint8_t)(payload & 0xFF); // LSB
 	warpEnableI2Cpins();
 
-	warpPrint("Writing %d and %d to INA219 register %d.\n", payloadBytes[0], payloadBytes[1], commandByte[0]);
+	warpPrint("Writing %d to INA219 register %d.\n", (payloadBytes[0] * pow(2,8)) + payloadBytes[1], commandByte[0]);
 	
 	status = I2C_DRV_MasterSendDataBlocking(
 		0 /* I2C instance */,
@@ -207,11 +207,11 @@ int16_t returnBus(void){
 
 // The device can measure bidirectional current; thus, the MSB of the Current Register is a sign bit that allows for the rest of the 15
 // bits to be used for the Current Register value.
-int16_t returnCurrent(void){
+int32_t returnCurrent(void){
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
 	int16_t		readSensorRegisterValueCombined;
-	int16_t		Current;
+	int32_t		Current;
 	WarpStatus 	i2cReadStatus;
 
 	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
@@ -230,7 +230,7 @@ int16_t returnCurrent(void){
 	}
 
 	// Convert this Current variable to real units by multiplying by the LSB (10 microamps).
-	Current = readSensorRegisterValueCombined * kINA219CurrentLSB;
+	Current = (int32_t)readSensorRegisterValueCombined * (int32_t)kINA219CurrentLSB;
 	warpPrint("Current: %d\n", Current);
 	return Current;
 }
