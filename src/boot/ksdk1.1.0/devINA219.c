@@ -39,8 +39,8 @@ void initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts){
 	// The Calibration Register (05h) is set in order to provide the device information about the current shunt resistor that was
 	// used to create the measured shunt voltage. By knowing the value of the shunt resistor, the device can then calculate the amount of
 	// current that created the measured shunt voltage drop.
-	// writeSensorRegisterINA219(kINA219RegCalibration, (uint16_t) 0xA000); // 40,960 = 10uA LSB with 50mA maximum current and 0.1 Ohm resistor.
-	writeSensorRegisterINA219(kINA219RegCalibration, (uint16_t) 0x5000); // 20,480 = 20uA LSB with 100mA maximum current and 0.1 Ohm resistor.
+	writeSensorRegisterINA219(kINA219RegCalibration, (uint16_t) 0xA000); // 40,960 = 10uA LSB with 50mA maximum current and 0.1 Ohm resistor.
+	// writeSensorRegisterINA219(kINA219RegCalibration, (uint16_t) 0x5000); // 20,480 = 20uA LSB with 100mA maximum current and 0.1 Ohm resistor.
 
 	OSA_TimeDelay(50);
 	
