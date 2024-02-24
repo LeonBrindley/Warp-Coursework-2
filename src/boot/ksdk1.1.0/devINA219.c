@@ -52,7 +52,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 	uint8_t		cmdBuf[1] = {0xFF};
 	i2c_status_t status;
 
-	warpPrint("Reading %d bytes from INA219 register %d.\n", numberOfBytes, deviceRegister);
+	// warpPrint("Reading %d bytes from INA219 register %d.\n", numberOfBytes, deviceRegister);
 	
 	USED(numberOfBytes);
 	switch (deviceRegister)
@@ -96,7 +96,7 @@ WarpStatus readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes){
 		return kWarpStatusDeviceCommunicationFailed;
 	}
 
-	warpPrint("Finished reading %d from INA219 register %d.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1], deviceRegister);
+	// warpPrint("Finished reading %d from INA219 register %d.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1], deviceRegister);
 
 	return kWarpStatusOK;
 }
