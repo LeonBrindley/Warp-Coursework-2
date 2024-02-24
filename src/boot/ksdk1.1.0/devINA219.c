@@ -230,9 +230,9 @@ int32_t returnCurrent(void){
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = ((uint16_t)(readSensorRegisterValueLSB) | (uint16_t)(readSensorRegisterValueMSB << 8));
 
-	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
-	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
-	warpPrint("readSensorRegisterValueCombined: %d\n", readSensorRegisterValueCombined);
+	// warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
+	// warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
+	// warpPrint("readSensorRegisterValueCombined: %d\n", readSensorRegisterValueCombined);
 	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -242,7 +242,7 @@ int32_t returnCurrent(void){
 
 	// Convert this Current variable to real units by multiplying by the LSB (10 microamps).
 	Current = (int32_t)readSensorRegisterValueCombined * (int32_t)kINA219CurrentLSB;
-	warpPrint("Current: %d\n", Current);
+	// warpPrint("Current: %d\n", Current);
 	return Current;
 }
 

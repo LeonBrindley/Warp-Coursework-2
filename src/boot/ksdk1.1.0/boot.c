@@ -2117,7 +2117,8 @@ main(void)
 		
 		for (int i = 0; i < 1000; i++){
 			OLEDCurrent = returnCurrent();
-			warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
+			// warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
+			warpPrint("%d\n", OLEDCurrent);
 		}
 		warpPrint("\nFinished running INA219 loop.\n");
 		
