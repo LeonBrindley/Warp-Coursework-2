@@ -2106,14 +2106,14 @@ main(void)
 		warpPrint("\r- 'z': perpetually dump all sensor data.\n");
 
 		warpPrint("\nRunning INA219 loop now.\n");
-		int16_t OLEDCurrent;
+		int32_t OLEDCurrent;
 
 		// Check the INA219's Configuration and Calibration Registers.
 		WarpStatus regStatus;
 		regStatus = readSensorRegisterINA219(kINA219RegConfiguration, 2 /* numberOfBytes */);
-		warpPrint("Finished reading %d from INA219 Configuration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
+		// warpPrint("Finished reading %d from INA219 Configuration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
 		regStatus = readSensorRegisterINA219(kINA219RegCalibration, 2 /* numberOfBytes */);
-		warpPrint("Finished reading %d from INA219 Calibration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
+		// warpPrint("Finished reading %d from INA219 Calibration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
 		
 		for (int i = 0; i < 1000; i++){
 			OLEDCurrent = returnCurrent();
