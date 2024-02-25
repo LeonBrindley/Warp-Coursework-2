@@ -43,7 +43,7 @@ WarpStatus 	configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_
 void		printSensorDataMMA8451Q(bool hexModeFlag);
 uint8_t		appendSensorDataMMA8451Q(uint8_t* buf);
 
-uint16_t 	maximalActivityAxis(uint2_t maximalAxis);
+uint2_t 	maximalActivityAxis();
 void	 	lowPassFilter();
 void	 	extremalValueMarking();
 void	 	speedCalculation();
