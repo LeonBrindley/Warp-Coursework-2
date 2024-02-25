@@ -168,7 +168,7 @@ int32_t returnShunt(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegShunt, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (readSensorRegisterValueLSB + (readSensorRegisterValueMSB << 8));
+	readSensorRegisterValueCombined = ((uint16_t)(readSensorRegisterValueLSB) | (uint16_t)(readSensorRegisterValueMSB << 8));
 
 	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
 	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
@@ -180,8 +180,8 @@ int32_t returnShunt(void){
 		return 0;
 	}
 
-	// Convert this Shunt variable to real units by multiplying by the LSB (10 microvolts).
-	Shunt = readSensorRegisterValueCombined * kINA219ShuntLSB;
+	// Convert this Shunt variable to real units by multiplying by the LSB (1 microvolt).
+	Shunt = (int32_t)readSensorRegisterValueCombined * (int32_t)kINA219ShuntLSB;
 	return Shunt;
 }
 
@@ -197,7 +197,7 @@ int32_t returnBus(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegBus, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (readSensorRegisterValueLSB + (readSensorRegisterValueMSB << 8));
+	readSensorRegisterValueCombined = ((uint16_t)(readSensorRegisterValueLSB) | (uint16_t)(readSensorRegisterValueMSB << 8));
 
 	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
 	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
@@ -209,8 +209,8 @@ int32_t returnBus(void){
 		return 0;
 	}
 
-	// Convert this Bus variable to real units by multiplying by the LSB (10 microvolts).
-	Bus = readSensorRegisterValueCombined * kINA219BusLSB;
+	// Convert this Bus variable to real units by multiplying by the LSB (1 microvolt).
+	Bus = (int32_t)readSensorRegisterValueCombined * (int32_t)kINA219BusLSB;
 	return Bus;
 }
 
@@ -259,7 +259,7 @@ uint32_t returnPower(void){
 	i2cReadStatus = readSensorRegisterINA219(kINA219RegPower, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (readSensorRegisterValueLSB + (readSensorRegisterValueMSB << 8));
+	readSensorRegisterValueCombined = ((uint16_t)(readSensorRegisterValueLSB) | (uint16_t)(readSensorRegisterValueMSB << 8));
 
 	warpPrint("readSensorRegisterValueMSB: %d\n", readSensorRegisterValueMSB);
 	warpPrint("readSensorRegisterValueLSB: %d\n", readSensorRegisterValueLSB);
@@ -271,7 +271,7 @@ uint32_t returnPower(void){
 		return 0;
 	}
 
-	// Convert this Power variable to real units by multiplying by the LSB (100 microwatts).
+	// Convert this Power variable to real units by multiplying by the LSB (10 microwatts).
 	Power = readSensorRegisterValueCombined * kINA219PowerLSB;
 	return Power;
 }
