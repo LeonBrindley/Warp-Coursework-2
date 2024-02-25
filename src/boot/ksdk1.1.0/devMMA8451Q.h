@@ -65,3 +65,8 @@ typedef enum
 	ActivityWalking		        = 0x1,
 	ActivityRunning		        = 0x2,
 } ActivityBeingPerformed;
+
+const uint16_t circularBufferSize = 8000;
+uint8_t circularBufferHead = 0;
+uint8_t circularBufferTail = 0;
+uint8_t MMA8451QBuffer[circularBufferSize];
