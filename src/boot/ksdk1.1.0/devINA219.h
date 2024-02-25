@@ -15,7 +15,7 @@ typedef enum
 #define kINA219ShuntLSB			10
 #define kINA219BusLSB 			0.004
 #define kINA219CurrentLSB 		10
-#define kINA219PowerLSB			2
+#define kINA219PowerLSB			200
 
 void		initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts);
 
