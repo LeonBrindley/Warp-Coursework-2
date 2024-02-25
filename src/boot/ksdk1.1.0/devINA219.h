@@ -12,10 +12,10 @@ typedef enum
 	kINA219RegCalibration		= 0x5,
 } INA219Constants;
 
-#define kINA219ShuntLSB			10
-#define kINA219BusLSB 			0.004
+#define kINA219ShuntLSB			1
+#define kINA219BusLSB 			1
 #define kINA219CurrentLSB 		10
-#define kINA219PowerLSB			200
+#define kINA219PowerLSB			10
 
 void		initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts);
 
