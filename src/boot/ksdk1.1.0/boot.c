@@ -2111,14 +2111,14 @@ main(void)
 		// Check the INA219's Configuration and Calibration Registers.
 		WarpStatus regStatus;
 		regStatus = readSensorRegisterINA219(kINA219RegConfiguration, 2 /* numberOfBytes */);
-		// warpPrint("Finished reading %d from INA219 Configuration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
+		warpPrint("Finished reading %d from INA219 Configuration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
 		regStatus = readSensorRegisterINA219(kINA219RegCalibration, 2 /* numberOfBytes */);
-		// warpPrint("Finished reading %d from INA219 Calibration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
+		warpPrint("Finished reading %d from INA219 Calibration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
 		
 		for (int i = 0; i < 1000; i++){
 			OLEDCurrent = returnCurrent();
 			// warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
-			warpPrint("%d\n", OLEDCurrent);
+			warpPrint("%d\n", OLEDCurrent); // Raw data for generating CSV.
 		}
 		warpPrint("\nFinished running INA219 loop.\n");
 		
