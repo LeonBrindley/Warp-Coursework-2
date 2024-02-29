@@ -43,30 +43,6 @@ WarpStatus 	configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_
 void		printSensorDataMMA8451Q(bool hexModeFlag);
 uint8_t		appendSensorDataMMA8451Q(uint8_t* buf);
 
-uint2_t 	maximalActivityAxis();
-void	 	lowPassFilter();
-void	 	extremalValueMarking();
-void	 	speedCalculation();
-
 const uint8_t bytesPerMeasurementMMA8451Q            = 6;
 const uint8_t bytesPerReadingMMA8451Q                = 2;
 const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
-
-typedef enum
-{
-	kMMA8451QXAxis			= 0x0,
-	kMMA8451QYAxis		        = 0x1,
-	kMMA8451QZAxis		        = 0x2,
-} MMA8451QConstants;
-
-typedef enum
-{
-	ActivityStationary		= 0x0,
-	ActivityWalking		        = 0x1,
-	ActivityRunning		        = 0x2,
-} ActivityBeingPerformed;
-
-const uint16_t circularBufferSize = 8000;
-uint8_t circularBufferHead = 0;
-uint8_t circularBufferTail = 0;
-uint8_t MMA8451QBuffer[circularBufferSize];
