@@ -424,3 +424,58 @@ appendSensorDataMMA8451Q(uint8_t* buf)
 	}
 	return index;
 }
+
+void updateAccelerations(){
+	uint16_t XLSB, YLSB, ZLSB;
+	uint16_t XMSB, YMSB, ZMSB;
+	int16_t XCombined, YCombined, ZCombined;
+	WarpStatus i2cReadStatus;
+
+	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
+	
+	// Firstly, update the array of x-axis accelerations.	
+	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 2 /* numberOfBytes */);
+	XMSB	      = deviceMMA8451QState.i2cBuffer[0];
+	XLSB          = deviceMMA8451QState.i2cBuffer[1];
+	XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
+	XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
+	if (i2cReadStatus != kWarpStatusOK) {
+		XBuffer[sampleIndex] = 0;
+		sampleIndex += 1;
+	}
+	else {
+		XBuffer[sampleIndex] = XCombined;
+		sampleIndex += 1;
+	}
+
+	// Secondly, update the array of y-axis accelerations.	
+	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
+	YMSB	      = deviceMMA8451QState.i2cBuffer[0];
+	YLSB          = deviceMMA8451QState.i2cBuffer[1];
+	YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
+	YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
+	if (i2cReadStatus != kWarpStatusOK) {
+		YBuffer[sampleIndex] = 0;
+		sampleIndex += 1;
+	}
+	else {
+		YBuffer[sampleIndex] = YCombined;
+		sampleIndex += 1;
+	}
+
+	// Finally, update the array of y-axis accelerations.	
+	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
+	ZMSB	      = deviceMMA8451QState.i2cBuffer[0];
+	ZLSB          = deviceMMA8451QState.i2cBuffer[1];
+	ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
+	ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
+	if (i2cReadStatus != kWarpStatusOK) {
+		ZBuffer[sampleIndex] = 0;
+		sampleIndex += 1;
+	}
+	else {
+		ZBuffer[sampleIndex] = ZCombined;
+		sampleIndex += 1;
+	}
+	
+}
