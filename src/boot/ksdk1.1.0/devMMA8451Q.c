@@ -141,7 +141,7 @@ writeSensorRegisterMMA8451Q(uint8_t deviceRegister, uint8_t payload)
 }
 
 WarpStatus
-configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1)
+configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1, uint8_t payloadHP_FILTER_CUTOFF)
 {
 	WarpStatus	i2cWriteStatus1, i2cWriteStatus2;
 
@@ -154,6 +154,10 @@ configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1)
 
 	i2cWriteStatus2 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QCTRL_REG1 /* register address CTRL_REG1 */,
 												  payloadCTRL_REG1 /* payload */
+	);
+
+	i2cWriteStatus3 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QHP_FILTER_CUTOFF /* register address HP_FILTER_CUTOFF */,
+												  payloadHP_FILTER_CUTOFF /* payload */
 	);
 
 	return (i2cWriteStatus1 | i2cWriteStatus2);
