@@ -46,3 +46,16 @@ uint8_t		appendSensorDataMMA8451Q(uint8_t* buf);
 const uint8_t bytesPerMeasurementMMA8451Q            = 6;
 const uint8_t bytesPerReadingMMA8451Q                = 2;
 const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
+
+#define SAMPLE_PERIOD 0.01 // Take a sample every 10ms.
+#define BUFFER_SIZE 10/SAMPLE_PERIOD // Size of X, Y and Z acceleration buffers.
+
+void updateAccelerations();
+
+// Define buffers for X, Y and Z acceleration measurements.
+int16_t XBuffer[BUFFER_SIZE];
+int16_t YBuffer[BUFFER_SIZE];
+int16_t ZBuffer[BUFFER_SIZE];
+
+// Define indexes for X, Y and Z axis samples.
+uint16_t XSampleIndex, YSampleIndex, ZSampleIndex;
