@@ -48,7 +48,8 @@ const uint8_t bytesPerReadingMMA8451Q                = 2;
 const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
 
 const uint16_t SAMPLE_PERIOD = 0.01; // Take a sample every 10ms.
-const uint16_t BUFFER_SIZE = 10/SAMPLE_PERIOD; // Size of X, Y and Z acceleration buffers.
+
+uint16_t BUFFER_SIZE = 10/SAMPLE_PERIOD; // Size of X, Y and Z acceleration buffers.
 
 void updateAccelerations();
 
