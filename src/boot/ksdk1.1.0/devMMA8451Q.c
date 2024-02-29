@@ -73,6 +73,16 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	deviceMMA8451QState.i2cAddress			= i2cAddress;
 	deviceMMA8451QState.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 
+	for(int i = 0; i < BUFFER_SIZE; i++) {
+		XBuffer[i] = 0;
+		YBuffer[i] = 0;
+		ZBuffer[i] = 0;
+	}
+
+	XSampleIndex = 0;
+	YSampleIndex = 0;
+	ZSampleIndex = 0;
+	
 	return;
 }
 
