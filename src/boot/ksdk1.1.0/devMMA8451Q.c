@@ -164,7 +164,7 @@ configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1, uint8_
 												  payloadXYZ_DATA_CFG /* payload */
 	);
 
-	return (i2cWriteStatus1 | i2cWriteStatus2);
+	return (i2cWriteStatus1 | i2cWriteStatus2 | i2cWriteStatus3 | i2cWriteStatus4);
 }
 
 WarpStatus
