@@ -440,7 +440,7 @@ appendSensorDataMMA8451Q(uint8_t* buf)
 	return index;
 }
 
-void updateAccelerations(){
+WarpStatus updateAccelerations(){
 	uint16_t XLSB, YLSB, ZLSB;
 	uint16_t XMSB, YMSB, ZMSB;
 	WarpStatus i2cReadStatus;
@@ -449,6 +449,10 @@ void updateAccelerations(){
 	
 	// Firstly, update the x-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 2 /* numberOfBytes */);
+	if (i2cReadStatus != kWarpStatusOK){
+		warpPrint("Failed to read x-axis acceleration.\n");
+		return i2cReadStatus;
+	}
 	XMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	XLSB          = deviceMMA8451QState.i2cBuffer[1];
 	XAcceleration = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
@@ -456,6 +460,10 @@ void updateAccelerations(){
 
 	// Secondly, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
+	if (i2cReadStatus != kWarpStatusOK){
+		warpPrint("Failed to read y-axis acceleration.\n");
+		return i2cReadStatus;
+	}
 	YMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	YLSB          = deviceMMA8451QState.i2cBuffer[1];
 	YAcceleration = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
@@ -463,8 +471,14 @@ void updateAccelerations(){
 
 	// Finally, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
+	if (i2cReadStatus != kWarpStatusOK){
+		warpPrint("Failed to read z-axis acceleration.\n");
+		return i2cReadStatus;
+	}
 	ZMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	ZLSB          = deviceMMA8451QState.i2cBuffer[1];
 	ZAcceleration = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
 	ZAcceleration = (ZAcceleration ^ (1 << 13)) - (1 << 13);
+
+	return 0;
 }
