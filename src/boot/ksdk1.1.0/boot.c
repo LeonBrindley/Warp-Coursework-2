@@ -2048,11 +2048,11 @@ main(void)
 	warpPrint("\nFinished calling devSSD1331init().\n");
 	OSA_TimeDelay(5000);
 	
-	warpPrint("\nCalling initINA219() now.\n");	
-	// I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
-	initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
-	warpPrint("\nFinished calling initINA219().\n");
-	OSA_TimeDelay(5000);
+	// warpPrint("\nCalling initINA219() now.\n");	
+	// // I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
+	// initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
+	// warpPrint("\nFinished calling initINA219().\n");
+	// OSA_TimeDelay(5000);
 
 	while (1)
 	{
@@ -2105,22 +2105,22 @@ main(void)
 		warpPrint("\r- 'x': disable SWD and spin for 10 secs.\n");
 		warpPrint("\r- 'z': perpetually dump all sensor data.\n");
 
-		warpPrint("\nRunning INA219 loop now.\n");
-		int32_t OLEDCurrent;
+		// warpPrint("\nRunning INA219 loop now.\n");
+		// int32_t OLEDCurrent;
 
-		// Check the INA219's Configuration and Calibration Registers.
-		WarpStatus regStatus;
-		regStatus = readSensorRegisterINA219(kINA219RegConfiguration, 2 /* numberOfBytes */);
-		warpPrint("Finished reading %d from INA219 Configuration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
-		regStatus = readSensorRegisterINA219(kINA219RegCalibration, 2 /* numberOfBytes */);
-		warpPrint("Finished reading %d from INA219 Calibration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
+		// // Check the INA219's Configuration and Calibration Registers.
+		// WarpStatus regStatus;
+		// regStatus = readSensorRegisterINA219(kINA219RegConfiguration, 2 /* numberOfBytes */);
+		// warpPrint("Finished reading %d from INA219 Configuration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
+		// regStatus = readSensorRegisterINA219(kINA219RegCalibration, 2 /* numberOfBytes */);
+		// warpPrint("Finished reading %d from INA219 Calibration Register.\n", (deviceINA219State.i2cBuffer[0]  * 256) + deviceINA219State.i2cBuffer[1]);
 		
-		for (int i = 0; i < 1000; i++){
-			OLEDCurrent = returnCurrent();
-			// warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
-			warpPrint("%d\n", OLEDCurrent); // Raw data for generating CSV.
-		}
-		warpPrint("\nFinished running INA219 loop.\n");
+		// for (int i = 0; i < 1000; i++){
+		// 	OLEDCurrent = returnCurrent();
+		// 	// warpPrint("INA219, %d, %d, uA\n", i, OLEDCurrent);
+		// 	warpPrint("%d\n", OLEDCurrent); // Raw data for generating CSV.
+		// }
+		// warpPrint("\nFinished running INA219 loop.\n");
 		
 		warpPrint("\rEnter selection> ");
 		key = warpWaitKey();
