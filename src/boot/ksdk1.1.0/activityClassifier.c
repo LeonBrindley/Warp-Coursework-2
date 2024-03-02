@@ -40,7 +40,7 @@ void stepOneCombine(){
   // Store the magnitude of the acceleration in AccelerationBuffer. 
   AccelerationBuffer[BUFFER_SIZE - 1] =  sqrt((XAcceleration*XAcceleration)
     + (YAcceleration*YAcceleration) + (ZAcceleration*ZAcceleration));
-  warpPrint("Latest Magnitude: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  warpPrint("1. Latest Magnitude: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 }
 
 // Step 2: Low-pass filter the result to smooth out the signal.
@@ -48,7 +48,7 @@ void stepOneCombine(){
 void stepTwoFilter(){
   for (int i = 0; i < BUFFER_SIZE - 1; i++){
     LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
-    warpPrint("LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
+    warpPrint("2. LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
   }
 }
 
@@ -68,6 +68,7 @@ void stepThreeExtremal(){
     }    
   }
   LPFBufferMidpoint = (maximumValue - minimumValue) / 2;
+  warpPrint("3. Maximum: %d, Minimum: %d, Midpoint: %d.\n", maximumValue, minimumValue, LPFBufferMidpoint);
 }
 
 // Step 4: Calculate the speed over the last 10 seconds.
@@ -89,8 +90,8 @@ void stepFourSpeed(){
     }
   }
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  Speed = (360/1000)*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by 1000 to convert to km/hr.
-  warpPrint("Speed: %d.\n", Speed);
+  Speed = (360 / (1000 * 2))*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
+  warpPrint("4. Speed: %d.\n", Speed);
 }
 
 WarpStatus updateAccelerations(){
@@ -110,6 +111,7 @@ WarpStatus updateAccelerations(){
 	XLSB          = deviceMMA8451QState.i2cBuffer[1];
 	XAcceleration = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
 	XAcceleration = (XAcceleration ^ (1 << 13)) - (1 << 13);
+	warpPrint("XAcceleration: %d.\n", XAcceleration);
 
 	// Secondly, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
@@ -121,6 +123,7 @@ WarpStatus updateAccelerations(){
 	YLSB          = deviceMMA8451QState.i2cBuffer[1];
 	YAcceleration = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
 	YAcceleration = (YAcceleration ^ (1 << 13)) - (1 << 13);
+	warpPrint("YAcceleration: %d.\n", YAcceleration);
 
 	// Finally, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
@@ -132,6 +135,7 @@ WarpStatus updateAccelerations(){
 	ZLSB          = deviceMMA8451QState.i2cBuffer[1];
 	ZAcceleration = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
 	ZAcceleration = (ZAcceleration ^ (1 << 13)) - (1 << 13);
+	warpPrint("ZAcceleration: %d.\n", ZAcceleration);
 
 	return 0;
 }
