@@ -49,7 +49,7 @@ const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
 
 #define SAMPLE_PERIOD 0.01 // Take a sample every 10ms.
 
-#define BUFFER_SIZE 1000 // Size of X, Y and Z acceleration buffers. Equals 10/BUFFER_SIZE;
+#define BUFFER_SIZE 100 // Size of AccelerationBuffer and LPFBuffer.
 
 void updateAccelerations();
 
@@ -59,5 +59,9 @@ int16_t XAcceleration, YAcceleration, ZAcceleration;
 // Define a buffer to store the magnitudes of the acceleration measurements.
 int16_t AccelerationBuffer[BUFFER_SIZE];
 
+// The LPF uses a finite impulse response (FIR) structure.
+// The FIR coefficients h(n) are defined below.
+int16_t LPFBuffer[BUFFER_SIZE];
+
 // Define an index for AccelerationBuffer.
-uint16_t BufferIndex;
+uint16_t AccelerationIndex;
