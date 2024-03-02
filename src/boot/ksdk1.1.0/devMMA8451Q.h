@@ -51,7 +51,7 @@ const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
 
 #define BUFFER_SIZE 10// Size of AccelerationBuffer and LPFBuffer.
 
-void updateAccelerations();
+WarpStatus updateAccelerations();
 
 // Define variables for the X, Y and Z acceleration measurements.
 int16_t XAcceleration, YAcceleration, ZAcceleration;
