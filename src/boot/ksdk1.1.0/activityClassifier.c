@@ -36,9 +36,9 @@
 
 void stepOneCombine(){
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
-  for (int i = 0; i < BUFFER_SIZE - 2; i++){
-    AccelerationBuffer[i] = AccelerationBuffer[i + 1];
-    LPFBuffer[i] = LPFBuffer[i + 1];
+  for (int i = 1; i < BUFFER_SIZE - 1; i++){
+    AccelerationBuffer[i - 1] = AccelerationBuffer[i];
+    LPFBuffer[i - 1] = LPFBuffer[i];
   }
   // Store the magnitude of the acceleration in AccelerationBuffer. 
   AccelerationBuffer[BUFFER_SIZE - 1] =  sqrt((XAcceleration*XAcceleration)
