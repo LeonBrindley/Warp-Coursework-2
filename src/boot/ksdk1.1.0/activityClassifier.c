@@ -6,6 +6,9 @@
  */
 #include "config.h"
 
+#include "fsl_spi_master_driver.h"
+#include "fsl_port_hal.h"
+
 #include "fsl_misc_utilities.h"
 #include "fsl_device_registers.h"
 #include "fsl_i2c_master_driver.h"
