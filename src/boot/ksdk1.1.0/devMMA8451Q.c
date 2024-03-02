@@ -446,54 +446,28 @@ appendSensorDataMMA8451Q(uint8_t* buf)
 void updateAccelerations(){
 	uint16_t XLSB, YLSB, ZLSB;
 	uint16_t XMSB, YMSB, ZMSB;
-	int16_t XCombined, YCombined, ZCombined;
 	WarpStatus i2cReadStatus;
 
 	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 	
-	// Firstly, update the array of x-axis accelerations.	
+	// Firstly, update the x-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 2 /* numberOfBytes */);
 	XMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	XLSB          = deviceMMA8451QState.i2cBuffer[1];
-	XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
-	XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-	if (i2cReadStatus != kWarpStatusOK) {
-		XBuffer[XSampleIndex] = 0;
-		XSampleIndex += 1;
-	}
-	else {
-		XBuffer[XSampleIndex] = XCombined;
-		XSampleIndex += 1;
-	}
+	XAcceleration = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
+	XAcceleration = (XCombined ^ (1 << 13)) - (1 << 13);
 
-	// Secondly, update the array of y-axis accelerations.	
+	// Secondly, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
 	YMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	YLSB          = deviceMMA8451QState.i2cBuffer[1];
-	YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
-	YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-	if (i2cReadStatus != kWarpStatusOK) {
-		YBuffer[YSampleIndex] = 0;
-		YSampleIndex += 1;
-	}
-	else {
-		YBuffer[YSampleIndex] = YCombined;
-		YSampleIndex += 1;
-	}
+	YAcceleration = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
+	YAcceleration = (YCombined ^ (1 << 13)) - (1 << 13);
 
-	// Finally, update the array of y-axis accelerations.	
+	// Finally, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
 	ZMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	ZLSB          = deviceMMA8451QState.i2cBuffer[1];
-	ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
-	ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-	if (i2cReadStatus != kWarpStatusOK) {
-		ZBuffer[ZSampleIndex] = 0;
-		ZSampleIndex += 1;
-	}
-	else {
-		ZBuffer[ZSampleIndex] = ZCombined;
-		ZSampleIndex += 1;
-	}
-	
+	ZAcceleration = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
+	ZAcceleration = (ZCombined ^ (1 << 13)) - (1 << 13);
 }
