@@ -52,9 +52,9 @@ void stepTwoFilter(){
   }
 }
 
-// Step 3: Perform extremal value marking by differentiating the data.
+// Step 3: Determine the midpoint of the results so the speed can be calculated in Step 4.
 
-void stepThreeExtremal(){
+void stepThreeMidpoint(){
   // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
   maximumValue = 0;
   minimumValue = 65535;
