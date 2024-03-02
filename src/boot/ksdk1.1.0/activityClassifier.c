@@ -30,9 +30,25 @@
 
 // Step 1: Combine all three axes using 3D Pythagoras' theorem.
 
+void stepOneCombine(){
+
+}
+
 // Step 2: Low-pass filter the result to smooth out the signal.
+
+void stepTwoFilter(){
+
+}
 
 // Step 3: Perform extremal value marking by differentiating the data.
 
+void stepThreeExtremal(){
+
+}
+
 // Step 4: Calculate the speed over the last 10 seconds.
+
+void stepFourSpeed(){
+
+}
 
