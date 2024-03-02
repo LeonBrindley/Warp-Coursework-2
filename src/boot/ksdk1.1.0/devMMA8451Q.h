@@ -62,7 +62,7 @@ int16_t AccelerationBuffer[BUFFER_SIZE] = {0};
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
 // These have been calculated using https://rfcalculator.com/FIR-Filters.
-int16_t LPFBuffer[BUFFER_SIZE] = {0.05, 0.1, 0.15, 0.2, 0.2, 0.2, 0.15, 0.1, 0.05, 0.01};
+int16_t LPFBuffer[BUFFER_SIZE] = {5, 10, 15, 20, 20, 20, 15, 10, 5, 1};
 
 // Define an index for AccelerationBuffer.
 uint16_t AccelerationIndex;
