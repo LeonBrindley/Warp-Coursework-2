@@ -78,8 +78,6 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 		LPFBuffer[i] = 0;
 	}
 
-	AccelerationIndex = 0;
-	
 	return;
 }
 
