@@ -59,7 +59,7 @@ int16_t XAcceleration, YAcceleration, ZAcceleration;
 // Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
 uint16_t AccelerationBuffer[BUFFER_SIZE] = {0};
 uint16_t LPFBuffer[BUFFER_SIZE] = {0};
-uint16_t maximumValue, minimumValue;
+uint16_t maximumValue, minimumValue, LPFBufferMidpoint;
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
