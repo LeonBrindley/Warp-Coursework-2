@@ -46,25 +46,3 @@ uint8_t		appendSensorDataMMA8451Q(uint8_t* buf);
 const uint8_t bytesPerMeasurementMMA8451Q            = 6;
 const uint8_t bytesPerReadingMMA8451Q                = 2;
 const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
-
-#define SAMPLE_PERIOD 0.01 // Take a sample every 10ms.
-
-#define BUFFER_SIZE 10// Size of AccelerationBuffer and LPFBuffer.
-
-WarpStatus updateAccelerations();
-
-// Define variables for the X, Y and Z acceleration measurements.
-int16_t XAcceleration, YAcceleration, ZAcceleration;
-
-// Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
-uint16_t AccelerationBuffer[BUFFER_SIZE] = {0};
-uint16_t LPFBuffer[BUFFER_SIZE] = {0};
-uint16_t maximumValue, minimumValue, LPFBufferMidpoint, numberOfCrossings;
-
-// The LPF uses a finite impulse response (FIR) structure.
-// The FIR coefficients h(n) are defined below.
-// These have been calculated using https://rfcalculator.com/FIR-Filters.
-int16_t LPFWeights[BUFFER_SIZE] = {5, 10, 15, 20, 20, 20, 15, 10, 5, 1};
-
-// Define an index for AccelerationBuffer.
-uint16_t AccelerationIndex;
