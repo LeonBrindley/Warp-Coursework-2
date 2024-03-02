@@ -37,3 +37,9 @@ float Speed = 0; // Estimated speed in km/hr. Initialised to 0.
 // The FIR coefficients h(n) are defined below.
 // These have been calculated using https://rfcalculator.com/FIR-Filters.
 int16_t LPFWeights[BUFFER_SIZE] = {5, 10, 15, 20, 20, 20, 15, 10, 5, 1};
+
+void printGUI();
+void printLine(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blue, uint8_t green, uint8_t red);
+void printRect(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blueLine, uint8_t greenLine, uint8_t redLine, uint8_t blueFill, uint8_t greenFill, uint8_t redFill);
+void clearDisplay();
+void printNumber(uint8_t column, uint8_t row, uint8_t number);
