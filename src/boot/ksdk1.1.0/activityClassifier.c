@@ -32,9 +32,10 @@
 // Step 1: Combine all three axes using 3D Pythagoras' theorem.
 
 void stepOneCombine(){
-  // Shift AccelerationBuffer left to free up space for new data.
+  // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 0; i < BUFFER_SIZE - 2; i++){
     AccelerationBuffer[i] = AccelerationBuffer[i + 1];
+    LPFBuffer[i] = LPFBuffer[i + 1];
   }
   // Store the magnitude of the acceleration in AccelerationBuffer. 
   AccelerationBuffer[BUFFER_SIZE - 1] =  sqrt((XAcceleration*XAcceleration)
