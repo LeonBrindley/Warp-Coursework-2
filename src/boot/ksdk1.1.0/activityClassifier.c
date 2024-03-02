@@ -32,7 +32,7 @@
 
 void stepOneCombine(){
   // Shift AccelerationBuffer left to free up space for new data.
-  for (int i = 0; i < BUFFER_SIZE - 1; i++){
+  for (int i = 0; i < BUFFER_SIZE - 2; i++){
     AccelerationBuffer[i] = AccelerationBuffer[i + 1];
   }
   // Store the magnitude of the acceleration in AccelerationBuffer. 
@@ -73,5 +73,17 @@ void stepThreeExtremal(){
 void stepFourSpeed(){
   // Count the number of crossings of the midpoint of the maximum and minimum values.
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
+  for(int i = 0; i < BUFFER_SIZE - 2; i++){
+    if(LPFBuffer[i] > LPFBufferMidpoint){
+      if(LPFBuffer[i + 1] < LPFBufferMidpoint){
+        numberOfCrossings++;
+      }
+    }
+    else if(LPFBuffer[i] < LPFBufferMidpoint){
+      if(LPFBuffer[i + 1] > LPFBufferMidpoint){
+        numberOfCrossings++;
+      }
+    }
+  }
 }
 
