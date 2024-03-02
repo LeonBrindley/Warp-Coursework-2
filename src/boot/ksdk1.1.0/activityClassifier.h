@@ -1,8 +1,3 @@
-uint16_t	    maximalActivityAxis();
-void	 	    lowPassFilter();
-void	 	    extremalValueMarking();
-void	 	    speedCalculation();
-
 typedef enum
 {
 	kMMA8451QXAxis			= 0x0,
@@ -16,6 +11,11 @@ typedef enum
 	ActivityWalking		        = 0x1,
 	ActivityRunning		        = 0x2,
 } ActivityBeingPerformed;
+
+void stepOneCombine();
+void stepTwoFilter();
+void stepThreeExtremal();
+void stepFourSpeed();
 
 // const uint16_t circularBufferSize = 8000;
 // uint8_t circularBufferHead = 0;
