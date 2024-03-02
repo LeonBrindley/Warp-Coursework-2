@@ -53,10 +53,11 @@ const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
 
 void updateAccelerations();
 
-// Define buffers for X, Y and Z acceleration measurements.
-int16_t XBuffer[BUFFER_SIZE];
-int16_t YBuffer[BUFFER_SIZE];
-int16_t ZBuffer[BUFFER_SIZE];
+// Define variables for the X, Y and Z acceleration measurements.
+int16_t XAcceleration, YAcceleration, ZAcceleration;
 
-// Define indexes for X, Y and Z axis samples.
-uint16_t XSampleIndex, YSampleIndex, ZSampleIndex;
+// Define a buffer to store the magnitudes of the acceleration measurements.
+int16_t AccelerationBuffer[BUFFER_SIZE];
+
+// Define an index for AccelerationBuffer.
+uint16_t BufferIndex;
