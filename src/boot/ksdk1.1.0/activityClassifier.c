@@ -90,6 +90,7 @@ void stepFourSpeed(){
     }
   }
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
+  numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative numbers of steps since booting the device.
   Speed = (360 / (1000 * 2))*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
   warpPrint("4. Speed: %d.\n", Speed);
 }
