@@ -47,6 +47,7 @@ void stepTwoFilter(){
   for (int i = 0; i < BUFFER_SIZE - 1; i++){
     LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
+  }
 }
 
 // Step 3: Perform extremal value marking by differentiating the data.
