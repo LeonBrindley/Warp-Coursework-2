@@ -74,14 +74,11 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	deviceMMA8451QState.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 
 	for(int i = 0; i < BUFFER_SIZE; i++) {
-		XBuffer[i] = 0;
-		YBuffer[i] = 0;
-		ZBuffer[i] = 0;
+		AccelerationBuffer[i] = 0;
+		LPFBuffer[i] = 0;
 	}
 
-	XSampleIndex = 0;
-	YSampleIndex = 0;
-	ZSampleIndex = 0;
+	AccelerationIndex = 0;
 	
 	return;
 }
@@ -455,19 +452,19 @@ void updateAccelerations(){
 	XMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	XLSB          = deviceMMA8451QState.i2cBuffer[1];
 	XAcceleration = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
-	XAcceleration = (XCombined ^ (1 << 13)) - (1 << 13);
+	XAcceleration = (XAcceleration ^ (1 << 13)) - (1 << 13);
 
 	// Secondly, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
 	YMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	YLSB          = deviceMMA8451QState.i2cBuffer[1];
 	YAcceleration = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
-	YAcceleration = (YCombined ^ (1 << 13)) - (1 << 13);
+	YAcceleration = (YAcceleration ^ (1 << 13)) - (1 << 13);
 
 	// Finally, update the y-axis acceleration.	
 	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
 	ZMSB	      = deviceMMA8451QState.i2cBuffer[0];
 	ZLSB          = deviceMMA8451QState.i2cBuffer[1];
 	ZAcceleration = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
-	ZAcceleration = (ZCombined ^ (1 << 13)) - (1 << 13);
+	ZAcceleration = (ZAcceleration ^ (1 << 13)) - (1 << 13);
 }
