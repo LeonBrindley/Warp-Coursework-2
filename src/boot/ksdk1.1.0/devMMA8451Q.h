@@ -46,3 +46,8 @@ uint8_t		appendSensorDataMMA8451Q(uint8_t* buf);
 const uint8_t bytesPerMeasurementMMA8451Q            = 6;
 const uint8_t bytesPerReadingMMA8451Q                = 2;
 const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
+
+extern volatile WarpI2CDeviceState	deviceMMA8451QState;
+extern volatile uint32_t		gWarpI2cBaudRateKbps;
+extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
+extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
