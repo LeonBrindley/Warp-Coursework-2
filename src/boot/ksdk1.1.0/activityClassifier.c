@@ -38,12 +38,15 @@ void stepOneCombine(){
   // Store the magnitude of the acceleration in AccelerationBuffer. 
   AccelerationBuffer[BUFFER_SIZE - 1] =  sqrt((XAcceleration*XAcceleration)
     + (YAcceleration*YAcceleration) + (ZAcceleration*ZAcceleration));
+  warpPrint("Latest Magnitude: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 }
 
 // Step 2: Low-pass filter the result to smooth out the signal.
 
 void stepTwoFilter(){
-
+  for (int i = 0; i < BUFFER_SIZE - 1; i++){
+    LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
+    warpPrint("LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
 }
 
 // Step 3: Perform extremal value marking by differentiating the data.
