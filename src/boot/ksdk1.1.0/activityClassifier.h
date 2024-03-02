@@ -17,13 +17,10 @@ void stepTwoFilter();
 void stepThreeMidpoint();
 void stepFourSpeed();
 
-float Speed; // Estimated speed in km/hr.
+WarpStatus updateAccelerations();
 
 #define SAMPLE_PERIOD 0.01 // Take a sample every 10ms.
-
-#define BUFFER_SIZE 10// Size of AccelerationBuffer and LPFBuffer.
-
-WarpStatus updateAccelerations();
+#define BUFFER_SIZE 10 // Size of AccelerationBuffer and LPFBuffer.
 
 // Define variables for the X, Y and Z acceleration measurements.
 int16_t XAcceleration, YAcceleration, ZAcceleration;
@@ -32,6 +29,9 @@ int16_t XAcceleration, YAcceleration, ZAcceleration;
 uint16_t AccelerationBuffer[BUFFER_SIZE] = {0};
 uint16_t LPFBuffer[BUFFER_SIZE] = {0};
 uint16_t maximumValue, minimumValue, LPFBufferMidpoint, numberOfCrossings;
+
+uint16_t numberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
+float Speed = 0; // Estimated speed in km/hr. Initialised to 0.
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
