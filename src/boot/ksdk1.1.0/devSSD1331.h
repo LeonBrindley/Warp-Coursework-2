@@ -44,3 +44,6 @@ typedef enum
 
 static int writeCommand(uint8_t commandByte);
 int devSSD1331init(void);
+void printLine(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blue, uint8_t green, uint8_t red);
+void printRect(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blueLine, uint8_t greenLine, uint8_t redLine, uint8_t blueFill, uint8_t greenFill, uint8_t redFill);
+void clearDisplay();
