@@ -145,12 +145,7 @@ void printGUI(){
 	/*
 	 *	Clear Screen
 	 */
-	writeCommand(kSSD1331CommandCLEAR);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0x5F);
-	writeCommand(0x3F);
-	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
+	clearDisplay();
 }
 
 void printLine(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blue, uint8_t green, uint8_t red){
@@ -178,10 +173,23 @@ void printRect(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEn
 	writeCommand(redFill); // J[5:1]:  Color A of the fill area (RED)
 }
 
-void printNumber(uint8_t number){
+void clearDisplay(){
+	writeCommand(kSSD1331CommandCLEAR);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
+}
+
+void printNumber(uint8_t column, uint8_t row, uint8_t number){
 	switch(number){
 		case 0:
 		{
+			printLine(column + 1, row - 1, column + 1, row - 7, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row - 1, column + 4, row - 7, 0xFF, 0x00, 0x00);
+			printLine(column + 1, row - 1, column + 4, row - 1, 0xFF, 0x00, 0x00);
+			printLine(column + 1, row - 7, column + 4, row - 7, 0xFF, 0x00, 0x00);	
 			break;
 		}
 		case 1:
