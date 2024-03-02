@@ -17,6 +17,8 @@ void stepTwoFilter();
 void stepThreeExtremal();
 void stepFourSpeed();
 
+float Speed; // Estimated speed in km/hr.
+
 // const uint16_t circularBufferSize = 8000;
 // uint8_t circularBufferHead = 0;
 // uint8_t circularBufferTail = 0;
