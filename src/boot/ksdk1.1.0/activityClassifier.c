@@ -140,3 +140,15 @@ WarpStatus updateAccelerations(){
 
 	return 0;
 }
+
+void printGUI(){
+	/*
+	 *	Clear Screen
+	 */
+	writeCommand(kSSD1331CommandCLEAR);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
+}
