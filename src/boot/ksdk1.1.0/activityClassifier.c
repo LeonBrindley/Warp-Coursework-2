@@ -151,40 +151,6 @@ void printGUI(){
 	clearDisplay();
 }
 
-void printLine(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blue, uint8_t green, uint8_t red){
-	writeCommand(kSSD1331CommandDRAWLINE);
-	writeCommand(colStart); // A[6:0]:  Column Address of Start 
-	writeCommand(rowStart); // B[5:0]:  Row Address of Start
-	writeCommand(colEnd); // C[6:0]:  Column Address of End
-	writeCommand(rowEnd); // D[5:0]:  Row Address of End
-	writeCommand(blue); // E[5:1]:  Color C of the line (BLUE)
-	writeCommand(green); // F[5:0]:  Color B of the line (GREEN)
-	writeCommand(red); // G[5:1]:  Color A of the line (RED)
-}
-
-void printRect(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blueLine, uint8_t greenLine, uint8_t redLine, uint8_t blueFill, uint8_t greenFill, uint8_t redFill){
-	writeCommand(kSSD1331CommandDRAWRECT);
-	writeCommand(colStart); // A[6:0]:  Column Address of Start 
-	writeCommand(rowStart); // B[5:0]:  Row Address of Start
-	writeCommand(colEnd); // C[6:0]:  Column Address of End
-	writeCommand(rowEnd); // D[5:0]:  Row Address of End
-	writeCommand(blueLine); // E[5:1]:  Color C of the line (BLUE)
-	writeCommand(greenLine); // F[5:0]:  Color B of the line (GREEN)
-	writeCommand(redLine); // G[5:1]:  Color A of the line (RED)
-	writeCommand(blueFill); // H[5:1]:  Color C of the fill area (BLUE)
-	writeCommand(greenFill); // I[5:0]:  Color B of the fill area (GREEN)
-	writeCommand(redFill); // J[5:1]:  Color A of the fill area (RED)
-}
-
-void clearDisplay(){
-	writeCommand(kSSD1331CommandCLEAR);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0x5F);
-	writeCommand(0x3F);
-	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
-}
-
 void printNumber(uint8_t column, uint8_t row, uint8_t number){
 	switch(number){
 		case 0:
