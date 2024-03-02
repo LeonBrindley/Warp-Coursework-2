@@ -53,12 +53,25 @@ void stepTwoFilter(){
 // Step 3: Perform extremal value marking by differentiating the data.
 
 void stepThreeExtremal(){
-
+  // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
+  maximumValue = 0;
+  minimumValue = 65535;
+  // Find maximum and minimum values in each time period.
+  for(int i = 0; i < BUFFER_SIZE - 1; i++){
+    if(LPFBuffer[i] > maximumValue){
+      maximumValue = LPFBuffer[i];
+    }
+    if(LPFBuffer[i] < minimumValue){
+      minimumValue = LPFBuffer[i];
+    }    
+  }
+  LPFBufferMidpoint = (maximumValue - minimumValue) / 2;
 }
 
 // Step 4: Calculate the speed over the last 10 seconds.
 
 void stepFourSpeed(){
-
+  // Count the number of crossings of the midpoint of the maximum and minimum values.
+  // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
 }
 
