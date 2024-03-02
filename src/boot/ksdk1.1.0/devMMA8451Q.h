@@ -56,13 +56,14 @@ void updateAccelerations();
 // Define variables for the X, Y and Z acceleration measurements.
 int16_t XAcceleration, YAcceleration, ZAcceleration;
 
-// Define a buffer to store the magnitudes of the acceleration measurements.
+// Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
 int16_t AccelerationBuffer[BUFFER_SIZE] = {0};
+int16_t LPFBuffer[BUFFER_SIZE] = {0};
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
 // These have been calculated using https://rfcalculator.com/FIR-Filters.
-int16_t LPFBuffer[BUFFER_SIZE] = {5, 10, 15, 20, 20, 20, 15, 10, 5, 1};
+int16_t LPFWeights[BUFFER_SIZE] = {5, 10, 15, 20, 20, 20, 15, 10, 5, 1};
 
 // Define an index for AccelerationBuffer.
 uint16_t AccelerationIndex;
