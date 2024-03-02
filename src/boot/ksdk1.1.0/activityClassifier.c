@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h> // Required for sqrt() function.
 
 /*
  *	config.h needs to come first
@@ -87,6 +88,6 @@ void stepFourSpeed(){
     }
   }
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  Speed = (360/1000)*(numberOfCrossings * 0.716) // 360 10-second periods in an hour. Divide by 1000 to convert to km/hr.
+  Speed = (360/1000)*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by 1000 to convert to km/hr.
   warpPrint("Speed: %d.\n", Speed);
 }
