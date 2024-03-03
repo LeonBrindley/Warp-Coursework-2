@@ -21,7 +21,7 @@ void stepFourSpeed();
 WarpStatus updateAccelerations();
 
 #define SAMPLE_PERIOD 0.01 // Take a sample every 10ms.
-#define BUFFER_SIZE 10 // Size of AccelerationBuffer and LPFBuffer.
+#define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 
 // Define variables for the X, Y and Z acceleration measurements.
 int16_t XAcceleration, YAcceleration, ZAcceleration;
@@ -37,7 +37,7 @@ float Speed = 0; // Estimated speed in km/hr. Initialised to 0.
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
 // These have been calculated using https://rfcalculator.com/FIR-Filters.
-int16_t LPFWeights[BUFFER_SIZE] = {5, 10, 15, 20, 20, 20, 15, 10, 5, 1};
+int16_t LPFWeights[BUFFER_SIZE] = {0, 3, 13, 43, 102, 198, 323, 451, 549, 586, 549, 451, 323, 198, 102, 43, 13, 3, 0};
 
 void printGUI();
 void printNumber(uint8_t column, uint8_t row, uint8_t number);
