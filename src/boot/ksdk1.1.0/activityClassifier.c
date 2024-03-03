@@ -50,14 +50,18 @@ void classifierAlgorithm(){
   }
   
   // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
-  if(XAcceleration > YAcceleration){
-    maximalAcceleration = XAcceleration;
+  absXAcceleration = abs(XAcceleration);
+  absYAcceleration = abs(YAcceleration);
+  absZAcceleration = abs(ZAcceleration);
+		
+  if(absXAcceleration > absYAcceleration){
+    maximalAcceleration = absXAcceleration;
   }
   else{
-    maximalAcceleration = YAcceleration;
+    maximalAcceleration = absYAcceleration;
   }
-  if(ZAcceleration > maximalAcceleration){
-    maximalAcceleration = ZAcceleration;
+  if(absZAcceleration > maximalAcceleration){
+    maximalAcceleration = absZAcceleration;
   }
   
   AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
