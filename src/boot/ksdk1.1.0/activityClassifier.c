@@ -39,10 +39,25 @@ void classifierAlgorithm(){
   maximumValue = 0;
   minimumValue = 65535;
 	
-  // Store the magnitude of the acceleration in AccelerationBuffer. 
-  AccelerationBuffer[BUFFER_SIZE - 1] =  sqrt((XAcceleration*XAcceleration)
-    + (YAcceleration*YAcceleration) + (ZAcceleration*ZAcceleration));
-  warpPrint("1. Latest Magnitude: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  for (int i = 1; i < BUFFER_SIZE - 1; i++){
+    AccelerationBuffer[i - 1] = AccelerationBuffer[i];
+    LPFBuffer[i - 1] = LPFBuffer[i];
+  }
+  
+  // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
+  if(XAcceleration > YAcceleration){
+    maximalAcceleration = XAcceleration;
+  }
+  else{
+    maximalAcceleration = YAcceleration;
+  }
+  if(ZAcceleration > maximalAcceleration){
+    maximalAcceleration = ZAcceleration;
+  }
+  
+  AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
+  warpPrint("1. Maximal Acceleration: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+	
   for (int i = 0; i < BUFFER_SIZE - 1; i++){
     LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("2. LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
@@ -79,17 +94,29 @@ void classifierAlgorithm(){
   warpPrint("4. Number of Steps: %d, Speed: %d.\n", numberOfSteps, speed);
 }
 
+// Step 1: Identify the maximal activity axis.
+
 /*
-void stepOneCombine(){
+void stepOneMaximal(){
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE - 1; i++){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
     LPFBuffer[i - 1] = LPFBuffer[i];
   }
-  // Store the magnitude of the acceleration in AccelerationBuffer. 
-  AccelerationBuffer[BUFFER_SIZE - 1] =  sqrt((XAcceleration*XAcceleration)
-    + (YAcceleration*YAcceleration) + (ZAcceleration*ZAcceleration));
-  warpPrint("1. Latest Magnitude: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  
+  // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
+  if(XAcceleration > YAcceleration){
+    maximalAcceleration = XAcceleration;
+  }
+  else{
+    maximalAcceleration = YAcceleration;
+  }
+  if(ZAcceleration > maximalAcceleration){
+    maximalAcceleration = ZAcceleration;
+  }
+  
+  AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
+  warpPrint("1. Maximal Acceleration: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 }
 
 // Step 2: Low-pass filter the result to smooth out the signal.
