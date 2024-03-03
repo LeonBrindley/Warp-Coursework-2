@@ -44,7 +44,7 @@ void classifierAlgorithm(){
   minimumValue = 65535;
 
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
-  for (int i = 1; i < BUFFER_SIZE - 1; i++){
+  for (int i = 1; i < BUFFER_SIZE; i++){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
     LPFBuffer[i - 1] = LPFBuffer[i];
   }
@@ -67,7 +67,7 @@ void classifierAlgorithm(){
   AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
   warpPrint("1. Maximal Acceleration: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 	
-  for (int i = 0; i < BUFFER_SIZE - 1; i++){
+  for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("2. LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
     if(LPFBuffer[i] > maximumValue){
@@ -82,7 +82,7 @@ void classifierAlgorithm(){
 
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
   numberOfCrossings = 0;
-  for(int i = 1; i < BUFFER_SIZE - 1; i++){
+  for(int i = 1; i < BUFFER_SIZE; i++){
     if(LPFBuffer[i - 1] > LPFBufferMidpoint){
       if(LPFBuffer[i] < LPFBufferMidpoint){
         numberOfCrossings++;
@@ -107,7 +107,7 @@ void classifierAlgorithm(){
 /*
 void stepOneMaximal(){
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
-  for (int i = 1; i < BUFFER_SIZE - 1; i++){
+  for (int i = 1; i < BUFFER_SIZE ; i++){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
     LPFBuffer[i - 1] = LPFBuffer[i];
   }
@@ -130,7 +130,7 @@ void stepOneMaximal(){
 // Step 2: Low-pass filter the result to smooth out the signal.
 
 void stepTwoFilter(){
-  for (int i = 0; i < BUFFER_SIZE - 1; i++){
+  for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("2. LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
   }
@@ -143,7 +143,7 @@ void stepThreeMidpoint(){
   maximumValue = 0;
   minimumValue = 65535;
   // Find maximum and minimum values in each time period.
-  for(int i = 0; i < BUFFER_SIZE - 1; i++){
+  for(int i = 0; i < BUFFER_SIZE; i++){
     if(LPFBuffer[i] > maximumValue){
       maximumValue = LPFBuffer[i];
     }
@@ -161,14 +161,14 @@ void stepFourSpeed(){
   // Count the number of crossings of the midpoint of the maximum and minimum values.
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
   numberOfCrossings = 0;
-  for(int i = 0; i < BUFFER_SIZE - 2; i++){
-    if(LPFBuffer[i] > LPFBufferMidpoint){
-      if(LPFBuffer[i + 1] < LPFBufferMidpoint){
+  for(int i = 0; i < BUFFER_SIZE; i++){
+    if(LPFBuffer[i - 1] > LPFBufferMidpoint){
+      if(LPFBuffer[i] < LPFBufferMidpoint){
         numberOfCrossings++;
       }
     }
-    else if(LPFBuffer[i] < LPFBufferMidpoint){
-      if(LPFBuffer[i + 1] > LPFBufferMidpoint){
+    else if(LPFBuffer[i - 1] < LPFBufferMidpoint){
+      if(LPFBuffer[i] > LPFBufferMidpoint){
         numberOfCrossings++; 
       }
     }
