@@ -201,14 +201,15 @@ void printNumber(uint8_t column, uint8_t row, uint8_t number){
 	switch(number){
 		case 0:
 		{
-			printLine(column + 1, row - 1, column + 1, row - 7, 0xFF, 0x00, 0x00);
-			printLine(column + 4, row - 1, column + 4, row - 7, 0xFF, 0x00, 0x00);
-			printLine(column + 1, row - 1, column + 4, row - 1, 0xFF, 0x00, 0x00);
-			printLine(column + 1, row - 7, column + 4, row - 7, 0xFF, 0x00, 0x00);	
+			printLine(column, row, column, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
+			printLine(column + 20, row + 40, column, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column + 20, row + 40, column + 20, row, 0xFF, 0x00, 0x00);	
 			break;
 		}
 		case 1:
 		{
+			printLine(column + 20, row + 40, column + 20, row, 0xFF, 0x00, 0x00);	
 			break;
 		}
 		case 2:
