@@ -78,6 +78,7 @@
 */
 #include "devMMA8451Q.h"
 #include "devSSD1331.h"
+#include "activityClassifier.h"
 
 /*
 * Include all sensors when not using the FRDM-KL03 variant because they will be needed to decode flash.
