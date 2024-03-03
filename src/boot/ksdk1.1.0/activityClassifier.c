@@ -34,7 +34,11 @@
 // Combine all steps in classifierAlgorithm().
 
 void classifierAlgorithm(){
-	
+
+  warpPrint("Running updateAccelerations() now.\n");
+  updateAccelerations();
+  warpPrint("Finished running updateAccelerations().\n");
+
   // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
   maximumValue = 0;
   minimumValue = 65535;
