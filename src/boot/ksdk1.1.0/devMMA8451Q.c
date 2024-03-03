@@ -63,6 +63,7 @@
 void
 initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 {
+	warpPrint("Initialising MMA8451Q accelerometer.");
 	deviceMMA8451QState.i2cAddress			= i2cAddress;
 	deviceMMA8451QState.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 
@@ -71,13 +72,10 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 		LPFBuffer[i] = 0;
 	}
 
+	/*
 	classifierAlgorithm();
 	OSA_TimeDelay(5000);
-	classifierAlgorithm();
-	OSA_TimeDelay(5000);
-	classifierAlgorithm();
-	OSA_TimeDelay(5000);
-	classifierAlgorithm();
+	*/
 	
 	/*
 	stepOneCombine();
