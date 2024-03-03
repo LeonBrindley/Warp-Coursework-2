@@ -1238,7 +1238,7 @@ printBootSplash(uint16_t gWarpCurrentSupplyVoltage, uint8_t menuRegisterAddress,
 	 */
 	warpPrint("\r\n\n\n\n[ *\t\t\t\tWarp (HW revision C) / Glaux (HW revision B)\t\t\t* ]\n");
 	warpPrint("\r[  \t\t\t\t      Cambridge / Physcomplab   \t\t\t\t  ]\n\n");
-	warpPrint("\r[  \t\t\t\t      4B25 Coursework - Leon Brindley   \t\t\t\t  ]\n\n");
+	warpPrint("\r[  \t\t\t\t      4B25 Coursework - Leon Brindley   \t\t\t  ]\n\n");
 	warpPrint("\r\tSupply=%dmV,\tDefault Target Read Register=0x%02x\n",
 			  gWarpCurrentSupplyVoltage, menuRegisterAddress);
 	warpPrint("\r\tI2C=%dkb/s,\tSPI=%dkb/s,\tUART=%db/s,\tI2C Pull-Up=%d\n\n",
@@ -2055,6 +2055,13 @@ main(void)
 	// warpPrint("\nFinished calling initINA219().\n");
 	// OSA_TimeDelay(5000);
 
+	warpPrint("\nCalling classifierAlgorithm() now.\n");	
+	classifierAlgorithm();
+	OSA_TimeDelay(5000);
+	classifierAlgorithm();
+	OSA_TimeDelay(5000);
+	warpPrint("\nFinished calling classifierAlgorithm().\n");
+	
 	while (1)
 	{
 		/*
