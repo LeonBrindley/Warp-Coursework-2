@@ -69,7 +69,7 @@ void classifierAlgorithm(){
 	
   for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
-    warpPrint("2. LPFBuffer[%d]: %d.\n", i, LPFBuffer[i]);
+    warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
     if(LPFBuffer[i] > maximumValue){
       maximumValue = LPFBuffer[i];
     }
