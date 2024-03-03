@@ -1,3 +1,4 @@
+/*
 typedef enum
 {
 	kMMA8451QXAxis			= 0x0,
@@ -11,12 +12,15 @@ typedef enum
 	ActivityWalking		        = 0x1,
 	ActivityRunning		        = 0x2,
 } ActivityBeingPerformed;
+*/
 
 void classifierAlgorithm();
+/*
 void stepOneCombine();
 void stepTwoFilter();
 void stepThreeMidpoint();
 void stepFourSpeed();
+*/
 
 WarpStatus updateAccelerations();
 
@@ -27,12 +31,12 @@ WarpStatus updateAccelerations();
 int16_t XAcceleration, YAcceleration, ZAcceleration;
 
 // Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
-uint16_t AccelerationBuffer[BUFFER_SIZE] = {0};
-uint16_t LPFBuffer[BUFFER_SIZE] = {0};
-uint16_t maximumValue, minimumValue, LPFBufferMidpoint, numberOfCrossings;
+uint16_t AccelerationBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
+uint16_t LPFBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
+uint16_t maximumValue, minimumValue, LPFBufferMidpoint, numberOfCrossings; // Not set until the classification algorithm runs.
 
 uint16_t numberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
-float Speed = 0; // Estimated speed in km/hr. Initialised to 0.
+float speed = 0; // Estimated speed in km/hr. Initialised to 0.
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
