@@ -224,9 +224,8 @@ void printNumber(uint8_t column, uint8_t row, uint8_t number){
 		case 3:
 		{
 			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 20, 0xFF, 0x00, 0x00);
+			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column + 20, row + 20, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			break;
 		}
@@ -234,8 +233,7 @@ void printNumber(uint8_t column, uint8_t row, uint8_t number){
 		{
 			printLine(column, row, column, row + 20, 0xFF, 0x00, 0x00);
 			printLine(column, row + 20, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 5:
@@ -250,8 +248,7 @@ void printNumber(uint8_t column, uint8_t row, uint8_t number){
 		case 6:
 		{
 			printLine(column + 20, row, column, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 20, column, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column + 20, row + 40, column + 20, row + 20, 0xFF, 0x00, 0x00);
 			printLine(column + 20, row + 20, column, row + 20, 0xFF, 0x00, 0x00);
@@ -260,18 +257,15 @@ void printNumber(uint8_t column, uint8_t row, uint8_t number){
 		case 7:
 		{
 			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 8:
 		{
 			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 20, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column, row + 20, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 20, column, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			break;
 		}
@@ -279,9 +273,8 @@ void printNumber(uint8_t column, uint8_t row, uint8_t number){
 		{
 			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
 			printLine(column, row, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 20, 0xFF, 0x00, 0x00);
+			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column, row + 20, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
 			break;
 		}
