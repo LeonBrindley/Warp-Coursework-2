@@ -33,6 +33,7 @@ int16_t XAcceleration, YAcceleration, ZAcceleration;
 // Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
 uint16_t AccelerationBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
 uint16_t LPFBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
+uint16_t absXAcceleration, absYAcceleration, absZAcceleration; // Absolute values of the X, Y and Z acceleration measurements.
 uint16_t maximalAcceleration, maximumValue, minimumValue, LPFBufferMidpoint, numberOfCrossings; // Not set until the classification algorithm runs.
 
 uint16_t numberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
