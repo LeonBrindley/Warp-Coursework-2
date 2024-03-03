@@ -12,6 +12,7 @@ typedef enum
 	ActivityRunning		        = 0x2,
 } ActivityBeingPerformed;
 
+void classifierAlgorithm();
 void stepOneCombine();
 void stepTwoFilter();
 void stepThreeMidpoint();
