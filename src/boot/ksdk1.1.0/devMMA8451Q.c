@@ -71,6 +71,14 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 		LPFBuffer[i] = 0;
 	}
 
+	classifierAlgorithm();
+	OSA_TimeDelay(5000);
+	classifierAlgorithm();
+	OSA_TimeDelay(5000);
+	classifierAlgorithm();
+	OSA_TimeDelay(5000);
+	classifierAlgorithm();
+	
 	/*
 	stepOneCombine();
 	stepTwoFilter();
