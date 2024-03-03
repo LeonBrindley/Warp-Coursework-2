@@ -28,11 +28,11 @@
 #include "activityClassifier.h"
 
 // See example implementation at https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
-// As I want to calculate the actual speed, the code below calculates the magnitude of the acceleration instead of simply detecting the maximal axis.
-// Try a sampling rate of 50Hz, which matches the algorithm at https://www.ti.com/lit/pdf/slaa599. Decrease this if there is insufficient memory.
-// The algorithm referenced above requires 1.2 kilobytes of code memory and 640 bytes of data memory. 
+// As I want to calculate the actual speed, the code below calculates the magnitude of the acceleration instead of simply detecting the maximal activity axis.
+// Try a sampling rate of 50Hz, which matches the algorithm found at https://www.ti.com/lit/pdf/slaa599. Decrease this if there is insufficient memory.
+// The algorithm referenced above requires 1.2 kilobytes of code memory and 640 bytes of data memory, but makes use of efficient fixed-point computations. 
 
-// Step 1: Combine all three axes using 3D Pythagoras' theorem.
+// Combine all steps in classifierAlgorithm().
 
 void classifierAlgorithm(){
   // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
@@ -75,8 +75,8 @@ void classifierAlgorithm(){
   }
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative numbers of steps since booting the device.
-  Speed = (360 / (1000 * 2))*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
-  warpPrint("4. Speed: %d.\n", Speed);
+  speed = (360 / (1000 * 2))*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
+  warpPrint("4. Number of Steps: %d, Speed: %d.\n", numberOfSteps, speed);
 }
 
 /*
