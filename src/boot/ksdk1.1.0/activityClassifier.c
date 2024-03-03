@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <math.h> // Required for sqrt() function.
 
 /*
  *	config.h needs to come first
@@ -35,10 +34,12 @@
 // Combine all steps in classifierAlgorithm().
 
 void classifierAlgorithm(){
+	
   // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
   maximumValue = 0;
   minimumValue = 65535;
-	
+
+  // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE - 1; i++){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
     LPFBuffer[i - 1] = LPFBuffer[i];
@@ -84,14 +85,13 @@ void classifierAlgorithm(){
         numberOfCrossings++; 
       }
     }
-    // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
-    AccelerationBuffer[i - 1] = AccelerationBuffer[i];
-    LPFBuffer[i - 1] = LPFBuffer[i];
   }
+	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative numbers of steps since booting the device.
   speed = (360 / (1000 * 2))*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
   warpPrint("4. Number of Steps: %d, Speed: %d.\n", numberOfSteps, speed);
+
 }
 
 // Step 1: Identify the maximal activity axis.
@@ -171,6 +171,7 @@ void stepFourSpeed(){
   warpPrint("4. Speed: %d.\n", Speed);
 }
 */
+
 WarpStatus updateAccelerations(){
 	uint16_t XLSB, YLSB, ZLSB;
 	uint16_t XMSB, YMSB, ZMSB;
