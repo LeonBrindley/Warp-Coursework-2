@@ -41,7 +41,7 @@ void classifierAlgorithm(){
 
   // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
   maximumValue = 0;
-  minimumValue = 65535;
+  minimumValue = 4294967295;
 
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
@@ -141,7 +141,7 @@ void stepTwoFilter(){
 void stepThreeMidpoint(){
   // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
   maximumValue = 0;
-  minimumValue = 65535;
+  minimumValue = 4294967295;
   // Find maximum and minimum values in each time period.
   for(int i = 0; i < BUFFER_SIZE; i++){
     if(LPFBuffer[i] > maximumValue){
