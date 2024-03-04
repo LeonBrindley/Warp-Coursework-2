@@ -2,6 +2,8 @@
  *	See https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino for the Arduino driver.
  */
 
+#pragma once
+
 typedef enum
 {
 	kSSD1331ColororderRGB		= 1,
