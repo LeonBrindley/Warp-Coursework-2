@@ -66,7 +66,16 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	warpPrint("Initialising MMA8451Q accelerometer.\n");
 	deviceMMA8451QState.i2cAddress			= i2cAddress;
 	deviceMMA8451QState.operatingVoltageMillivolts	= operatingVoltageMillivolts;
-
+	
+	uint8_t configErrors = 0;
+	configErrors += configureSensorMMA8451Q(
+		0x00, /* Payload: Disable FIFO */
+		0x00, /* Normal read 14-bit (F_READ = 0), 800Hz, normal, standby mode */
+		0x00, /* HPF enabled for pulse processing with default HPF cut-off frequency of 16 Hz @ 800Hz ODR */
+  		0x12 /* Output data high-pass filtered with full-scale range of 8g */
+	);
+	warpPrint("configErrors: %d.\n", configErrors);
+	
 	for(int i = 0; i < BUFFER_SIZE; i++) {
 		AccelerationBuffer[i] = 0;
 		LPFBuffer[i] = 0;
