@@ -3262,7 +3262,7 @@ writeAllSensorsToFlash(int menuDelayBetweenEachRun, int loopForever)
 	numberOfConfigErrors += configureSensorMMA8451Q(
 		0x00, /* Payload: Disable FIFO */
 		0x01,  /* Normal read 8bit, 800Hz, normal, active mode */
-		0x20, /* HPF enabled for pulse processing with default HPF cut-off frequency */
+		0x00, /* HPF enabled for pulse processing with default HPF cut-off frequency */
   		0x12 /* Output data high-pass filtered with full-scale range of 8g */
 	);
 	sensorBitField = sensorBitField | kWarpFlashMMA8451QBitField;
