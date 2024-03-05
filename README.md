@@ -54,6 +54,8 @@ Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed
 
 **src/boot/ksdk1.1.0/boot.c** - Contains the main() function that runs when the program boots. For example, the function classifierAlgorithm() is repeatedly called here using a for loop to execute the activity classifier algorithm.
 
+**src/boot/ksdk1.1.0/config.h** - Configures the Warp firmware for the platform in question (in this case, the FRDM-KL03Z). For the activity classifier algorithm to work, WARP_BUILD_ENABLE_DEVMMA8451Q must be set to 1. Furthermore, as two bytes are required for each axis (X, Y and Z), kWarpSizesI2cBufferBytes mut be set to at least 6.
+
 # Baseline firmware for the [Warp](https://github.com/physical-computation/Warp-hardware) family of hardware platforms
 This is the firmware for the [Warp hardware](https://github.com/physical-computation/Warp-hardware) and its publicly available and unpublished derivatives. This firmware also runs on the Freescale/NXP FRDM KL03 evaluation board which we use for teaching at the University of Cambridge. When running on platforms other than Warp, only the sensors available in the corresponding hardware platform are accessible.
 
