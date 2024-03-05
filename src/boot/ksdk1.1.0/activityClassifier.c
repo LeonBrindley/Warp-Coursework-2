@@ -42,7 +42,8 @@ void classifierAlgorithm(){
   // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
   maximumValue = 0;
   minimumValue = 4294967295;
-
+  warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
+	
   for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[BUFFER_SIZE - 1] += AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
@@ -80,18 +81,18 @@ void classifierAlgorithm(){
 }
 
 WarpStatus updateAccelerations(){
-	uint16_t XLSB, YLSB, ZLSB;
-	uint16_t XMSB, YMSB, ZMSB;
-	WarpStatus i2cReadStatus;
+  uint16_t XLSB, YLSB, ZLSB;
+  uint16_t XMSB, YMSB, ZMSB;
+  WarpStatus i2cReadStatus;
 
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
+  warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 	
-	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */);
-	warpPrint("Reading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
-	if (i2cReadStatus != kWarpStatusOK){
-		warpPrint("Failed to read acceleration measurements.\n");
-		return i2cReadStatus;
-	}
+  i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */);
+  warpPrint("Reading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
+  if (i2cReadStatus != kWarpStatusOK){
+    warpPrint("Failed to read acceleration measurements.\n");
+    return i2cReadStatus;
+  }
 	
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
