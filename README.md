@@ -6,7 +6,7 @@
 
 **CRSid: lpb32**
 
-This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm.
+This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm and a Freescale MMA8451Q accelerometer.
 
 **Step 1: Maximal Axis Detection**
 
@@ -14,7 +14,7 @@ Firstly, the 14-bit acceleration measurements from the X, Y and Z axes are parse
 
 **Step 2: Low-Pass Filter**
 
-Secondly, the AccelerationBuffer is multiplied by an array of coefficients to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated.
+Secondly, the AccelerationBuffer is multiplied by an array of coefficients (LPFBuffer) to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated. By default, **19** results are stored in the LPFBuffer.
 
 **Step 3: Frequency Calculation**
 
@@ -30,7 +30,17 @@ To set the low-pass filter frequency, you can use a program such as [WinRFCalc](
 
 ![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/563aa687-9ea1-47fe-91f3-3aad7a22c78a)
 
-<div style="page-break-after: always;"></div>
+**Configuration: MMA8451Q Registers**
+
+The MMA8451Q accelerometer is configured by writing to the registers **F_SETUP**, **CTRL_REG1**, **HP_FILTER_CUTOFF** and **XYZ_DATA_CFG**. The structures of each register are explained in [Freescale's MMA8451Q datasheet](https://pdf1.alldatasheet.com/datasheet-pdf/download/460022/FREESCALE/MMA8451Q.html).
+
+Firstly, F_SETUP is set to **0x00** to disable the internal first-in, first-out (FIFO) buffer.
+
+Secondly, CTRL_REG1 is set to **0x05** to select a 14-bit resolution and activate the reduced noise mode. In contrast, if the **F_READ** bit is set to **1**, then an 8-bit resolution can be used for faster data transfer.
+
+Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass filter with its default cut-off frequency of 16 Hz and its default output data rate (ODR) of 800 Hz. This high-pass filter removes the acceleration due to gravity, which forms a DC offset.
+
+Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals 4g.
 
 # Baseline firmware for the [Warp](https://github.com/physical-computation/Warp-hardware) family of hardware platforms
 This is the firmware for the [Warp hardware](https://github.com/physical-computation/Warp-hardware) and its publicly available and unpublished derivatives. This firmware also runs on the Freescale/NXP FRDM KL03 evaluation board which we use for teaching at the University of Cambridge. When running on platforms other than Warp, only the sensors available in the corresponding hardware platform are accessible.
