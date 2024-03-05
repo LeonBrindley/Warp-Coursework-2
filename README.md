@@ -8,7 +8,7 @@
 
 <ins>**Summary**</ins>
 
-This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are **stationary**, **walking** or **running** from this. The classification is determined using a four-step algorithm and a **Freescale MMA8451Q** accelerometer. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains an integrated MMA8451Q accelerometer by default.
+This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are **stationary**, **walking** or **running** from this. The classification is determined using a five-step algorithm and a **Freescale MMA8451Q** accelerometer. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains an integrated MMA8451Q accelerometer by default.
 
 <ins>**Step 1: Maximal Axis Detection**</ins>
 
@@ -24,7 +24,11 @@ Thirdly, the frequency of the signal is extracted by counting the number of time
 
 <ins>**Step 4: Step Counting and Speed Calculation**</ins>
 
-Finally, the number of steps in a particular period of time is extracted from the data. By accounting for the length of each step, the algorithm also estimates the speed at which the device is moving. Please note that the speed results will only become valid once the AccelerationBuffer and LPFBuffer have been filled.
+Fourthly, the number of steps in a particular period of time is extracted from the data. By accounting for the length of each step, the algorithm also estimates the speed at which the device is moving. Please note that the speed results will only become valid once the AccelerationBuffer and LPFBuffer have been filled.
+
+<ins>**Step 5: Activity Classification**</ins>
+
+Finally, the aforementioned speed calculation is converted to an activity. [Long and Srinivasan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106) have shown that the average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s. Therefore, the **activityReading** variable is set to **ActivityRunning** if the speed exceeds 2.2 m/s (7.92 km/hr). Meanwhile, [Graham et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707) have shown that mean walking speeds of 0.23 m/s have been reported for older adults in geriatric rehabilitation settings. Therefore, the **activityReading** variable is set to **ActivityWalking** if the speed is between 0.23 m/s (0.828 km/hr) and 2.2 m/s (7.92 km/hr). Similarly, if the speed is below 0.23 m/s (0.828 km/hr), the **activityReading** variable is set to **ActivityStationary**.
 
 <ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
 
