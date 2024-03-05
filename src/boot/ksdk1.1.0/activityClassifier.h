@@ -7,16 +7,17 @@ typedef enum
 	kMMA8451QYAxis		        = 0x1,
 	kMMA8451QZAxis		        = 0x2,
 } MMA8451QConstants;
+*/
 
 typedef enum
 {
 	ActivityStationary		= 0x0,
 	ActivityWalking		        = 0x1,
 	ActivityRunning		        = 0x2,
-} ActivityBeingPerformed;
-*/
+} detectedActivity;
 
 void classifierAlgorithm();
+
 /*
 void stepOneCombine();
 void stepTwoFilter();
@@ -33,6 +34,9 @@ WarpStatus updateAccelerations();
 int16_t XAcceleration = 0;
 int16_t YAcceleration = 0;
 int16_t ZAcceleration = 0;
+
+// Declare activityReading as the enumerated type detectedActivity defined above.
+detectedActivity activityReading;
 
 // Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
 uint16_t AccelerationBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
