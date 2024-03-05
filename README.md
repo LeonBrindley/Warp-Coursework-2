@@ -1,6 +1,9 @@
 # 4B25 Coursework 4 - Accelerometer-Based Activity Classifier with Uncertainty Estimates
+
 **Name: Leon Brindley**
+
 **College: Gonville and Caius**
+
 **CRSid: lpb32**
 
 This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm.
@@ -26,6 +29,8 @@ Finally, the number of steps in a particular period of time is extracted from th
 To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is odd and that the sampling frequency is at least twice the cut-off frequency (to fulfil the Nyquist Criterion). In the example below, there are 19 taps, and the cut-off frequency and sampling frequency are set to 450Hz and 16,384Hz, respectively.
 
 ![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/563aa687-9ea1-47fe-91f3-3aad7a22c78a)
+
+<div style="page-break-after: always;"></div>
 
 # Baseline firmware for the [Warp](https://github.com/physical-computation/Warp-hardware) family of hardware platforms
 This is the firmware for the [Warp hardware](https://github.com/physical-computation/Warp-hardware) and its publicly available and unpublished derivatives. This firmware also runs on the Freescale/NXP FRDM KL03 evaluation board which we use for teaching at the University of Cambridge. When running on platforms other than Warp, only the sensors available in the corresponding hardware platform are accessible.
