@@ -43,30 +43,6 @@ void classifierAlgorithm(){
   maximumValue = 0;
   minimumValue = 4294967295;
 
-  // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
-  for (int i = 1; i < BUFFER_SIZE; i++){
-    AccelerationBuffer[i - 1] = AccelerationBuffer[i];
-    LPFBuffer[i - 1] = LPFBuffer[i];
-  }
-  
-  // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
-  absXAcceleration = abs(XAcceleration);
-  absYAcceleration = abs(YAcceleration);
-  absZAcceleration = abs(ZAcceleration);
-		
-  if(absXAcceleration > absYAcceleration){
-    maximalAcceleration = absXAcceleration;
-  }
-  else{
-    maximalAcceleration = absYAcceleration;
-  }
-  if(absZAcceleration > maximalAcceleration){
-    maximalAcceleration = absZAcceleration;
-  }
-  
-  AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
-  warpPrint("1. Maximal Acceleration: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
-	
   for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[BUFFER_SIZE - 1] += AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
@@ -117,29 +93,53 @@ WarpStatus updateAccelerations(){
 		return i2cReadStatus;
 	}
 	
-	XMSB	      = deviceMMA8451QState.i2cBuffer[0];
-	XLSB          = deviceMMA8451QState.i2cBuffer[1];
-	XAcceleration = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
-	XAcceleration = (XAcceleration ^ (1 << 13)) - (1 << 13);
-	warpPrint("XMSB: %d.\n", XMSB);
-	warpPrint("XLSB: %d.\n", XLSB);
-	warpPrint("XAcceleration: %d.\n", XAcceleration);
-	YMSB	      = deviceMMA8451QState.i2cBuffer[2];
-	YLSB          = deviceMMA8451QState.i2cBuffer[3];
-	YAcceleration = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
-	YAcceleration = (YAcceleration ^ (1 << 13)) - (1 << 13);
-	warpPrint("YMSB: %d.\n", YMSB);
-	warpPrint("YLSB: %d.\n", YLSB);
-	warpPrint("YAcceleration: %d.\n", YAcceleration);
-	ZMSB	      = deviceMMA8451QState.i2cBuffer[4];
-	ZLSB          = deviceMMA8451QState.i2cBuffer[5];
-	ZAcceleration = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
-	ZAcceleration = (ZAcceleration ^ (1 << 13)) - (1 << 13);
-	warpPrint("ZMSB: %d.\n", ZMSB);
-	warpPrint("ZLSB: %d.\n", ZLSB);
-	warpPrint("ZAcceleration: %d.\n", ZAcceleration);
+  XMSB = deviceMMA8451QState.i2cBuffer[0];
+  XLSB = deviceMMA8451QState.i2cBuffer[1];
+  XAcceleration = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
+  XAcceleration = (XAcceleration ^ (1 << 13)) - (1 << 13);
+  warpPrint("XMSB: %d.\n", XMSB);
+  warpPrint("XLSB: %d.\n", XLSB);
+  warpPrint("XAcceleration: %d.\n", XAcceleration);
+  YMSB = deviceMMA8451QState.i2cBuffer[2];
+  YLSB = deviceMMA8451QState.i2cBuffer[3];
+  YAcceleration = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
+  YAcceleration = (YAcceleration ^ (1 << 13)) - (1 << 13);
+  warpPrint("YMSB: %d.\n", YMSB);
+  warpPrint("YLSB: %d.\n", YLSB);
+  warpPrint("YAcceleration: %d.\n", YAcceleration);
+  ZMSB = deviceMMA8451QState.i2cBuffer[4];
+  ZLSB = deviceMMA8451QState.i2cBuffer[5];
+  ZAcceleration = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
+  ZAcceleration = (ZAcceleration ^ (1 << 13)) - (1 << 13);
+  warpPrint("ZMSB: %d.\n", ZMSB);
+  warpPrint("ZLSB: %d.\n", ZLSB);
+  warpPrint("ZAcceleration: %d.\n", ZAcceleration);
 
-	return 0;
+  // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
+  for (int i = 1; i < BUFFER_SIZE; i++){
+    AccelerationBuffer[i - 1] = AccelerationBuffer[i];
+    LPFBuffer[i - 1] = LPFBuffer[i];
+  }
+  
+  // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
+  absXAcceleration = abs(XAcceleration);
+  absYAcceleration = abs(YAcceleration);
+  absZAcceleration = abs(ZAcceleration);
+		
+  if(absXAcceleration > absYAcceleration){
+    maximalAcceleration = absXAcceleration;
+  }
+  else{
+    maximalAcceleration = absYAcceleration;
+  }
+  if(absZAcceleration > maximalAcceleration){
+    maximalAcceleration = absZAcceleration;
+  }
+  
+  AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
+  warpPrint("1. Maximal Acceleration: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+	
+  return 0;
 }
 
 void printGUI(){
