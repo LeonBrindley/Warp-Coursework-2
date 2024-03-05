@@ -47,7 +47,7 @@ float speed = 0; // Estimated speed in km/hr. Initialised to 0.
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
 // These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied by 10,000.
-int16_t LPFWeights[BUFFER_SIZE] = {0, 3, 13, 43, 102, 198, 323, 451, 549, 586, 549, 451, 323, 198, 102, 43, 13, 3, 0};
+int16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34};
 
 void printGUI();
 void printNumber(uint8_t column, uint8_t row, uint8_t number);
