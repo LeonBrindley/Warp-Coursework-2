@@ -8,15 +8,15 @@
 
 <ins>**Summary**</ins>
 
-This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm and a Freescale MMA8451Q accelerometer. The design was implemented using a Freescale FRDM-KL03Z development platform, which contains the MMA8451Q by default.
+This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm and a **Freescale MMA8451Q accelerometer**. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains the MMA8451Q by default.
 
 <ins>**Step 1: Maximal Axis Detection**</ins>
 
-Firstly, the 14-bit acceleration measurements from the X, Y and Z axes are parsed, and the highest of these three readings is appended to the AccelerationBuffer. By default, **19** results are stored in the AccelerationBuffer.
+Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed, and the highest of these three readings is appended to the **AccelerationBuffer**. By default, **19** results are stored in the AccelerationBuffer.
 
 <ins>**Step 2: Low-Pass Filter**</ins>
 
-Secondly, the AccelerationBuffer is multiplied by an array of coefficients (LPFBuffer) to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated. By default, **19** results are stored in the LPFBuffer.
+Secondly, the AccelerationBuffer is multiplied by an array of coefficients (**LPFBuffer**) to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated. By default, **19** results are stored in the LPFBuffer.
 
 <ins>**Step 3: Frequency Calculation**</ins>
 
@@ -28,7 +28,7 @@ Finally, the number of steps in a particular period of time is extracted from th
 
 <ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
 
-To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is odd and that the sampling frequency is at least twice the cut-off frequency (to fulfil the Nyquist Criterion). In the example below, there are 19 taps, and the cut-off frequency and sampling frequency are set to 450Hz and 16,384Hz, respectively.
+To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). In the example below, there are **19** taps, and the cut-off frequency and sampling frequency are set to **450 Hz** and **16,384 Hz**, respectively.
 
 ![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/563aa687-9ea1-47fe-91f3-3aad7a22c78a)
 
