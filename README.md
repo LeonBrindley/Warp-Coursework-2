@@ -42,6 +42,14 @@ Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass 
 
 Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals 4g.
 
+<ins>**File Structure**</ins>
+
+**src/boot/ksdk1.1.0/activityClassifier.c**
+
+**src/boot/ksdk1.1.0/devMMA8451Q.c**
+
+**src/boot/ksdk1.1.0/boot.c**
+
 # Baseline firmware for the [Warp](https://github.com/physical-computation/Warp-hardware) family of hardware platforms
 This is the firmware for the [Warp hardware](https://github.com/physical-computation/Warp-hardware) and its publicly available and unpublished derivatives. This firmware also runs on the Freescale/NXP FRDM KL03 evaluation board which we use for teaching at the University of Cambridge. When running on platforms other than Warp, only the sensors available in the corresponding hardware platform are accessible.
 
