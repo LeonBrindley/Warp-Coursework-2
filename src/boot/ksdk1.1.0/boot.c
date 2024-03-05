@@ -2057,11 +2057,11 @@ main(void)
 	initMMA8451Q(	0x1D	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsMMA8451Q	);
 	OSA_TimeDelay(5000);
 	
-	warpPrint("\nCalling classifierAlgorithm() now.\n");	
-	classifierAlgorithm();
-	OSA_TimeDelay(5000);
-	classifierAlgorithm();
-	OSA_TimeDelay(5000);
+	warpPrint("\nCalling classifierAlgorithm() now.\n");
+	for (int i = 0; i < 100; i++){
+	  classifierAlgorithm();
+	  OSA_TimeDelay(500);
+	}
 	warpPrint("\nFinished calling classifierAlgorithm().\n");
 	
 	while (1)
