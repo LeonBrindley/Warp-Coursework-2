@@ -8,11 +8,11 @@
 
 <ins>**Summary**</ins>
 
-This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm and a **Freescale MMA8451Q accelerometer**. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains the MMA8451Q by default.
+This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are **stationary**, **walking** or **running** from this. The classification is determined using a four-step algorithm and a **Freescale MMA8451Q** accelerometer. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains an integrated MMA8451Q accelerometer by default.
 
 <ins>**Step 1: Maximal Axis Detection**</ins>
 
-Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed, and the highest of these three readings is appended to the **AccelerationBuffer**. By default, **19** results are stored in the AccelerationBuffer.
+Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed, and the highest of these three readings is appended to the **AccelerationBuffer**. By default, **19** results are stored in the AccelerationBuffer. This option was chosen over calculating the magnitude using Pythagoras' theorem across three cartesian axes due to the size of the **sqrt()** function relative to the FRDM-KL03Z's **2 KB** of SRAM.
 
 <ins>**Step 2: Low-Pass Filter**</ins>
 
@@ -20,7 +20,7 @@ Secondly, the AccelerationBuffer is multiplied by an array of coefficients (**LP
 
 <ins>**Step 3: Frequency Calculation**</ins>
 
-Thirdly, the frequency of the signal is extracted by counting the number of times its midpoint is crossed. Alternatively, the signal can be differentiated.
+Thirdly, the frequency of the signal is extracted by counting the number of times its midpoint is crossed. Alternatively, the signal can be differentiated to identify its maxima and minima.
 
 <ins>**Step 4: Step Counting and Speed Calculation**</ins>
 
@@ -38,17 +38,17 @@ The MMA8451Q accelerometer is configured by writing to the registers **F_SETUP**
 
 Firstly, F_SETUP is set to **0x00** to disable the internal first-in, first-out (FIFO) buffer.
 
-Secondly, CTRL_REG1 is set to **0x05** to select a 14-bit resolution and activate the reduced noise mode. In contrast, if the **F_READ** bit is set to **1**, then an 8-bit resolution can be used for faster data transfer.
+Secondly, CTRL_REG1 is set to **0x05** to select a **14-bit** resolution and activate the **reduced noise mode**. In contrast, if the **F_READ** bit is set to **1**, then an **8-bit** resolution can be used for faster data transfer.
 
-Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass filter with its default cut-off frequency of 16 Hz and its default output data rate (ODR) of 800 Hz. This high-pass filter removes the acceleration due to gravity, which forms a DC offset.
+Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass filter with its default cut-off frequency of **16 Hz** and its default output data rate (ODR) of **800 Hz**. This high-pass filter removes the acceleration due to **gravity** (g), which forms a DC offset.
 
-Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals 4g.
+Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals **4g**.
 
 <ins>**File Structure**</ins>
 
-`src/boot/ksdk1.1.0/activityClassifier.c` - Implements the four steps of the activity classifier algorithm. This source file also includes the function **printNumber()** so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function **printLine()** to mimic multiple seven-segment displays.
+`src/boot/ksdk1.1.0/activityClassifier.c` - Implements the four steps of the activity classifier algorithm. This source file also includes the function **printNumber()** so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function **printLine()** to mimic multiple seven-segment displays alongside each other.
 
-`src/boot/ksdk1.1.0/devMMA8451Q.c` - Driver for communicating with MMA8451Q accelerometers. For example, the function **configureSensorMMA8451Q()** will write to the MMA8451Q configuration registers explained above. The I2C of the MMA8451Q must be set to **0x1D** when calling initMMA8451Q in boot.c with the FRDM-KL03Z. When using the FRDM-KL03Z, as opposed to the more complicated Warp platform, the MMA8451Q's operating voltage cannot be dynamically altered, so the operatingVoltageMillivolts member variable has no effect.
+`src/boot/ksdk1.1.0/devMMA8451Q.c` - Driver for communicating with MMA8451Q accelerometers. For example, the function **configureSensorMMA8451Q()** will write to the MMA8451Q configuration registers explained above. The I2C address of the MMA8451Q must be set to **0x1D** when calling initMMA8451Q in boot.c with the FRDM-KL03Z. When using the FRDM-KL03Z, as opposed to the more complicated Warp platform, the MMA8451Q's operating voltage cannot be dynamically altered, so the **operatingVoltageMillivolts** member variable has no effect.
 
 `src/boot/ksdk1.1.0/devSSD1331.c` - Driver for communicating with SSD1331 OLED displays. For example, the function **printLine()** will print a 2D line between two coordinates in a colour defined by its blue, green and red content. Meanwhile, the function **printRect()** will print a solid rectangle bounded by two coordinates in a colour defined by its fill and its line (border).
 
