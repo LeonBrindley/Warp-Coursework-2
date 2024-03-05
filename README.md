@@ -8,7 +8,7 @@
 
 <ins>**Summary**</ins>
 
-This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm and a Freescale MMA8451Q accelerometer.
+This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm and a Freescale MMA8451Q accelerometer. The design was implemented using a Freescale FRDM-KL03Z development platform, which contains the MMA8451Q by default.
 
 <ins>**Step 1: Maximal Axis Detection**</ins>
 
@@ -48,7 +48,7 @@ Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed
 
 **src/boot/ksdk1.1.0/activityClassifier.c** - Implements the four steps of the activity classifier algorithm. This source file also includes the function printNumber() so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function printLine() to mimic multiple seven-segment displays.
 
-**src/boot/ksdk1.1.0/devMMA8451Q.c** - Driver for communicating with MMA8451Q accelerometers. For example, the function configureSensorMMA8451Q() will write to the MMA8451Q configuration registers explained above.
+**src/boot/ksdk1.1.0/devMMA8451Q.c** - Driver for communicating with MMA8451Q accelerometers. For example, the function configureSensorMMA8451Q() will write to the MMA8451Q configuration registers explained above. The I2C of the MMA8451Q must be set to 0x1D when calling initMMA8451Q in boot.c with the FRDM-KL03Z. When using the FRDM-KL03Z, as opposed to the more complicated Warp platform, the MMA8451Q's operating voltage cannot be dynamically altered, so the operatingVoltageMillivolts member variable has no effect.
 
 **src/boot/ksdk1.1.0/devSSD1331.c** - Driver for communicating with SSD1331 OLED displays. For example, the function printLine() will print a 2D line between two coordinates in a colour defined by its blue, green and red content. Meanwhile, the function printRect() will print a solid rectangle bounded by two coordinates in a colour defined by its fill and its line (border).
 
