@@ -55,7 +55,7 @@ void classifierAlgorithm(){
     } 
   }
 
-  LPFBufferMidpoint = (maximumValue - minimumValue) / 2;
+  LPFBufferMidpoint = (maximumValue + minimumValue) / 2;
   warpPrint("3. Maximum: %d, Minimum: %d, Midpoint: %d.\n", maximumValue, minimumValue, LPFBufferMidpoint);
 
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
