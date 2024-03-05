@@ -2058,7 +2058,7 @@ main(void)
 	OSA_TimeDelay(5000);
 	
 	warpPrint("\nCalling classifierAlgorithm() now.\n");
-	for (int i = 0; i < 100; i++){
+	for (int i = 0; i < 25; i++){
 	  classifierAlgorithm();
 	  OSA_TimeDelay(500);
 	}
