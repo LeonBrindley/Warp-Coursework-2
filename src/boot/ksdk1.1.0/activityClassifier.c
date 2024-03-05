@@ -121,6 +121,10 @@ WarpStatus updateAccelerations(){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
     LPFBuffer[i - 1] = LPFBuffer[i];
   }
+
+  // Reset the final element in each buffer to 0.
+  AccelerationBuffer[BUFFER_SIZE - 1] = 0;
+  LPFBuffer[BUFFER_SIZE - 1] = 0;
   
   // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
   absXAcceleration = abs(XAcceleration);
