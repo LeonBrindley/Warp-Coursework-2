@@ -2054,6 +2054,9 @@ main(void)
 	// warpPrint("\nFinished calling initINA219().\n");
 	// OSA_TimeDelay(5000);
 
+	initMMA8451Q(	0x1D	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsMMA8451Q	);
+	OSA_TimeDelay(5000);
+	
 	warpPrint("\nCalling classifierAlgorithm() now.\n");	
 	classifierAlgorithm();
 	OSA_TimeDelay(5000);
