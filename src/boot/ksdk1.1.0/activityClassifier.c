@@ -78,6 +78,22 @@ void classifierAlgorithm(){
   speed = (360 / (1000 * 2))*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
   warpPrint("4. Number of Steps: %d, Speed: %d.\n", numberOfSteps, speed);
 
+  // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
+  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
+  // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
+  if(speed > 7.92){
+    activityReading = ActivityRunning;
+  }
+  // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
+  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
+  // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
+  else if(speed > 0.828){
+    activityReading = ActivityWalking;	  
+  }
+  // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
+  else{
+    activityReading = ActivityStationary;	  
+  }
 }
 
 WarpStatus updateAccelerations(){
