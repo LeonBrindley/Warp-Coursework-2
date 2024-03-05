@@ -68,7 +68,7 @@ void classifierAlgorithm(){
   warpPrint("1. Maximal Acceleration: %d m/s.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 	
   for (int i = 0; i < BUFFER_SIZE; i++){
-    LPFBuffer[i] = AccelerationBuffer[i] * LPFWeights[i];
+    LPFBuffer[BUFFER_SIZE - 1] += AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
     if(LPFBuffer[i] > maximumValue){
       maximumValue = LPFBuffer[i];
@@ -77,6 +77,7 @@ void classifierAlgorithm(){
       minimumValue = LPFBuffer[i];
     } 
   }
+
   LPFBufferMidpoint = (maximumValue - minimumValue) / 2;
   warpPrint("3. Maximum: %d, Minimum: %d, Midpoint: %d.\n", maximumValue, minimumValue, LPFBufferMidpoint);
 
