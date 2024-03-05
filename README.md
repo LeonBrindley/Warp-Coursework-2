@@ -1,9 +1,27 @@
 # 4B25 Coursework 4 - Accelerometer-Based Activity Classifier with Uncertainty Estimates
-# Name: Leon Brindley
-# College: Gonville and Caius
-# CRSid: lpb32
+**Name: Leon Brindley**
+**College: Gonville and Caius**
+**CRSid: lpb32**
 
-This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this.
+This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm.
+
+**Step 1: Maximal Axis Detection**
+
+Firstly, the 14-bit acceleration measurements from the X, Y and Z axes are parsed, and the highest of these three readings is appended to the AccelerationBuffer. By default, **19** results are stored in the AccelerationBuffer.
+
+**Step 2: Low-Pass Filter**
+
+Secondly, the AccelerationBuffer is multiplied by an array of coefficients to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated.
+
+**Step 3: Frequency Calculation**
+
+Thirdly, the frequency of the signal is extracted by counting the number of times its midpoint is crossed. Alternatively, the signal can be differentiated.
+
+**Step 4: Step Counting and Speed Calculation**
+
+Finally, the number of steps in a particular period of time is extracted from the data. By accounting for the length of each step, the algorithm also estimates the speed at which the device is moving.
+
+**Configuration: Low-Pass Filter Cut-Off Frequency**
 
 To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is odd and that the sampling frequency is at least twice the cut-off frequency (to fulfil the Nyquist Criterion). In the example below, there are 19 taps, and the cut-off frequency and sampling frequency are set to 450Hz and 16,384Hz, respectively.
 
