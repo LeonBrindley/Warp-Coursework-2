@@ -6,31 +6,33 @@
 
 **CRSid: lpb32**
 
+<ins>**Summary**</ins>
+
 This project determines the number of steps taken by an individual over a 10-second period. It then infers whether they are stationary, walking or running from this. The classification is determined using a four-step algorithm and a Freescale MMA8451Q accelerometer.
 
-**Step 1: Maximal Axis Detection**
+<ins>**Step 1: Maximal Axis Detection**</ins>
 
 Firstly, the 14-bit acceleration measurements from the X, Y and Z axes are parsed, and the highest of these three readings is appended to the AccelerationBuffer. By default, **19** results are stored in the AccelerationBuffer.
 
-**Step 2: Low-Pass Filter**
+<ins>**Step 2: Low-Pass Filter**</ins>
 
 Secondly, the AccelerationBuffer is multiplied by an array of coefficients (LPFBuffer) to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated. By default, **19** results are stored in the LPFBuffer.
 
-**Step 3: Frequency Calculation**
+<ins>**Step 3: Frequency Calculation**</ins>
 
 Thirdly, the frequency of the signal is extracted by counting the number of times its midpoint is crossed. Alternatively, the signal can be differentiated.
 
-**Step 4: Step Counting and Speed Calculation**
+<ins>**Step 4: Step Counting and Speed Calculation**</ins>
 
-Finally, the number of steps in a particular period of time is extracted from the data. By accounting for the length of each step, the algorithm also estimates the speed at which the device is moving.
+Finally, the number of steps in a particular period of time is extracted from the data. By accounting for the length of each step, the algorithm also estimates the speed at which the device is moving. Please note that the speed results will only become valid once the AccelerationBuffer and LPFBuffer have been filled.
 
-**Configuration: Low-Pass Filter Cut-Off Frequency**
+<ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
 
 To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is odd and that the sampling frequency is at least twice the cut-off frequency (to fulfil the Nyquist Criterion). In the example below, there are 19 taps, and the cut-off frequency and sampling frequency are set to 450Hz and 16,384Hz, respectively.
 
 ![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/563aa687-9ea1-47fe-91f3-3aad7a22c78a)
 
-**Configuration: MMA8451Q Registers**
+<ins>**Configuration: MMA8451Q Registers**</ins>
 
 The MMA8451Q accelerometer is configured by writing to the registers **F_SETUP**, **CTRL_REG1**, **HP_FILTER_CUTOFF** and **XYZ_DATA_CFG**. The structures of each register are explained in [Freescale's MMA8451Q datasheet](https://pdf1.alldatasheet.com/datasheet-pdf/download/460022/FREESCALE/MMA8451Q.html).
 
@@ -44,11 +46,13 @@ Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed
 
 <ins>**File Structure**</ins>
 
-**src/boot/ksdk1.1.0/activityClassifier.c**
+**src/boot/ksdk1.1.0/activityClassifier.c** - Implements the four steps of the activity classifier algorithm. This source file also includes the function printNumber() so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function printLine() to mimic multiple seven-segment displays.
 
-**src/boot/ksdk1.1.0/devMMA8451Q.c**
+**src/boot/ksdk1.1.0/devMMA8451Q.c** - Driver for communicating with MMA8451Q accelerometers. For example, the function configureSensorMMA8451Q() will write to the MMA8451Q configuration registers explained above.
 
-**src/boot/ksdk1.1.0/boot.c**
+**src/boot/ksdk1.1.0/devSSD1331.c** - Driver for communicating with SSD1331 OLED displays. For example, the function printLine() will print a 2D line between two coordinates in a colour defined by its blue, green and red content. Meanwhile, the function printRect() will print a solid rectangle bounded by two coordinates in a colour defined by its fill and its line (border).
+
+**src/boot/ksdk1.1.0/boot.c** - Contains the main() function that runs when the program boots. For example, the function classifierAlgorithm() is repeatedly called here using a for loop to execute the activity classifier algorithm.
 
 # Baseline firmware for the [Warp](https://github.com/physical-computation/Warp-hardware) family of hardware platforms
 This is the firmware for the [Warp hardware](https://github.com/physical-computation/Warp-hardware) and its publicly available and unpublished derivatives. This firmware also runs on the Freescale/NXP FRDM KL03 evaluation board which we use for teaching at the University of Cambridge. When running on platforms other than Warp, only the sensors available in the corresponding hardware platform are accessible.
