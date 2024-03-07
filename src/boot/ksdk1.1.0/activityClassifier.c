@@ -117,6 +117,7 @@ WarpStatus updateAccelerations(){
   XLSB = deviceMMA8451QState.i2cBuffer[1];
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
+  XCombined = ~XCombined + 1; // Convert from 2's complement to regular signed int.
   XAcceleration = (-4) + (XCombined * 0.000488); // Convert to g ms^-2.
   XAcceleration = XAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("XMSB: %d.\n", XMSB);
@@ -127,6 +128,7 @@ WarpStatus updateAccelerations(){
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
+  YCombined = ~YCombined + 1; // Convert from 2's complement to regular signed int.
   YAcceleration = (-4) + (YCombined * 0.000488); // Convert to g ms^-2.
   YAcceleration = YAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("YMSB: %d.\n", YMSB);
@@ -137,6 +139,7 @@ WarpStatus updateAccelerations(){
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
+  ZCombined = ~ZCombined + 1; // Convert from 2's complement to regular signed int.
   ZAcceleration = (-4) + (ZCombined * 0.000488); // Convert to g ms^-2.
   ZAcceleration = ZAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("ZMSB: %d.\n", ZMSB);
