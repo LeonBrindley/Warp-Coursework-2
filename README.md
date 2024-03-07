@@ -48,6 +48,10 @@ Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass 
 
 Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals **4g**.
 
+<ins>**OLED Display**</ins>
+
+The function **printCharacter()** in **activityClassifier.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9** or the characters **k**, **m**, **/**, **h** and **r**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** in **devSSD1331.c** can be used instead.
+
 <ins>**File Structure**</ins>
 
 `src/boot/ksdk1.1.0/activityClassifier.c` - Implements the four steps of the activity classifier algorithm. This source file also includes the function **printNumber()** so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function **printLine()** to mimic multiple seven-segment displays alongside each other.
