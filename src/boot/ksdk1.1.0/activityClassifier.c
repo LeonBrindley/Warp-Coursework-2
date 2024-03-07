@@ -99,6 +99,7 @@ void classifierAlgorithm(){
 WarpStatus updateAccelerations(){
   uint16_t XLSB, YLSB, ZLSB;
   uint16_t XMSB, YMSB, ZMSB;
+  uint32_t XMSB, YMSB, ZMSB;
   WarpStatus i2cReadStatus;
 
   warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
@@ -109,29 +110,37 @@ WarpStatus updateAccelerations(){
     warpPrint("Failed to read acceleration measurements.\n");
     return i2cReadStatus;
   }
+
+  // LSB of acceleration readings in 14-bit mode with full-scale range of +/-4g = 8g/16384 = 0.488mg.
 	
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
-  XAcceleration = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
-  XAcceleration = (XAcceleration ^ (1 << 13)) - (1 << 13);
+  XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
+  XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
+  XAcceleration = (-4) + (XCombined * 0.000488);
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
+  warpPrint("XCombined: %d.\n", XCombined);
   warpPrint("XAcceleration: %d.\n", XAcceleration);
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
-  YAcceleration = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
-  YAcceleration = (YAcceleration ^ (1 << 13)) - (1 << 13);
+  YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
+  YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
+  YAcceleration = (-4) + (YCombined * 0.000488);
   warpPrint("YMSB: %d.\n", YMSB);
   warpPrint("YLSB: %d.\n", YLSB);
+  warpPrint("YCombined: %d.\n", YCombined);
   warpPrint("YAcceleration: %d.\n", YAcceleration);
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
-  ZAcceleration = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
-  ZAcceleration = (ZAcceleration ^ (1 << 13)) - (1 << 13);
+  ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
+  ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
+  ZAcceleration = (-4) + (ZCombined * 0.000488);
   warpPrint("ZMSB: %d.\n", ZMSB);
   warpPrint("ZLSB: %d.\n", ZLSB);
+  warpPrint("ZCombined: %d.\n", ZCombined);
   warpPrint("ZAcceleration: %d.\n", ZAcceleration);
-
+	
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
