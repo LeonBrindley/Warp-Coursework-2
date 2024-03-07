@@ -31,9 +31,9 @@ WarpStatus updateAccelerations();
 #define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 
 // Define variables for the X, Y and Z acceleration measurements. Initialise to 0.
-int16_t XAcceleration = 0;
-int16_t YAcceleration = 0;
-int16_t ZAcceleration = 0;
+float XAcceleration = 0;
+float YAcceleration = 0;
+float ZAcceleration = 0;
 
 // Declare activityReading as the enumerated type detectedActivity defined above.
 detectedActivity activityReading;
@@ -50,8 +50,8 @@ float speed = 0; // Estimated speed in km/hr. Initialised to 0.
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
-// These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied by 10,000.
-uint32_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34};
+// These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied by 1,000.
+float LPFWeights[BUFFER_SIZE] = {3.4, 45.9, 194.2, 542.8, 1175.7, 2108.9, 3242.8, 4360.7, 5187.6, 5493.2, 5187.6, 4360.7, 3242.8, 2108.9, 1175.7, 542.8, 194.2, 45.9, 3.4};
 
 void printGUI();
 void printNumber(uint8_t column, uint8_t row, uint8_t number);
