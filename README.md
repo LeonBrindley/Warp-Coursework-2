@@ -50,11 +50,11 @@ Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed
 
 <ins>**OLED Display**</ins>
 
-The function **printCharacter()** in **activityClassifier.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9** or the characters **k**, **m**, **/**, **h** and **r**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** in **devSSD1331.c** can be used instead.
+The function **printCharacter()** in **activityClassifier.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **k**, **m**, **h** and **r**, a full stop (**.**) or a forward slash (**/**). Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** in **devSSD1331.c** can be used instead.
 
 <ins>**File Structure**</ins>
 
-`src/boot/ksdk1.1.0/activityClassifier.c` - Implements the four steps of the activity classifier algorithm. This source file also includes the function **printNumber()** so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function **printLine()** to mimic multiple seven-segment displays alongside each other.
+`src/boot/ksdk1.1.0/activityClassifier.c` - Implements the four steps of the activity classifier algorithm. This source file also includes the function **printCharacter()** so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function **printLine()** to mimic multiple seven-segment displays alongside each other.
 
 `src/boot/ksdk1.1.0/devMMA8451Q.c` - Driver for communicating with MMA8451Q accelerometers. For example, the function **configureSensorMMA8451Q()** will write to the MMA8451Q configuration registers explained above. The I2C address of the MMA8451Q must be set to **0x1D** when calling initMMA8451Q in boot.c with the FRDM-KL03Z. When using the FRDM-KL03Z, as opposed to the more complicated Warp platform, the MMA8451Q's operating voltage cannot be dynamically altered, so the **operatingVoltageMillivolts** member variable has no effect.
 
