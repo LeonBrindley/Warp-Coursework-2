@@ -286,5 +286,10 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
 			break;
 		}
+		case 15: // Character '.'.
+		{
+			printLine(column + 2, row + 10, column + 2, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
 	}
 }
