@@ -168,87 +168,89 @@ void printGUI(){
 	 *	Clear Screen
 	 */
 	clearDisplay();
+
+	
 }
 
 void printNumber(uint8_t column, uint8_t row, uint8_t number){
 	switch(number){
 		case 0:
 		{
-			printLine(column, row, column, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 40, column, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 40, column + 20, row, 0xFF, 0x00, 0x00);	
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column + 5, row, 0xFF, 0x00, 0x00);	
 			break;
 		}
 		case 1:
 		{
-			printLine(column + 20, row + 40, column + 20, row, 0xFF, 0x00, 0x00);	
+			printLine(column + 5, row + 10, column + 5, row, 0xFF, 0x00, 0x00);	
 			break;
 		}
 		case 2:
 		{
-			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 20, column, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 3:
 		{
-			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 4:
 		{
-			printLine(column, row, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 20, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 5:
 		{
-			printLine(column + 20, row, column, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 20, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column + 20, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 40, column, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 6:
 		{
-			printLine(column + 20, row, column, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 40, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row + 20, column, row + 20, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 7:
 		{
-			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 8:
 		{
-			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column, row + 20, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 		case 9:
 		{
-			printLine(column, row, column + 20, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column + 20, row, column + 20, row + 40, 0xFF, 0x00, 0x00);
-			printLine(column, row + 20, column + 20, row + 20, 0xFF, 0x00, 0x00);
-			printLine(column, row + 40, column + 20, row + 40, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 	}
