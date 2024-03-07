@@ -122,7 +122,7 @@ WarpStatus updateAccelerations(){
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
   warpPrint("XCombined: %d.\n", XCombined);
-  warpPrint("XAcceleration: %d.\n", XAcceleration);
+  warpPrint("XAcceleration (ms^-2): %d.\n", XAcceleration);
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
@@ -132,7 +132,7 @@ WarpStatus updateAccelerations(){
   warpPrint("YMSB: %d.\n", YMSB);
   warpPrint("YLSB: %d.\n", YLSB);
   warpPrint("YCombined: %d.\n", YCombined);
-  warpPrint("YAcceleration: %d.\n", YAcceleration);
+  warpPrint("YAcceleration (ms^-2): %d.\n", YAcceleration);
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
@@ -142,7 +142,7 @@ WarpStatus updateAccelerations(){
   warpPrint("ZMSB: %d.\n", ZMSB);
   warpPrint("ZLSB: %d.\n", ZLSB);
   warpPrint("ZCombined: %d.\n", ZCombined);
-  warpPrint("ZAcceleration: %d.\n", ZAcceleration);
+  warpPrint("ZAcceleration (ms^-2): %d.\n", ZAcceleration);
 	
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
@@ -170,7 +170,7 @@ WarpStatus updateAccelerations(){
   }
   
   AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
-  warpPrint("1. Maximal Acceleration: %d ms^-2.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  warpPrint("1. Maximal Acceleration: %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 	
   return 0;
 }
