@@ -99,7 +99,7 @@ void classifierAlgorithm(){
 WarpStatus updateAccelerations(){
   uint16_t XLSB, YLSB, ZLSB;
   uint16_t XMSB, YMSB, ZMSB;
-  uint32_t XMSB, YMSB, ZMSB;
+  uint32_t XCombined, YCombined, ZCombined;
   WarpStatus i2cReadStatus;
 
   warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
