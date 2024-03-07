@@ -291,5 +291,71 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 			printLine(column + 2, row + 10, column + 2, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
+		case 16: // Character 'W'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 2, row + 8, 0xFF, 0x00, 0x00);
+			printLine(column + 3, row + 8, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 10, row, column + 10, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 17: // Character 'A'.
+		{
+			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 2, row, 0xFF, 0x00, 0x00);
+			printLine(column + 3, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 18: // Character 'L'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 19: // Character 'i'.
+		{
+			printLine(column + 2, row + 10, column + 2, row, 0xFF, 0x00, 0x00);	
+			break;
+		}
+		case 20: // Character 'N'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 21: // Character 'G'.
+		{
+			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column + 2, row + 5, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 22: // Character 'R'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 23: // Character 'U'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 24: // Character 'T'.
+		{
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 2, row, column + 2, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
 	}
 }
