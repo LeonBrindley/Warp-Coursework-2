@@ -50,7 +50,7 @@ Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed
 
 <ins>**OLED Display**</ins>
 
-The function **printCharacter()** in **activityClassifier.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **k**, **m**, **h** and **r**, a full stop (**.**) or a forward slash (**/**). Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** in **devSSD1331.c** can be used instead.
+The function **printCharacter()** in **activityClassifier.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **K**, **M**, **H**, **R**, **W**, **A**, **L**, **I**, **N**, **G**, **U**, **S** and **T**, a full stop (**.**) or a forward slash (**/**). This allows for the classifications **RUNNING**, **WALKING** and **STILL** to be printed, as well as the unit **KM/HR**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** in **devSSD1331.c** can be used instead.
 
 <ins>**File Structure**</ins>
 
