@@ -99,7 +99,7 @@ void classifierAlgorithm(){
 WarpStatus updateAccelerations(){
   uint16_t XLSB, YLSB, ZLSB;
   uint16_t XMSB, YMSB, ZMSB;
-  uint32_t XCombined, YCombined, ZCombined;
+  float XAcceleration, YAcceleration, ZAcceleration; // Actual acceleration values for checking their accuracy.
   WarpStatus i2cReadStatus;
 
   warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
@@ -155,18 +155,18 @@ WarpStatus updateAccelerations(){
   LPFBuffer[BUFFER_SIZE - 1] = 0;
   
   // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
-  absXAcceleration = abs(XAcceleration);
-  absYAcceleration = abs(YAcceleration);
-  absZAcceleration = abs(ZAcceleration);
+  absXCombined = abs(XCombined);
+  absYCombined = abs(YCombined);
+  absZCombined = abs(ZCombined);
 		
-  if(absXAcceleration > absYAcceleration){
-    maximalAcceleration = absXAcceleration;
+  if(absXCombined > absYCombined){
+    maximalAcceleration = absXCombined;
   }
   else{
-    maximalAcceleration = absYAcceleration;
+    maximalAcceleration = absYCombined;
   }
-  if(absZAcceleration > maximalAcceleration){
-    maximalAcceleration = absZAcceleration;
+  if(absZCombined > maximalAcceleration){
+    maximalAcceleration = absZCombined;
   }
   
   AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
