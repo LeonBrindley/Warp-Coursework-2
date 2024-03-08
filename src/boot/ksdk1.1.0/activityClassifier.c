@@ -36,12 +36,12 @@
 
 void generateData(){ // Function to generate synthetic acceleration data for testing purposes.
   uint16_t exampleData[BUFFER_SIZE];
-  uint16_t exampleTime;
+  float exampleTime; // exampleTime should be of the floating point type in the sinusoid below.
   warpPrint("\nGenerating synthetic acceleration data.\n");
   for (int i = 0; i < BUFFER_SIZE; i++){
     exampleTime = i * SAMPLE_PERIOD;
     exampleData[i] = sin(2 * exampleTime); // Make the output acceleration data a standard sinusoid for testing the algorithm.
-    warpPrint("%d, ", exampleData);
+    warpPrint("%d, ", exampleData[i]);
   }
   warpPrint("\nFinished generating synthetic acceleration data.\n");
 }
