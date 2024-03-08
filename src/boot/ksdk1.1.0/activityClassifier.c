@@ -109,7 +109,7 @@ WarpStatus updateAccelerations(){
   // warpPrint("XMSB: %d.\n", XMSB);
   // warpPrint("XLSB: %d.\n", XLSB);
   // warpPrint("XCombined - Decimal: %d, Hexadecimal: %x.\n", XCombined, XCombined);
-  // warpPrint("XAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
+  // warpPrint("XAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration * 1000, XAcceleration * 1000);
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
@@ -120,7 +120,7 @@ WarpStatus updateAccelerations(){
   // warpPrint("YMSB: %d.\n", YMSB);
   // warpPrint("YLSB: %d.\n", YLSB);
   // warpPrint("YCombined - Decimal: %d, Hexadecimal: %x.\n", YCombined, YCombined);
-  // warpPrint("YAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
+  // warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration * 1000, YAcceleration * 1000);
 
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
@@ -131,7 +131,7 @@ WarpStatus updateAccelerations(){
   // warpPrint("ZMSB: %d.\n", ZMSB);
   // warpPrint("ZLSB: %d.\n", ZLSB);
   // warpPrint("ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZCombined, ZCombined);
-  // warpPrint("ZAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
+  // warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration * 1000, ZAcceleration * 1000);
 
   accelerationMagnitude = sqrtInt((XCombined*XCombined) + (YCombined*YCombined) + (ZCombined*ZCombined));
 
@@ -159,7 +159,7 @@ void classifierAlgorithm(){
   warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
   for (int i = 0; i < BUFFER_SIZE; i++){
-    LPFBuffer[BUFFER_SIZE - 1] += AccelerationBuffer[i] * LPFWeights[i];
+    LPFBuffer[BUFFER_SIZE - 1] += (uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i];
     warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
   }
 
