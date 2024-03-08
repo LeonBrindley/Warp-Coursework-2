@@ -21,7 +21,6 @@
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
 #include "warp.h"
-#include "math.h" // Required for calculating square roots.
 
 #include "devMMA8451Q.h"
 #include "devSSD1331.h"
@@ -82,9 +81,6 @@ WarpStatus updateAccelerations(){
   warpPrint("ZLSB: %d.\n", ZLSB);
   warpPrint("ZCombined: %d.\n", ZCombined);
   warpPrint("ZAcceleration (ms^-2): %d.\n", ZAcceleration);
-
-  accelerationMagnitude = sqrt((XCombined*XCombined) + (YCombined*YCombined) + (ZCombined*ZCombined));
-  warpPrint("accelerationMagnitude (ms^-2): %d.\n", accelerationMagnitude);
 
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
