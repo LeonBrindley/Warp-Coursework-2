@@ -33,6 +33,20 @@
 
 // Combine all steps in classifierAlgorithm().
 
+// To identify inflection points, look at the points either side of the current data point.
+// This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
+void simpleDiff(){
+  for(int i = 1; i < BUFFER_SIZE - 2; i++){
+    if((AccelerationBuffer[i] > AccelerationBuffer[i-1]) && (AccelerationBuffer[i] > AccelerationBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
+      numberOfInflectionPoints = numberOfInflectionPoints + 1;
+    }
+    else if((AccelerationBuffer[i] < AccelerationBuffer[i-1]) && (AccelerationBuffer[i] < AccelerationBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
+      numberOfInflectionPoints = numberOfInflectionPoints + 1;
+    }
+  }
+  numberOfSteps = numberOfInflectionPoints / 2; // If counting both maxima and minima, we need to divide by 2 to get the number of steps.
+}
+
 uint32_t sqrtInt(uint32_t base){
   if(base == 0 || base == 1){ // If the number equals 0 or 1, the root equals the base.
     return base;
@@ -199,7 +213,7 @@ void classifierAlgorithm(){
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
-    activityReading = ActivityStationary; 
+    activityReading = ActivityStationary;
   }
 }
 
