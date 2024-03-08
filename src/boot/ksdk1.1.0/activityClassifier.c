@@ -104,8 +104,8 @@ WarpStatus updateAccelerations(){
   XLSB = deviceMMA8451QState.i2cBuffer[1];
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-  XAcceleration = XCombined * 0.000488; // Convert to g ms^-2.
-  XAcceleration = XAcceleration * 9.81; // Convert to ms^-2.
+  XAcceleration = XCombined * 48.8; // Convert to g * ums^-2.
+  XAcceleration = XAcceleration * 9.81; // Convert to ums^-2.
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
   warpPrint("XCombined - Decimal: %d, Hexadecimal: %x.\n", XCombined, XCombined);
@@ -115,8 +115,8 @@ WarpStatus updateAccelerations(){
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-  YAcceleration = YCombined * 0.000488; // Convert to g ms^-2.
-  YAcceleration = YAcceleration * 9.81; // Convert to ms^-2.
+  YAcceleration = YCombined * 48.8; // Convert to g * ums^-2.
+  YAcceleration = YAcceleration * 9.81; // Convert to ums^-2.
   // warpPrint("YMSB: %d.\n", YMSB);
   // warpPrint("YLSB: %d.\n", YLSB);
   // warpPrint("YCombined - Decimal: %d, Hexadecimal: %x.\n", YCombined, YCombined);
@@ -126,14 +126,14 @@ WarpStatus updateAccelerations(){
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-  ZAcceleration = ZCombined * 0.000488; // Convert to g ms^-2.
-  ZAcceleration = ZAcceleration * 9.81; // Convert to ms^-2.
+  ZAcceleration = ZCombined * 48.8; // Convert to g ums^-2.
+  ZAcceleration = ZAcceleration * 9.81; // Convert to ums^-2.
   // warpPrint("ZMSB: %d.\n", ZMSB);
   // warpPrint("ZLSB: %d.\n", ZLSB);
   // warpPrint("ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZCombined, ZCombined);
   // warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration * 1000, ZAcceleration * 1000);
 
-  accelerationMagnitude = sqrtInt((XCombined*XCombined) + (YCombined*YCombined) + (ZCombined*ZCombined));
+  accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
 
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
