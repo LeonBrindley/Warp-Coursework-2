@@ -76,7 +76,7 @@ void classifierAlgorithm(){
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative numbers of steps since booting the device.
   speed = (360 / (1000 * 2))*(numberOfCrossings * 0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
-  warpPrint("4. Number of Steps: %d, Speed: %d.\n", numberOfSteps, speed);
+  warpPrint("4. Number of Steps: %d, Speed (km/hr): %d.\n", numberOfSteps, speed);
 
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
@@ -117,7 +117,7 @@ WarpStatus updateAccelerations(){
   XLSB = deviceMMA8451QState.i2cBuffer[1];
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-  XAcceleration = XCombined * 0.000488; // Convert to g ms^-2.
+  XAcceleration = (float)XCombined * (float)0.000488; // Convert to g ms^-2.
   XAcceleration = XAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
@@ -127,7 +127,7 @@ WarpStatus updateAccelerations(){
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-  YAcceleration = YCombined * 0.000488; // Convert to g ms^-2.
+  YAcceleration = (float)YCombined * (float)0.000488; // Convert to g ms^-2.
   YAcceleration = YAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("YMSB: %d.\n", YMSB);
   warpPrint("YLSB: %d.\n", YLSB);
@@ -137,7 +137,7 @@ WarpStatus updateAccelerations(){
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-  ZAcceleration = ZCombined * 0.000488; // Convert to g ms^-2.
+  ZAcceleration = (float)ZCombined * (float)0.000488; // Convert to g ms^-2.
   ZAcceleration = ZAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("ZMSB: %d.\n", ZMSB);
   warpPrint("ZLSB: %d.\n", ZLSB);
