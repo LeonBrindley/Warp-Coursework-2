@@ -66,7 +66,7 @@ uint32_t sqrtInt(uint32_t base){
   }
   else{
     uint32_t root = base / 8; // Guess the square root at first.
-    warpPrint("Square rooting the number %d.\n", base);
+    // warpPrint("Square rooting the number %d.\n", base);
     while(1){ // Perform this iterative result until the square root is calculated.
       uint32_t oldRoot = root; // Save the old root to compare the new one to.
       root = (root / 2) + (base / (2 * root));
@@ -74,8 +74,8 @@ uint32_t sqrtInt(uint32_t base){
         return (root + 1); // Add 1 to round up, so the final square root result is accurate.
       }
       else{
-        warpPrint("Guessed the number %d.\n", root);
-	warpPrint("%d != %d.\n", root, oldRoot);  
+        // warpPrint("Guessed the number %d.\n", root);
+        // warpPrint("%d != %d.\n", root, oldRoot);  
       }
     }
   }
@@ -90,7 +90,7 @@ WarpStatus updateAccelerations(){
   warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 	
   i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */);
-  warpPrint("Reading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
+  // warpPrint("Reading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
   if (i2cReadStatus != kWarpStatusOK){
     warpPrint("Failed to read acceleration measurements.\n");
     return i2cReadStatus;
