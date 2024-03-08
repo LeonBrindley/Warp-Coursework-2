@@ -43,8 +43,6 @@ detectedActivity activityReading;
 // Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
 uint16_t AccelerationBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
 uint32_t LPFBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
-uint16_t absXCombined, absYCombined, absZCombined; // Absolute values of the X, Y and Z acceleration measurements.
-uint16_t maximalAcceleration; // Maximum value among the X, Y and Z acceleration measurements.
 uint32_t maximumValue, minimumValue; // Not set until the classification algorithm runs.
 uint32_t LPFBufferMidpoint; // Not set until the classification algorithm runs.
 uint16_t numberOfCrossings = 0; // The number of times the midpoint of the low-pass filtered signal is crossed.
