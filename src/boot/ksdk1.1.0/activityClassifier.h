@@ -57,5 +57,7 @@ float speed = 0; // Estimated speed in km/hr. Initialised to 0.
 // These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied by 1,000.
 uint16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34};
 
+uint32_t sqrtInt(uint32_t base);
+
 void printGUI();
 void printNumber(uint8_t column, uint8_t row, uint8_t number);
