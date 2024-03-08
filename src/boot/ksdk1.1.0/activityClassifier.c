@@ -57,8 +57,8 @@ uint32_t sqrtInt(uint32_t base){
     while(1){ // Perform this iterative result until the square root is calculated.
       uint32_t oldRoot = root; // Save the old root to compare the new one to.
       root = (root / 2) + (base / (2 * root));
-      if(oldRoot == root){
-        return root;
+      if(abs(root - oldRoot) <= 1){ // <= 1 to prevent the result hopping between two adjacent numbers and failing to converge.
+        return (root + 1); // Add 1 to round up, so the final square root result is accurate.
       }
       else{
         warpPrint("Guessed the number %d.\n", root);
