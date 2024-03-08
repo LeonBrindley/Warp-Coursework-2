@@ -98,6 +98,7 @@ WarpStatus updateAccelerations(){
 
   // LSB of acceleration readings in 14-bit mode with a full-scale range of +/-4g = 8g/16384 = 0.488mg.
   // Note that the %f (float) format specifier does not work with SEGGER_RTT_printf, instead use %d (decimal).
+  // Details of bit manipulation with the MMA8451Q can be found at https://www.nxp.com/docs/en/application-note/AN4076.pdf.
 	
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
@@ -107,8 +108,8 @@ WarpStatus updateAccelerations(){
   XAcceleration = XAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
-  warpPrint("XCombined: %d.\n", XCombined);
-  warpPrint("XAcceleration (ms^-2): %d.\n", XAcceleration);
+  warpPrint("XCombined - Decimal: %d, Hexadecimal: %x.\n", XCombined, XCombined);
+  warpPrint("XAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
@@ -118,8 +119,8 @@ WarpStatus updateAccelerations(){
   YAcceleration = YAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("YMSB: %d.\n", YMSB);
   warpPrint("YLSB: %d.\n", YLSB);
-  warpPrint("YCombined: %d.\n", YCombined);
-  warpPrint("YAcceleration (ms^-2): %d.\n", YAcceleration);
+  warpPrint("YCombined - Decimal: %d, Hexadecimal: %x.\n", YCombined, YCombined);
+  warpPrint("YAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
 
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
@@ -129,8 +130,8 @@ WarpStatus updateAccelerations(){
   ZAcceleration = ZAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("ZMSB: %d.\n", ZMSB);
   warpPrint("ZLSB: %d.\n", ZLSB);
-  warpPrint("ZCombined: %d.\n", ZCombined);
-  warpPrint("ZAcceleration (ms^-2): %d.\n", ZAcceleration);
+  warpPrint("ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZCombined, ZCombined);
+  warpPrint("ZAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
 
   accelerationMagnitude = sqrtInt((XCombined*XCombined) + (YCombined*YCombined) + (ZCombined*ZCombined));
   warpPrint("accelerationMagnitude: %d.\n", accelerationMagnitude);
