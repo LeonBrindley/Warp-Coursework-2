@@ -31,9 +31,9 @@ WarpStatus updateAccelerations();
 #define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
-int32_t XCombined = 0;
-int32_t YCombined = 0;
-int32_t ZCombined = 0;
+int16_t XCombined = 0;
+int16_t YCombined = 0;
+int16_t ZCombined = 0;
 
 uint32_t accelerationMagnitude = 0;
 
