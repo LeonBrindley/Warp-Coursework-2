@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h> // Required for "sin" function to generate synthetic acceleration data.
 
 /*
  *	config.h needs to come first
@@ -33,10 +34,22 @@
 
 // Combine all steps in classifierAlgorithm().
 
+void generateData(){ // Function to generate synthetic acceleration data for testing purposes.
+  uint16_t exampleData[BUFFER_SIZE];
+  uint16_t exampleTime;
+  warpPrint("\Generating synthetic acceleration data.\n");
+  for (int i = 0; i < BUFFER_SIZE; i++){
+    exampleTime = i * SAMPLE_PERIOD;
+    exampleData[i] = sin(2 * exampleTime);
+    warpPrint("%d, ", exampleData);
+  }
+  warpPrint("\Finished generating synthetic acceleration data.\n");
+}
+
 // To identify inflection points, look at the points either side of the current data point.
 // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
 void simpleDiff(){
-  for(int i = 1; i < BUFFER_SIZE - 2; i++){
+  for(int i = 1; i < BUFFER_SIZE - 1; i++){
     if((AccelerationBuffer[i] > AccelerationBuffer[i-1]) && (AccelerationBuffer[i] > AccelerationBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
     }
