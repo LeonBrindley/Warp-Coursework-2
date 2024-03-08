@@ -406,10 +406,11 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 	}
 }
 
+*/
+
+/*
+
 void printGUI(){
-	/*
-	 *	Clear Screen
-	 */
 	clearDisplay();
 
 	printCharacter(2, 2, 4);  // 4
