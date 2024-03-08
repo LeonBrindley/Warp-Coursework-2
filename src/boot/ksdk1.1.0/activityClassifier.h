@@ -47,7 +47,8 @@ uint16_t absXCombined, absYCombined, absZCombined; // Absolute values of the X, 
 uint16_t maximalAcceleration; // Maximum value among the X, Y and Z acceleration measurements.
 uint32_t maximumValue, minimumValue; // Not set until the classification algorithm runs.
 uint32_t LPFBufferMidpoint; // Not set until the classification algorithm runs.
-uint16_t numberOfCrossings; // The number of times the midpoint of the low-pass filtered signal is crossed.
+uint16_t numberOfCrossings = 0; // The number of times the midpoint of the low-pass filtered signal is crossed.
+uint16_t numberOfInflectionPoints = 0; // The  number of local maxima and minima in the array.
 
 uint16_t numberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
 float speed = 0; // Estimated speed in km/hr. Initialised to 0.
