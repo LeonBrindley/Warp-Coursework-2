@@ -111,57 +111,39 @@ WarpStatus updateAccelerations(){
     return i2cReadStatus;
   }
 
-  // LSB of acceleration readings in 14-bit mode with full-scale range of +/-4g = 8g/16384 = 0.488mg.
+  // LSB of acceleration readings in 14-bit mode with a full-scale range of +/-4g = 8g/16384 = 0.488mg.
 	
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-<<<<<<< HEAD
   XAcceleration = XCombined * 0.000488; // Convert to g ms^-2.
   XAcceleration = XAcceleration * 9.81; // Convert to ms^-2.
-=======
-  XAcceleration = (float)XCombined * (float)0.000488; // Convert to g ms^-2.
-  XAcceleration = (float)XAcceleration * (float)9.81; // Convert to ms^-2.
->>>>>>> ad4dda0e27843cfbb6cef33440314fe7386ba71b
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
-  warpPrint("XCombined (Integer): %d.\n", XCombined);
-  warpPrint("XCombined (Float): %f.\n", (float)XCombined);
+  warpPrint("XCombined: %d.\n", XCombined);
   warpPrint("XAcceleration (ms^-2): %f.\n", XAcceleration);
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-<<<<<<< HEAD
   YAcceleration = YCombined * 0.000488; // Convert to g ms^-2.
   YAcceleration = YAcceleration * 9.81; // Convert to ms^-2.
-=======
-  YAcceleration = (float)YCombined * (float)0.000488; // Convert to g ms^-2.
-  YAcceleration = (float)YAcceleration * (float)9.81; // Convert to ms^-2.
->>>>>>> ad4dda0e27843cfbb6cef33440314fe7386ba71b
   warpPrint("YMSB: %d.\n", YMSB);
   warpPrint("YLSB: %d.\n", YLSB);
   warpPrint("YCombined: %d.\n", YCombined);
-  warpPrint("YCombined (Float): %f.\n", (float)YCombined);
   warpPrint("YAcceleration (ms^-2): %f.\n", YAcceleration);
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-<<<<<<< HEAD
   ZAcceleration = ZCombined * 0.000488; // Convert to g ms^-2.
   ZAcceleration = ZAcceleration * 9.81; // Convert to ms^-2.
-=======
-  ZAcceleration = (float)ZCombined * (float)0.000488; // Convert to g ms^-2.
-  ZAcceleration = (float)ZAcceleration * (float)9.81; // Convert to ms^-2.
->>>>>>> ad4dda0e27843cfbb6cef33440314fe7386ba71b
   warpPrint("ZMSB: %d.\n", ZMSB);
   warpPrint("ZLSB: %d.\n", ZLSB);
   warpPrint("ZCombined: %d.\n", ZCombined);
-  warpPrint("ZCombined (Float): %f.\n", (float)ZCombined);
   warpPrint("ZAcceleration (ms^-2): %f.\n", ZAcceleration);
-	
+
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
@@ -173,6 +155,8 @@ WarpStatus updateAccelerations(){
   LPFBuffer[BUFFER_SIZE - 1] = 0;
   
   // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
+
+  // Calculate the absolute value of all three acceleration readings.
   absXCombined = abs(XCombined);
   absYCombined = abs(YCombined);
   absZCombined = abs(ZCombined);
@@ -188,7 +172,7 @@ WarpStatus updateAccelerations(){
   }
   
   AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
-  warpPrint("Maximal Acceleration: %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  warpPrint("1. Maximal Acceleration: %f.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
   return 0;
 }
 
