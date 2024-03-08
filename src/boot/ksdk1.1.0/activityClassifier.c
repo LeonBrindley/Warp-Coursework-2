@@ -195,6 +195,8 @@ void classifierAlgorithm(){
   }
 }
 
+/*
+
 void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 	switch(number){
 		case 0: // Number 0.
@@ -415,3 +417,5 @@ void printGUI(){
 	printCharacter(16, 2, 2); // 2
 	printCharacter(23, 2, 5); // 5
 }
+
+*/
