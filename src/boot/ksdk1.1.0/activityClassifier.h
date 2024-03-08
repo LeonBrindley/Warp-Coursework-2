@@ -31,9 +31,9 @@ WarpStatus updateAccelerations();
 #define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
-int16_t XCombined = 0;
-int16_t YCombined = 0;
-int16_t ZCombined = 0;
+int32_t XCombined = 0;
+int32_t YCombined = 0;
+int32_t ZCombined = 0;
 
 // Declare activityReading as the enumerated type detectedActivity defined above.
 detectedActivity activityReading;
@@ -46,6 +46,7 @@ uint16_t maximalAcceleration; // Maximum value among the X, Y and Z acceleration
 uint32_t maximumValue, minimumValue; // Not set until the classification algorithm runs.
 uint32_t LPFBufferMidpoint; // Not set until the classification algorithm runs.
 uint16_t numberOfCrossings; // The number of times the midpoint of the low-pass filtered signal is crossed.
+uint32_t accelerationMagnitude; // The magnitude of the acceleration across all three cartesian axes.
 
 uint16_t numberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
 float speed = 0; // Estimated speed in km/hr. Initialised to 0.
