@@ -10,9 +10,9 @@
 
 This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are **stationary**, **walking** or **running** from this. The classification is determined using a five-step algorithm and a **Freescale MMA8451Q** accelerometer. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains an integrated MMA8451Q accelerometer by default.
 
-<ins>**Step 1: Maximal Axis Detection**</ins>
+<ins>**Step 1: Magnitude Calculation**</ins>
 
-Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed, and the highest of these three readings is appended to the **AccelerationBuffer**. By default, **19** results are stored in the AccelerationBuffer. This option was chosen over calculating the magnitude using Pythagoras' theorem across three cartesian axes due to the size of the **sqrt()** function relative to the FRDM-KL03Z's **2 KB** of SRAM.
+Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed using bit shift operations. The magnitude of these three readings is calculated using Pythagoras' theorem across three cartesian axes. The **sqrt()** function in **math.h** is too large relative to the FRDM-KL03Z's **2 KB** of SRAM, so an integer-based implementation using the Newton-Raphson method is executed in **sqrtInt()** instead. By default, **19** results are stored in the **AccelerationBuffer**.
 
 <ins>**Step 2: Low-Pass Filter**</ins>
 
@@ -20,7 +20,7 @@ Secondly, the AccelerationBuffer is multiplied by an array of coefficients (**LP
 
 <ins>**Step 3: Frequency Calculation**</ins>
 
-Thirdly, the frequency of the signal is extracted by counting the number of times its midpoint is crossed. Alternatively, the signal can be differentiated to identify its maxima and minima.
+Thirdly, the frequency of the signal is extracted by counting the number of **inflection points** (**maxima** and **minima**). The function **simpleDiff()** compares the readings on either side of each array element to identify these inflection points. The **numberOfInflectionPoints** is divided by **2** to give the **numberOfSteps**, as both the maxima and minima are included in the calculation.
 
 <ins>**Step 4: Step Counting and Speed Calculation**</ins>
 
