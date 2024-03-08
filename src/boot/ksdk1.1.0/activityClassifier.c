@@ -34,8 +34,8 @@
 // Combine all steps in classifierAlgorithm().
 
 WarpStatus updateAccelerations(){
-  uint16_t XLSB, YLSB, ZLSB;
-  uint16_t XMSB, YMSB, ZMSB;
+  uint16_t XLSB, YLSB, ZLSB; // Least significant byte of each acceleration measurement.
+  uint16_t XMSB, YMSB, ZMSB; // Most significant byte of each acceleration measurement.
   float XAcceleration, YAcceleration, ZAcceleration; // Actual acceleration values for checking their accuracy.
   WarpStatus i2cReadStatus;
 
@@ -109,7 +109,7 @@ WarpStatus updateAccelerations(){
   }
   
   AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
-  warpPrint("1. Maximal Acceleration: %f.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  warpPrint("1. Maximal Acceleration: %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
   return 0;
 }
 
@@ -393,6 +393,6 @@ void printGUI(){
 
 	printCharacter(2, 2, 4);  // 4
 	printCharacter(9, 2, 25); // B
-	printCharacter(16, 2, 2);  // 2
-	printCharacter(23, 2, 5);  // 5
+	printCharacter(16, 2, 2); // 2
+	printCharacter(23, 2, 5); // 5
 }
