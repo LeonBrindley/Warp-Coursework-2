@@ -108,8 +108,8 @@ WarpStatus updateAccelerations(){
   XAcceleration = XAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
-  warpPrint("XCombined - Decimal: %d, Hexadecimal: %x.\n", XCombined, XCombined);
-  warpPrint("XAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
+  warpPrint("XCombined - Decimal: %d, Hexadecimal: %[0]x.\n", XCombined, XCombined);
+  warpPrint("XAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %[0]x.\n", XAcceleration, XAcceleration);
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
@@ -119,8 +119,8 @@ WarpStatus updateAccelerations(){
   YAcceleration = YAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("YMSB: %d.\n", YMSB);
   warpPrint("YLSB: %d.\n", YLSB);
-  warpPrint("YCombined - Decimal: %d, Hexadecimal: %x.\n", YCombined, YCombined);
-  warpPrint("YAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
+  warpPrint("YCombined - Decimal: %d, Hexadecimal: %[0]x.\n", YCombined, YCombined);
+  warpPrint("YAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %[0]x.\n", YAcceleration, YAcceleration);
 
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
@@ -130,8 +130,8 @@ WarpStatus updateAccelerations(){
   ZAcceleration = ZAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("ZMSB: %d.\n", ZMSB);
   warpPrint("ZLSB: %d.\n", ZLSB);
-  warpPrint("ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZCombined, ZCombined);
-  warpPrint("ZAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
+  warpPrint("ZCombined - Decimal: %d, Hexadecimal: %[0]x.\n", ZCombined, ZCombined);
+  warpPrint("ZAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %[0]x.\n", ZAcceleration, ZAcceleration);
 
   accelerationMagnitude = sqrtInt((XCombined*XCombined) + (YCombined*YCombined) + (ZCombined*ZCombined));
   warpPrint("accelerationMagnitude: %d.\n", accelerationMagnitude);
