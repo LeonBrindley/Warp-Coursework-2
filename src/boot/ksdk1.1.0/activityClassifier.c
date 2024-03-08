@@ -75,7 +75,7 @@ void classifierAlgorithm(){
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative number of steps since booting the device.
-  speed = (((float)360 / (float)(1000 * 2))*((float)numberOfCrossings * (float)0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
+  speed = ((float)360 / (float)(1000 * 2))*((float)numberOfCrossings * (float)0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
   warpPrint("4. Number of Steps: %d, Speed (km/hr): %f.\n", numberOfSteps, speed);
 
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
@@ -92,7 +92,7 @@ void classifierAlgorithm(){
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
-    activityReading = ActivityStationary;	  
+    activityReading = ActivityStationary; 
   }
 }
 
@@ -182,7 +182,10 @@ void printGUI(){
 	 */
 	clearDisplay();
 
-	
+	printCharacter(2, 2, 4);  // 4
+	printCharacter(9, 2, 25); // B
+	printCharacter(16, 2, 2);  // 2
+	printCharacter(23, 2, 5);  // 5
 }
 
 void printCharacter(uint8_t column, uint8_t row, uint8_t number){
@@ -375,6 +378,20 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 		{
 			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
 			printLine(column + 2, row, column + 2, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 25: // Character 'B'.
+		{
+			printLine(column, row, column + 4, row, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row, column + 5, row + 1, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 1, column + 5, row + 4, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 4, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row + 5, column + 5, row + 4, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row + 5, column + 5, row + 6, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 6, column + 5, row + 9, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 9, column + 4, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 4, row + 10, 0xFF, 0x00, 0x00);
 			break;
 		}
 	}
