@@ -27,7 +27,7 @@ void stepFourSpeed();
 
 WarpStatus updateAccelerations();
 
-#define SAMPLE_PERIOD 0.01 // Take a sample every 10ms.
+#define SAMPLE_PERIOD 0.01 // Take a sample every 10ms across all three cartesian axes.
 #define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
@@ -46,7 +46,6 @@ uint16_t maximalAcceleration; // Maximum value among the X, Y and Z acceleration
 uint32_t maximumValue, minimumValue; // Not set until the classification algorithm runs.
 uint32_t LPFBufferMidpoint; // Not set until the classification algorithm runs.
 uint16_t numberOfCrossings; // The number of times the midpoint of the low-pass filtered signal is crossed.
-uint32_t accelerationMagnitude; // The magnitude of the acceleration across all three cartesian axes.
 
 uint16_t numberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
 float speed = 0; // Estimated speed in km/hr. Initialised to 0.
