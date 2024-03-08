@@ -35,6 +35,8 @@ int32_t XCombined = 0;
 int32_t YCombined = 0;
 int32_t ZCombined = 0;
 
+uint32_t accelerationMagnitude = 0;
+
 // Declare activityReading as the enumerated type detectedActivity defined above.
 detectedActivity activityReading;
 
