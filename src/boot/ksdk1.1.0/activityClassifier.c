@@ -168,7 +168,7 @@ void classifierAlgorithm(){
   warpPrint("3. numberOfInflectionPoints: %d, numberOfSteps: %d.\n", numberOfInflectionPoints, numberOfSteps);
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  distance = (float)numberOfSteps * (float)0.716); // Calculate distance travelled over the previous 10-second period (in metres).
+  distance = (float)numberOfSteps * (float)0.716; // Calculate distance travelled over the previous 10-second period (in metres).
   speed = 1000 * (distance / 10); // Calculate speed over the previous 10-second period (in m/s).
   warpPrint("4a. Speed (mm/s): %d.\n", 1000 * speed); // Print speed in mm/s as warpPrint() can only display integers (so m/s would be too imprecise).
   speed = speed * 3.6; // Convert speed from m/s to km/hr by multiplying by 3.6.
