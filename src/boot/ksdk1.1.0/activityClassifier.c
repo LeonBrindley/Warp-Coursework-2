@@ -134,7 +134,6 @@ WarpStatus updateAccelerations(){
   // warpPrint("ZAcceleration (ms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
 
   accelerationMagnitude = sqrtInt((XCombined*XCombined) + (YCombined*YCombined) + (ZCombined*ZCombined));
-  warpPrint("accelerationMagnitude: %d.\n", accelerationMagnitude);
 
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
@@ -146,25 +145,8 @@ WarpStatus updateAccelerations(){
   AccelerationBuffer[BUFFER_SIZE - 1] = 0;
   LPFBuffer[BUFFER_SIZE - 1] = 0;
   
-  // Identify the maximal activity axis as sqrt() is too big for the FRDM-KL03Z's memory.
-
-  // Calculate the absolute value of all three acceleration readings.
-  absXCombined = abs(XCombined);
-  absYCombined = abs(YCombined);
-  absZCombined = abs(ZCombined);
-		
-  if(absXCombined > absYCombined){
-    maximalAcceleration = absXCombined;
-  }
-  else{
-    maximalAcceleration = absYCombined;
-  }
-  if(absZCombined > maximalAcceleration){
-    maximalAcceleration = absZCombined;
-  }
-  
-  AccelerationBuffer[BUFFER_SIZE - 1] =  maximalAcceleration;
-  warpPrint("1. Maximal Acceleration: %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
+  warpPrint("1. Acceleration Magnitude: %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
   return 0;
 }
 
