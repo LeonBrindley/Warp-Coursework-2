@@ -33,69 +33,6 @@
 
 // Combine all steps in classifierAlgorithm().
 
-void classifierAlgorithm(){
-
-  warpPrint("Running updateAccelerations() now.\n");
-  updateAccelerations();
-  warpPrint("Finished running updateAccelerations().\n");
-
-  // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
-  maximumValue = 0;
-  minimumValue = 4294967295;
-  warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
-	
-  for (int i = 0; i < BUFFER_SIZE; i++){
-    LPFBuffer[BUFFER_SIZE - 1] += AccelerationBuffer[i] * LPFWeights[i];
-    warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
-    if(LPFBuffer[i] > maximumValue){
-      maximumValue = LPFBuffer[i];
-    }
-    if(LPFBuffer[i] < minimumValue){
-      minimumValue = LPFBuffer[i];
-    } 
-  }
-
-  LPFBufferMidpoint = (maximumValue + minimumValue) / 2;
-  warpPrint("3. Maximum: %d, Minimum: %d, Midpoint: %d.\n", maximumValue, minimumValue, LPFBufferMidpoint);
-
-  // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
-  numberOfCrossings = 0;
-  for(int i = 1; i < BUFFER_SIZE; i++){
-    if(LPFBuffer[i - 1] > LPFBufferMidpoint){
-      if(LPFBuffer[i] < LPFBufferMidpoint){
-        numberOfCrossings++;
-      }
-    }
-    else if(LPFBuffer[i - 1] < LPFBufferMidpoint){
-      if(LPFBuffer[i] > LPFBufferMidpoint){
-        numberOfCrossings++; 
-      }
-    }
-  }
-	
-  // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative number of steps since booting the device.
-  speed = ((float)360 / (float)(1000 * 2))*((float)numberOfCrossings * (float)0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
-  warpPrint("4. Number of Steps: %d, Speed (km/hr): %f.\n", numberOfSteps, speed);
-
-  // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
-  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
-  // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
-  if(speed > 7.92){
-    activityReading = ActivityRunning;
-  }
-  // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
-  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
-  // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
-  else if(speed > 0.828){
-    activityReading = ActivityWalking;	  
-  }
-  // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
-  else{
-    activityReading = ActivityStationary; 
-  }
-}
-
 WarpStatus updateAccelerations(){
   uint16_t XLSB, YLSB, ZLSB;
   uint16_t XMSB, YMSB, ZMSB;
@@ -176,16 +113,67 @@ WarpStatus updateAccelerations(){
   return 0;
 }
 
-void printGUI(){
-	/*
-	 *	Clear Screen
-	 */
-	clearDisplay();
+void classifierAlgorithm(){
 
-	printCharacter(2, 2, 4);  // 4
-	printCharacter(9, 2, 25); // B
-	printCharacter(16, 2, 2);  // 2
-	printCharacter(23, 2, 5);  // 5
+  warpPrint("Running updateAccelerations() now.\n");
+  updateAccelerations();
+  warpPrint("Finished running updateAccelerations().\n");
+
+  // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
+  maximumValue = 0;
+  minimumValue = 4294967295;
+  warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
+	
+  for (int i = 0; i < BUFFER_SIZE; i++){
+    LPFBuffer[BUFFER_SIZE - 1] += AccelerationBuffer[i] * LPFWeights[i];
+    warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
+    if(LPFBuffer[i] > maximumValue){
+      maximumValue = LPFBuffer[i];
+    }
+    if(LPFBuffer[i] < minimumValue){
+      minimumValue = LPFBuffer[i];
+    } 
+  }
+
+  LPFBufferMidpoint = (maximumValue + minimumValue) / 2;
+  warpPrint("3. Maximum: %d, Minimum: %d, Midpoint: %d.\n", maximumValue, minimumValue, LPFBufferMidpoint);
+
+  // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
+  numberOfCrossings = 0;
+  for(int i = 1; i < BUFFER_SIZE; i++){
+    if(LPFBuffer[i - 1] > LPFBufferMidpoint){
+      if(LPFBuffer[i] < LPFBufferMidpoint){
+        numberOfCrossings++;
+      }
+    }
+    else if(LPFBuffer[i - 1] < LPFBufferMidpoint){
+      if(LPFBuffer[i] > LPFBufferMidpoint){
+        numberOfCrossings++; 
+      }
+    }
+  }
+	
+  // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
+  numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative number of steps since booting the device.
+  speed = ((float)360 / (float)(1000 * 2))*((float)numberOfCrossings * (float)0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
+  warpPrint("4. Number of Steps: %d, Speed (km/hr): %f.\n", numberOfSteps, speed);
+
+  // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
+  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
+  // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
+  if(speed > 7.92){
+    activityReading = ActivityRunning;
+  }
+  // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
+  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
+  // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
+  else if(speed > 0.828){
+    activityReading = ActivityWalking;	  
+  }
+  // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
+  else{
+    activityReading = ActivityStationary; 
+  }
 }
 
 void printCharacter(uint8_t column, uint8_t row, uint8_t number){
@@ -395,4 +383,16 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 			break;
 		}
 	}
+}
+
+void printGUI(){
+	/*
+	 *	Clear Screen
+	 */
+	clearDisplay();
+
+	printCharacter(2, 2, 4);  // 4
+	printCharacter(9, 2, 25); // B
+	printCharacter(16, 2, 2);  // 2
+	printCharacter(23, 2, 5);  // 5
 }
