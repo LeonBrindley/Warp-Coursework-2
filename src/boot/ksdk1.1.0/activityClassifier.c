@@ -50,10 +50,10 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
 // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
 void simpleDiff(){
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
-    if((AccelerationBuffer[i] > AccelerationBuffer[i-1]) && (AccelerationBuffer[i] > AccelerationBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
+    if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
     }
-    else if((AccelerationBuffer[i] < AccelerationBuffer[i-1]) && (AccelerationBuffer[i] < AccelerationBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
+    else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
     }
   }
@@ -156,60 +156,42 @@ void classifierAlgorithm(){
   updateAccelerations();
   warpPrint("Finished running updateAccelerations().\n");
 
-  // Set default maximumValue and minimumValue to guarantee that they are updated in the for loop below.
-  maximumValue = 0;
-  minimumValue = 4294967295;
   warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
   for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[BUFFER_SIZE - 1] += AccelerationBuffer[i] * LPFWeights[i];
     warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
-    if(LPFBuffer[i] > maximumValue){
-      maximumValue = LPFBuffer[i];
-    }
-    if(LPFBuffer[i] < minimumValue){
-      minimumValue = LPFBuffer[i];
-    } 
   }
-
-  LPFBufferMidpoint = (maximumValue + minimumValue) / 2;
-  warpPrint("3. Maximum: %d, Minimum: %d, Midpoint: %d.\n", maximumValue, minimumValue, LPFBufferMidpoint);
 
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
-  numberOfCrossings = 0;
-  for(int i = 1; i < BUFFER_SIZE; i++){
-    if(LPFBuffer[i - 1] > LPFBufferMidpoint){
-      if(LPFBuffer[i] < LPFBufferMidpoint){
-        numberOfCrossings++;
-      }
-    }
-    else if(LPFBuffer[i - 1] < LPFBufferMidpoint){
-      if(LPFBuffer[i] > LPFBufferMidpoint){
-        numberOfCrossings++; 
-      }
-    }
-  }
+  simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
+  warpPrint("3. numberOfInflectionPoints: %d, numberOfSteps: %d.\n", numberOfInflectionPoints, numberOfSteps);
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  numberOfSteps += (numberOfCrossings / 2); // Add (numberOfCrossings / 2) to the cumulative number of steps since booting the device.
-  speed = ((float)360 / (float)(1000 * 2))*((float)numberOfCrossings * (float)0.716); // 360 10-second periods in an hour. Divide by (1000*2) to convert to km/hr while accounting for both upward and downward crossings.
-  warpPrint("4. Number of Steps: %d, Speed (km/hr): %d.\n", numberOfSteps, speed);
+  distance = (float)numberOfSteps * (float)0.716); // Calculate distance travelled over the previous 10-second period (in metres).
+  speed = 1000 * (distance / 10); // Calculate speed over the previous 10-second period (in m/s).
+  warpPrint("4a. Speed (mm/s): %d.\n", 1000 * speed); // Print speed in mm/s as warpPrint() can only display integers (so m/s would be too imprecise).
+  speed = speed * 3.6; // Convert speed from m/s to km/hr by multiplying by 3.6.
+  warpPrint("4b. Speed (m/hr): %d.\n", 1000 * speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
   // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
   if(speed > 7.92){
     activityReading = ActivityRunning;
+    warpPrint("5. Activity = Running.\n");
   }
   // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
   // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
   else if(speed > 0.828){
-    activityReading = ActivityWalking;	  
+    activityReading = ActivityWalking;
+    warpPrint("5. Activity = Walking.\n");
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
     activityReading = ActivityStationary;
+    warpPrint("5. Activity = Stationary.\n");
   }
 }
 
