@@ -33,6 +33,27 @@
 
 // Combine all steps in classifierAlgorithm().
 
+uint32_t sqrtInt(uint32_t base){
+  if(base == 0 || base == 1){ // If the number equals 0 or 1, the root equals the base.
+    return base;
+  }
+  else{
+    uint32_t root = base / 8; // Guess the square root at first.
+    warpPrint("Square rooting the number %d.\n", base);
+    while(1){ // Perform this iterative result until the square root is calculated.
+      uint32_t oldRoot = root; // Save the old root to compare the new one to.
+      root = (root / 2) + (base / (2 * root));
+      if(oldRoot == root){
+        return root;
+      }
+      else{
+        warpPrint("Guessed the number %d.\n", root);
+	warpPrint("%d != %d.\n", root, oldRoot);  
+      }
+    }
+  }
+}
+
 WarpStatus updateAccelerations(){
   uint16_t XLSB, YLSB, ZLSB; // Least significant byte of each acceleration measurement.
   uint16_t XMSB, YMSB, ZMSB; // Most significant byte of each acceleration measurement.
@@ -61,6 +82,7 @@ WarpStatus updateAccelerations(){
   warpPrint("XLSB: %d.\n", XLSB);
   warpPrint("XCombined: %d.\n", XCombined);
   warpPrint("XAcceleration (ms^-2): %d.\n", XAcceleration);
+
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
@@ -71,6 +93,7 @@ WarpStatus updateAccelerations(){
   warpPrint("YLSB: %d.\n", YLSB);
   warpPrint("YCombined: %d.\n", YCombined);
   warpPrint("YAcceleration (ms^-2): %d.\n", YAcceleration);
+
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
