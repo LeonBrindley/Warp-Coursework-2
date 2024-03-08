@@ -105,6 +105,9 @@ WarpStatus updateAccelerations(){
   warpPrint("ZCombined: %d.\n", ZCombined);
   warpPrint("ZAcceleration (ms^-2): %d.\n", ZAcceleration);
 
+  accelerationMagnitude = sqrtInt((XCombined*XCombined) + (YCombined*YCombined) + (ZCombined*ZCombined));
+  warpPrint("accelerationMagnitude: %d.\n", accelerationMagnitude);
+
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
   for (int i = 1; i < BUFFER_SIZE; i++){
     AccelerationBuffer[i - 1] = AccelerationBuffer[i];
