@@ -41,7 +41,7 @@ uint32_t accelerationMagnitude = 0;
 detectedActivity activityReading;
 
 // Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
-float AccelerationBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
+uint32_t AccelerationBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
 uint32_t LPFBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
 uint32_t maximumValue, minimumValue; // Not set until the classification algorithm runs.
 uint32_t LPFBufferMidpoint; // Not set until the classification algorithm runs.
