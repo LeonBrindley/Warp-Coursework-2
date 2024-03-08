@@ -117,31 +117,34 @@ WarpStatus updateAccelerations(){
   XLSB = deviceMMA8451QState.i2cBuffer[1];
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-  XAcceleration = (float)XCombined * (float)0.000488; // Convert to g ms^-2.
+  XAcceleration = XCombined * 0.000488; // Convert to g ms^-2.
   XAcceleration = XAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("XMSB: %d.\n", XMSB);
   warpPrint("XLSB: %d.\n", XLSB);
-  warpPrint("XCombined: %d.\n", XCombined);
+  warpPrint("XCombined (Integer): %d.\n", XCombined);
+  warpPrint("XCombined (Float): %f.\n", (float)XCombined);
   warpPrint("XAcceleration (ms^-2): %f.\n", XAcceleration);
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-  YAcceleration = (float)YCombined * (float)0.000488; // Convert to g ms^-2.
+  YAcceleration = YCombined * 0.000488; // Convert to g ms^-2.
   YAcceleration = YAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("YMSB: %d.\n", YMSB);
   warpPrint("YLSB: %d.\n", YLSB);
   warpPrint("YCombined: %d.\n", YCombined);
+  warpPrint("YCombined (Float): %f.\n", (float)YCombined);
   warpPrint("YAcceleration (ms^-2): %f.\n", YAcceleration);
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-  ZAcceleration = (float)ZCombined * (float)0.000488; // Convert to g ms^-2.
+  ZAcceleration = ZCombined * 0.000488; // Convert to g ms^-2.
   ZAcceleration = ZAcceleration * 9.81; // Convert to ms^-2.
   warpPrint("ZMSB: %d.\n", ZMSB);
   warpPrint("ZLSB: %d.\n", ZLSB);
   warpPrint("ZCombined: %d.\n", ZCombined);
+  warpPrint("ZCombined (Float): %f.\n", (float)ZCombined);
   warpPrint("ZAcceleration (ms^-2): %f.\n", ZAcceleration);
 	
   // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
