@@ -37,13 +37,13 @@
 void generateData(){ // Function to generate synthetic acceleration data for testing purposes.
   uint16_t exampleData[BUFFER_SIZE];
   uint16_t exampleTime;
-  warpPrint("\Generating synthetic acceleration data.\n");
+  warpPrint("\nGenerating synthetic acceleration data.\n");
   for (int i = 0; i < BUFFER_SIZE; i++){
     exampleTime = i * SAMPLE_PERIOD;
-    exampleData[i] = sin(2 * exampleTime);
+    exampleData[i] = sin(2 * exampleTime); // Make the output acceleration data a standard sinusoid for testing the algorithm.
     warpPrint("%d, ", exampleData);
   }
-  warpPrint("\Finished generating synthetic acceleration data.\n");
+  warpPrint("\nFinished generating synthetic acceleration data.\n");
 }
 
 // To identify inflection points, look at the points either side of the current data point.
