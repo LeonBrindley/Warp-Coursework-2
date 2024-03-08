@@ -49,7 +49,8 @@ uint16_t numberOfCrossings = 0; // The number of times the midpoint of the low-p
 uint16_t numberOfInflectionPoints = 0; // The  number of local maxima and minima in the array.
 
 uint16_t numberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
-float speed = 0; // Estimated speed in km/hr. Initialised to 0.
+float distance = 0; // Initialised to 0.
+float speed = 0; // Initialised to 0.
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
