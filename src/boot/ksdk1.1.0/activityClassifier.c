@@ -64,6 +64,8 @@ void simpleDiff(){
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
   cumulativeNumberOfInflectionPoints += numberOfInflectionPoints;
   warpPrint("Final cumulativeNumberOfInflectionPoints inside loop = %d.\n", cumulativeNumberOfInflectionPoints);
+  numberOfSteps = numberOfInflectionPoints / 2; // Note the significant rounding error that occurs due to the short time period of 10 seconds.
+  warpPrint("Final numberOfSteps inside loop = %d.\n", numberOfSteps);
 }
 
 uint32_t sqrtInt(uint32_t base){
