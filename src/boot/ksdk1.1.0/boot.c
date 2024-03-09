@@ -76,12 +76,16 @@
 * These header files will also need to be included when using the FRDM-KL03 variant.
 */
 #include "devMMA8451Q.h"
-#include "devSSD1331.h"
 #include "activityClassifier.h"
 
 /*
 * Include all sensors when not using the FRDM-KL03 variant because they will be needed to decode flash.
 */
+
+#if (WARP_BUILD_ENABLE_DEVSSD1331)
+	#include "devSSD1331.h"
+#endif
+
 #if (!WARP_BUILD_ENABLE_FRDMKL03)
 	#include "devADXL362.h"
 	#include "devAMG8834.h"
@@ -2043,10 +2047,10 @@ main(void)
 	/*
 	 *	Call the display initialisation code in devSSD1331.c.
 	 */
-	warpPrint("\nCalling devSSD1331init() now.\n");
-	devSSD1331init();
-	warpPrint("\nFinished calling devSSD1331init().\n");
-	OSA_TimeDelay(5000);
+	// warpPrint("\nCalling devSSD1331init() now.\n");
+	// devSSD1331init();
+	// warpPrint("\nFinished calling devSSD1331init().\n");
+	// OSA_TimeDelay(5000);
 	
 	// warpPrint("\nCalling initINA219() now.\n");	
 	// // I2C base address = 0x40: https://www.vle.cam.ac.uk/pluginfile.php/13708432/mod_resource/content/1/adafruit-ina219-current-sensor-breakout.pdf
