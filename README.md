@@ -56,7 +56,7 @@ In contrast, the alternative LPFWeights array gives **39** taps, a maximum atten
 
 Below are some raw acceleration magnitudes from the MMA8451Q. During this test, the FRDM-KL03Z was gently moved from side to side. If using the signal without low-pass filtering, the **simpleDiff()** function would detect **9** inflection points.
 
-<img width="1119" alt="MMA8451Q Acceleration Before LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/ff7f72a8-255e-4eed-b5e2-a0f42db6b326">
+<img width="1199" alt="MMA8451Q Acceleration Before LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/fd7fe984-cb5c-4a23-8164-84bc938b216b">
 
 After this data was low-pass filtered, the **simpleDiff()** function only detected **3** inflection points. The sinusoidal shape below was far more representative of the activity being performed.
 
