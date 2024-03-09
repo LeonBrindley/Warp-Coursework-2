@@ -56,7 +56,7 @@ uint32_t speed = 0; // Initialised to 0.
 // The FIR coefficients h(n) are defined below.
 // These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied (e.g. by 10,000) to provide integer results.
 // uint16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34}; // OLD 19-element array.
-uint16_t LPFWeights[BUFFER_SIZE] = {0, -1, -2, 33, 62, -181, -486, 453, 2926, 4395, 2926, 453, -486, -181, 62, 33, -2, -1, 0}; // NEW 19-element array.
+uint16_t LPFWeights[BUFFER_SIZE] = {0, 3, 40, 238, 875, 2303, 4664, 7555, 10014, 10986, 10014, 7555, 4664, 2303, 875, 238, 40, 3, 0}; // NEW 19-element array.
 // uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618, 7658, 11853, 17232, 23649, 30751, 37991, 44691, 50136, 53694, 54932, 53694, 50136, 44691, 37991, 30751, 23649, 17232, 11853, 7658, 4618, 2578, 1316, 604, 243, 82, 21, 4, 0, 0}; // 39-element array.
 
 uint32_t sqrtInt(uint32_t base);
