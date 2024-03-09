@@ -82,18 +82,18 @@ uint32_t sqrtInt(uint32_t base){
 }
 
 WarpStatus updateAccelerations(){
-  warpPrint("\nDeclaring LSB, MSB and acceleration variables now.\n");
+  // warpPrint("\nDeclaring LSB, MSB and acceleration variables now.\n");
   uint16_t XLSB, YLSB, ZLSB; // Least significant byte of each acceleration measurement.
   uint16_t XMSB, YMSB, ZMSB; // Most significant byte of each acceleration measurement.
   int32_t XAcceleration, YAcceleration, ZAcceleration; // Actual acceleration values for checking their accuracy.
 
-  warpPrint("\nDeclaring i2cReadStatus variable now.\n");	
+  // warpPrint("\nDeclaring i2cReadStatus variable now.\n");	
   WarpStatus i2cReadStatus;
 
   // warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 
   i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */);
-  warpPrint("\nReading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
+  // warpPrint("\nReading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
   if (i2cReadStatus != kWarpStatusOK){
     warpPrint("\nFailed to read acceleration measurements.\n");
     return i2cReadStatus;
@@ -104,14 +104,14 @@ WarpStatus updateAccelerations(){
   // Note that the %f (float) format specifier does not work with SEGGER_RTT_printf, instead use %d (decimal).
   // Details of bit manipulation with the MMA8451Q can be found at https://www.nxp.com/docs/en/application-note/AN4076.pdf.
 
-  warpPrint("\nParsing the bytes received from MMA8451Q's registers now.\n");	
+  // warpPrint("\nParsing the bytes received from MMA8451Q's registers now.\n");	
 
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
-  warpPrint("Calculating XCombined now.\n");
+  // warpPrint("Calculating XCombined now.\n");
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-  warpPrint("Calculating XAcceleration now.\n");
+  // warpPrint("Calculating XAcceleration now.\n");
   XAcceleration = (int32_t)(XCombined) * 4787; // Convert the acceleration to ums^-2.
   XAcceleration = XAcceleration / 1000; // Convert the acceleration to mms^-2.
   // warpPrint("XMSB: %d.\n", XMSB);
@@ -121,10 +121,10 @@ WarpStatus updateAccelerations(){
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
-  warpPrint("Calculating YCombined now.\n");
+  // warpPrint("Calculating YCombined now.\n");
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-  warpPrint("Calculating YAcceleration now.\n");
+  // warpPrint("Calculating YAcceleration now.\n");
   YAcceleration = (int32_t)(YCombined) * 4787; // Convert the acceleration to ums^-2.
   YAcceleration = YAcceleration / 1000; // Convert the acceleration to mms^-2.
   // warpPrint("YMSB: %d.\n", YMSB);
@@ -134,10 +134,10 @@ WarpStatus updateAccelerations(){
 
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
-  warpPrint("Calculating ZCombined now.\n");
+  // warpPrint("Calculating ZCombined now.\n");
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-  warpPrint("Calculating ZAcceleration now.\n");
+  // warpPrint("Calculating ZAcceleration now.\n");
   ZAcceleration = (int32_t)(ZCombined) * 4787; // Convert the acceleration to ums^-2.
   ZAcceleration = ZAcceleration / 1000; // Convert the acceleration to mms^-2.
   // warpPrint("ZMSB: %d.\n", ZMSB);
@@ -164,11 +164,11 @@ WarpStatus updateAccelerations(){
 
 void classifierAlgorithm(){
 
-  warpPrint("\nCalling updateAccelerations() now from inside activityClassifier.c.\n");
+  // warpPrint("\nCalling updateAccelerations() now from inside activityClassifier.c.\n");
   updateAccelerations();
-  warpPrint("\nFinished running updateAccelerations() from inside activityClassifier.c.\n");
+  // warpPrint("\nFinished running updateAccelerations() from inside activityClassifier.c.\n");
 
-  warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
+  // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
   for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[BUFFER_SIZE - 1] += (uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i];
