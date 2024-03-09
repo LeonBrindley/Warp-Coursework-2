@@ -116,20 +116,20 @@ WarpStatus updateAccelerations(){
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
   YAcceleration = (int32_t)YCombined * 4787; // Convert the acceleration to ums^-2.
-  // warpPrint("YMSB: %d.\n", YMSB);
-  // warpPrint("YLSB: %d.\n", YLSB);
-  // warpPrint("YCombined - Decimal: %d, Hexadecimal: %x.\n", YCombined, YCombined);
-  // warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration / 1000, YAcceleration / 1000);
+  warpPrint("YMSB: %d.\n", YMSB);
+  warpPrint("YLSB: %d.\n", YLSB);
+  warpPrint("YCombined - Decimal: %d, Hexadecimal: %x.\n", YCombined, YCombined);
+  warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration / 1000, YAcceleration / 1000);
 
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
   ZAcceleration = (int32_t)ZCombined * 4787; // Convert the acceleration to ums^-2.
-  // warpPrint("ZMSB: %d.\n", ZMSB);
-  // warpPrint("ZLSB: %d.\n", ZLSB);
-  // warpPrint("ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZCombined, ZCombined);
-  // warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration / 1000, ZAcceleration / 1000);
+  warpPrint("ZMSB: %d.\n", ZMSB);
+  warpPrint("ZLSB: %d.\n", ZLSB);
+  warpPrint("ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZCombined, ZCombined);
+  warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration / 1000, ZAcceleration / 1000);
 
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
 
