@@ -54,9 +54,13 @@ In contrast, the alternative LPFWeights array gives **39** taps, a maximum atten
 
 <ins>**Low-Pass Filter Effect**</ins>
 
-The LPF significantly smoothes the acceleration magnitudes provided.
+Below are some raw acceleration magnitudes from the MMA8451Q. During this test, the FRDM-KL03Z was gently moved from side to side. If using the signal without low-pass filtering, the **simpleDiff()** function would detect **9** inflection points.
 
-<img width="1145" alt="MMA8451Q Acceleration After LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/40857ab5-3bd0-4c23-9f49-77abd432da8e">
+<img width="1119" alt="MMA8451Q Acceleration Before LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/ff7f72a8-255e-4eed-b5e2-a0f42db6b326">
+
+After this data was low-pass filtered, the **simpleDiff()** function only detected **3** inflection points. The sinusoidal shape below was far more representative of the activity being performed. Please note that the y-axis resolution now constitutes multiples of 10ums^-2.
+
+<img width="1060" alt="MMA8451Q Acceleration After LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/1770c3a3-8167-42f2-a0ab-048217b19010">
 
 <ins>**OLED Display**</ins>
 
