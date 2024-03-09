@@ -58,9 +58,9 @@ Below are some raw acceleration magnitudes from the MMA8451Q. During this test, 
 
 <img width="1119" alt="MMA8451Q Acceleration Before LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/ff7f72a8-255e-4eed-b5e2-a0f42db6b326">
 
-After this data was low-pass filtered, the **simpleDiff()** function only detected **3** inflection points. The sinusoidal shape below was far more representative of the activity being performed. Please note that the y-axis resolution now constitutes multiples of 10ums^-2.
+After this data was low-pass filtered, the **simpleDiff()** function only detected **3** inflection points. The sinusoidal shape below was far more representative of the activity being performed.
 
-<img width="1060" alt="MMA8451Q Acceleration After LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/1770c3a3-8167-42f2-a0ab-048217b19010">
+<img width="1128" alt="MMA8451Q Acceleration After LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/4f8d1ca4-8ebd-42bf-bde8-ecaed3974d83">
 
 <ins>**OLED Display**</ins>
 
