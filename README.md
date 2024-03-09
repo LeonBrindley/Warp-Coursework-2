@@ -30,16 +30,6 @@ Fourthly, the number of steps in a particular period of time is extracted from t
 
 Finally, the aforementioned speed calculation is converted to an activity. [Long and Srinivasan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106) have shown that the average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s. Therefore, the **activityReading** variable is set to **ActivityRunning** if the speed exceeds 2.2 m/s (7.92 km/hr). Meanwhile, [Graham et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707) have shown that mean walking speeds of 0.23 m/s have been reported for older adults in geriatric rehabilitation settings. Therefore, the **activityReading** variable is set to **ActivityWalking** if the speed is between 0.23 m/s (0.828 km/hr) and 2.2 m/s (7.92 km/hr). Similarly, if the speed is below 0.23 m/s (0.828 km/hr), the **activityReading** variable is set to **ActivityStationary**.
 
-<ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
-
-To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). The default LPFWeights array gives **19** taps, a maximum attenuation of **120dB** and a cut-off frequency and sampling frequency of **450 Hz** and **8,192 Hz**, respectively. These parameters were chosen as the resulting coefficients were all positive and there were minimal rounding errors (such as in comparison to an attenuation of 130dB).
-
-![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/f3751657-6c32-4f95-8307-0c1e51b3f1d3)
-
-In contrast, the alternative LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **4,096 Hz**, respectively.
-
-![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/a63f13e9-0b34-45bc-ab6a-496e3c0f1f94)
-
 <ins>**Configuration: MMA8451Q Registers**</ins>
 
 The MMA8451Q accelerometer is configured by writing to the registers **F_SETUP**, **CTRL_REG1**, **HP_FILTER_CUTOFF** and **XYZ_DATA_CFG**. The structures of each register are explained in [Freescale's MMA8451Q datasheet](https://pdf1.alldatasheet.com/datasheet-pdf/download/460022/FREESCALE/MMA8451Q.html).
@@ -51,6 +41,22 @@ Secondly, CTRL_REG1 is set to **0x05** to select a **14-bit** resolution and act
 Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass filter with its default cut-off frequency of **16 Hz** and its default output data rate (ODR) of **800 Hz**. This high-pass filter removes the acceleration due to **gravity** (g), which forms a DC offset.
 
 Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals **4g**.
+
+<ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
+
+To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). The default LPFWeights array gives **19** taps, a maximum attenuation of **120dB** and a cut-off frequency and sampling frequency of **450 Hz** and **8,192 Hz**, respectively. These parameters were chosen as the resulting coefficients were all positive and there were minimal rounding errors (such as in comparison to an attenuation of 130dB).
+
+![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/f3751657-6c32-4f95-8307-0c1e51b3f1d3)
+
+In contrast, the alternative LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **4,096 Hz**, respectively.
+
+![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/a63f13e9-0b34-45bc-ab6a-496e3c0f1f94)
+
+<ins>**Low-Pass Filter Effect**</ins>
+
+The LPF significantly smoothes the acceleration magnitudes provided.
+
+<img width="1145" alt="MMA8451Q Acceleration After LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/40857ab5-3bd0-4c23-9f49-77abd432da8e">
 
 <ins>**OLED Display**</ins>
 
