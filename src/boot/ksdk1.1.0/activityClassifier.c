@@ -171,20 +171,21 @@ void classifierAlgorithm(){
   AccelerationBuffer[BUFFER_SIZE - 1] = 0;
   LPFBuffer[BUFFER_SIZE - 1] = 0;
 
-  if(SYNTHETIC_DATA == 1){
-    if(exampleDataCounter < 19){	  
-      AccelerationBuffer[BUFFER_SIZE - 1] = exampleData[exampleDataCounter];
-      exampleDataCounter++;
-    }
-    else{
-      exampleDataCounter = 0;
-      AccelerationBuffer[BUFFER_SIZE - 1] = exampleData[exampleDataCounter];
-      exampleDataCounter++;    
-    }
-  }
-  else{
-    AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;	
-  }
+  // if(SYNTHETIC_DATA == 1){
+  //   if(exampleDataCounter < 19){	  
+  //     AccelerationBuffer[BUFFER_SIZE - 1] = exampleData[exampleDataCounter];
+  //     exampleDataCounter++;
+  //   }
+  //   else{
+  //     exampleDataCounter = 0;
+  //     AccelerationBuffer[BUFFER_SIZE - 1] = exampleData[exampleDataCounter];
+  //     exampleDataCounter++;    
+  //   }
+  // }
+  // else{
+  //   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
+  // }
+  AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
   warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
