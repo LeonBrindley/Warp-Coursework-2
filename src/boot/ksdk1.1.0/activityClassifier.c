@@ -53,12 +53,12 @@ void simpleDiff(){
   numberOfSteps = 0; // Reset numberOfSteps.
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
     if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
-      warpPrint("%d > %d and %d > %d - MAXIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
+      warpPrint("%d > %d and %d > %d - MAXIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
     }
     else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
-      warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
+      warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
     }
   }
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
@@ -179,7 +179,7 @@ void classifierAlgorithm(){
   warpPrint("3. numberOfInflectionPoints: %d, numberOfSteps: %d.\n", numberOfInflectionPoints, numberOfSteps);
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  distance = (float)numberOfSteps * (float)0.716; // Calculate distance travelled over the previous 10-second period (in metres).
+  distance = ((float)numberOfInflectionPoints / 2) * (float)0.716; // Calculate distance travelled over the previous 10-second period (in metres).
   speed = distance / 10; // Calculate speed over the previous 10-second period (in m/s).
   warpPrint("4a. Speed (mm/s): %d.\n", 1000 * speed); // Print speed in mm/s as warpPrint() can only display integers (so m/s would be too imprecise).
   speed = speed * 3.6; // Convert speed from m/s to km/hr by multiplying by 3.6.
