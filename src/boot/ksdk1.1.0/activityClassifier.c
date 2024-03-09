@@ -222,10 +222,10 @@ void classifierAlgorithm(){
   else{
     activityReading = ActivityStationary; // Equals 0x0.
     warpPrint("5. Activity = Stationary.\n");
+    clearDisplay();
+    printCharacter(23);
   }
 }
-
-/*
 
 void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 	switch(number){
@@ -435,8 +435,6 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 		}
 	}
 }
-
-*/
 
 /*
 
