@@ -49,8 +49,8 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
 // To identify inflection points, look at the points either side of the current data point.
 // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
 void simpleDiff(){
-  numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints.
-  numberOfSteps = 0; // Reset numberOfSteps.
+  numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints. Includes both maxima and minima with the implementation below.
+  numberOfSteps = 0; // Reset numberOfSteps. If counting both maxima and minima, we need to divide by 2 to get the number of steps.
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
     if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
@@ -62,8 +62,8 @@ void simpleDiff(){
     }
   }
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
-  numberOfSteps = numberOfInflectionPoints / 2; // If counting both maxima and minima, we need to divide by 2 to get the number of steps.
-  warpPrint("Final numberOfSteps inside loop = %d.\n", numberOfSteps);
+  cumulativeNumberOfInflectionPoints += numberOfInflectionPoints;
+  warpPrint("Final cumulativeNumberOfInflectionPoints inside loop = %d.\n", cumulativeNumberOfInflectionPoints);
 }
 
 uint32_t sqrtInt(uint32_t base){
