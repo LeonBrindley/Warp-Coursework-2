@@ -223,7 +223,7 @@ void classifierAlgorithm(){
     activityReading = ActivityStationary; // Equals 0x0.
     warpPrint("5. Activity = Stationary.\n");
     clearDisplay();
-    printCharacter(23);
+    printCharacter(20, 20, 23);
   }
 }
 
