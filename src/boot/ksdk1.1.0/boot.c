@@ -2059,16 +2059,18 @@ main(void)
 
 	// Must allow the buffer to fill before speed readings become valid.
 	// Therefore, run updateAccelerations() at least 20 times before calling classifierAlgorithm().
-	
+
+	/*
 	warpPrint("\nCalling updateAccelerations() now.\n");
 	for (int i = 0; i < 25; i++){
 	  updateAccelerations();
 	  OSA_TimeDelay(500);
 	}
 	warpPrint("\nFinished calling updateAccelerations().\n");
-	
+	*/
+ 
 	warpPrint("\nCalling classifierAlgorithm() now.\n");
-	for (int i = 0; i < 25; i++){
+	for (int i = 0; i < 40; i++){
 	  classifierAlgorithm();
 	  OSA_TimeDelay(500);
 	}
