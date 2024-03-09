@@ -28,7 +28,7 @@ void classifierAlgorithm();
 
 #define SAMPLE_PERIOD 0.01 // Take a sample every 10ms across all three cartesian axes.
 #define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
-#define SYNTHETIC_DATA 0 // Set this to 1 to call generateData() and overwrite the raw MMA8451Q data for testing purposes.
+// #define SYNTHETIC_DATA 0 // Set this to 1 to call generateData() and overwrite the raw MMA8451Q data for testing purposes.
 
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
 int16_t XCombined = 0;
@@ -36,8 +36,8 @@ int16_t YCombined = 0;
 int16_t ZCombined = 0;
 
 uint32_t accelerationMagnitude = 0;
-uint32_t exampleData[BUFFER_SIZE] = {500, 739, 920, 998, 954, 799, 570, 324, 121, 11, 20, 147, 360, 607, 828, 968, 994, 899, 706}; // Sine wave with known frequency of 0.5Hz for testing.
-uint8_t exampleDataCounter = 0; // For selecting the correct array elements in exampleData in sequence.
+// uint32_t exampleData[BUFFER_SIZE] = {500, 739, 920, 998, 954, 799, 570, 324, 121, 11, 20, 147, 360, 607, 828, 968, 994, 899, 706}; // Sine wave with known frequency of 0.5Hz for testing.
+// uint8_t exampleDataCounter = 0; // For selecting the correct array elements in exampleData in sequence.
 uint8_t cycleCounter = 0; // This ensures the cumulative number of steps is only added to when the buffer has been fully refreshed to avoid double-counting.
 
 // Declare activityReading as the enumerated type detectedActivity defined above.
@@ -67,4 +67,4 @@ uint32_t sqrtInt(uint32_t base);
 void simpleDiff(); // Function to identify maxima and minima by considering the gradient on either side of each data point.
 
 // void printGUI();
-void printCharacter(uint8_t column, uint8_t row, uint8_t number);
+// void printCharacter(uint8_t column, uint8_t row, uint8_t number);
