@@ -102,11 +102,15 @@ WarpStatus updateAccelerations(){
   // Therefore, to convert to the acceleration to ums^-2, multiply by (488 * 9.81) = 4787 to the nearest integer.
   // Note that the %f (float) format specifier does not work with SEGGER_RTT_printf, instead use %d (decimal).
   // Details of bit manipulation with the MMA8451Q can be found at https://www.nxp.com/docs/en/application-note/AN4076.pdf.
-	
+
+  warpPrint("Parsing the bytes received from MMA8451Q's registers now.\n");	
+
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
+  warpPrint("Calculating XCombined now.\n");
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
+  warpPrint("Calculating XAcceleration now.\n");
   XAcceleration = (int32_t)(XCombined) * 4787; // Convert the acceleration to ums^-2.
   XAcceleration = XAcceleration / 1000; // Convert the acceleration to mms^-2.
   // warpPrint("XMSB: %d.\n", XMSB);
@@ -116,8 +120,10 @@ WarpStatus updateAccelerations(){
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
+  warpPrint("Calculating YCombined now.\n");
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
+  warpPrint("Calculating YAcceleration now.\n");
   YAcceleration = (int32_t)(YCombined) * 4787; // Convert the acceleration to ums^-2.
   YAcceleration = YAcceleration / 1000; // Convert the acceleration to mms^-2.
   // warpPrint("YMSB: %d.\n", YMSB);
@@ -127,8 +133,10 @@ WarpStatus updateAccelerations(){
 
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
+  warpPrint("Calculating ZCombined now.\n");
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
+  warpPrint("Calculating ZAcceleration now.\n");
   ZAcceleration = (int32_t)(ZCombined) * 4787; // Convert the acceleration to ums^-2.
   ZAcceleration = ZAcceleration / 1000; // Convert the acceleration to mms^-2.
   // warpPrint("ZMSB: %d.\n", ZMSB);
