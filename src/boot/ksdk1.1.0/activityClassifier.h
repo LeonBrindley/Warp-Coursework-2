@@ -49,7 +49,6 @@ uint16_t numberOfInflectionPoints = 0; // The  number of local maxima and minima
 uint16_t cumulativeNumberOfInflectionPoints = 0; // The cumulative number of inflection points since starting the program.
 uint16_t cumulativeNumberOfSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
 
-Removed numberOfSteps variable from activityClassifier.c.
 float distance = 0; // Initialised to 0.
 float speed = 0; // Initialised to 0.
 
@@ -59,7 +58,7 @@ float speed = 0; // Initialised to 0.
 uint16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34};
 
 uint32_t sqrtInt(uint32_t base);
-void simpleDiff();
+void simpleDiff(); // Function to identify maxima and minima by considering the gradient on either side of each data point.
 
 // void printGUI();
 // void printNumber(uint8_t column, uint8_t row, uint8_t number);
