@@ -34,7 +34,7 @@ Finally, the aforementioned speed calculation is converted to an activity. [Long
 
 To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). The default LPFWeights array gives **19** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **2,048 Hz**, respectively.
 
-![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/6077812a-89a3-4bdd-9bc7-1a61fba09cd7)
+![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/518a33d9-4910-4405-84dd-b0f4d4e5e4f2)
 
 In contrast, the alternative LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **4,096 Hz**, respectively.
 
