@@ -67,4 +67,4 @@ uint32_t sqrtInt(uint32_t base);
 void simpleDiff(); // Function to identify maxima and minima by considering the gradient on either side of each data point.
 
 // void printGUI();
-void printCharacter(uint8_t column, uint8_t row, uint8_t number){
+void printCharacter(uint8_t column, uint8_t row, uint8_t number);
