@@ -50,7 +50,6 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
 // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
 void simpleDiff(){
   numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints. Includes both maxima and minima with the implementation below.
-  numberOfSteps = 0; // Reset numberOfSteps. If counting both maxima and minima, we need to divide by 2 to get the number of steps.
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
     if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
@@ -64,8 +63,6 @@ void simpleDiff(){
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
   cumulativeNumberOfInflectionPoints += numberOfInflectionPoints;
   warpPrint("Final cumulativeNumberOfInflectionPoints inside loop = %d.\n", cumulativeNumberOfInflectionPoints);
-  numberOfSteps = numberOfInflectionPoints / 2; // Note the significant rounding error that occurs due to the short time period of 10 seconds.
-  warpPrint("Final numberOfSteps inside loop = %d.\n", numberOfSteps);
 }
 
 uint32_t sqrtInt(uint32_t base){
@@ -178,7 +175,7 @@ void classifierAlgorithm(){
 
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
   simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
-  warpPrint("3. numberOfInflectionPoints: %d, numberOfSteps: %d.\n", numberOfInflectionPoints, numberOfSteps);
+  warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   distance = ((float)numberOfInflectionPoints / 2) * (float)0.716; // Calculate distance travelled over the previous 10-second period (in metres).
