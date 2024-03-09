@@ -97,7 +97,7 @@ void classifierAlgorithm(){
   // warpPrint("\nReading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
   if (i2cReadStatus != kWarpStatusOK){
     warpPrint("\nFailed to read acceleration measurements.\n");
-    return i2cReadStatus;
+    return; // Return from the classifierAlgorithm() function if the MMA8451Q can't be read from.
   }
 
   // LSB of acceleration readings in 14-bit mode with a full-scale range of +/-4g = 8g/16384 = 0.488mg.
