@@ -81,7 +81,8 @@ uint32_t sqrtInt(uint32_t base){
   }
 }
 
-WarpStatus updateAccelerations(){
+void classifierAlgorithm(){
+
   // warpPrint("\nDeclaring LSB, MSB and acceleration variables now.\n");
   uint16_t XLSB, YLSB, ZLSB; // Least significant byte of each acceleration measurement.
   uint16_t XMSB, YMSB, ZMSB; // Most significant byte of each acceleration measurement.
@@ -159,14 +160,6 @@ WarpStatus updateAccelerations(){
   
   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
   warpPrint("1. Acceleration Magnitude: %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
-  return 0;
-}
-
-void classifierAlgorithm(){
-
-  // warpPrint("\nCalling updateAccelerations() now from inside activityClassifier.c.\n");
-  updateAccelerations();
-  // warpPrint("\nFinished running updateAccelerations() from inside activityClassifier.c.\n");
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
