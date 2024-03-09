@@ -106,7 +106,7 @@ void classifierAlgorithm(){
 
   // warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 
-  i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */);
+  i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */); // Read 6 bytes consecutively to get 14-bit acceleration measurements from all three axes.
   // warpPrint("\nReading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
   if (i2cReadStatus != kWarpStatusOK){
     warpPrint("\nFailed to read acceleration measurements.\n");
@@ -223,7 +223,7 @@ void classifierAlgorithm(){
   else{
     activityReading = ActivityStationary; // Equals 0x0 (see enumerated type).
     warpPrint("5. Activity = Stationary.\n"); // "STILL" on OLED display.
-    clearDisplay();
+    // clearDisplay();
   }
 }
 
