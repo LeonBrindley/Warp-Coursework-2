@@ -159,12 +159,12 @@ void classifierAlgorithm(){
   LPFBuffer[BUFFER_SIZE - 1] = 0;
   
   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
-  warpPrint("1. Acceleration Magnitude: %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
   for (int i = 0; i < BUFFER_SIZE; i++){
-    LPFBuffer[BUFFER_SIZE - 1] += (uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i];
+    LPFBuffer[BUFFER_SIZE - 1] += ((uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Divide by 1000 to avoid 32-bit overflow when the values are summed.
     warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
   }
 
@@ -174,7 +174,7 @@ void classifierAlgorithm(){
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   distance = (float)numberOfSteps * (float)0.716; // Calculate distance travelled over the previous 10-second period (in metres).
-  speed = 1000 * (distance / 10); // Calculate speed over the previous 10-second period (in m/s).
+  speed = distance / 10; // Calculate speed over the previous 10-second period (in m/s).
   warpPrint("4a. Speed (mm/s): %d.\n", 1000 * speed); // Print speed in mm/s as warpPrint() can only display integers (so m/s would be too imprecise).
   speed = speed * 3.6; // Convert speed from m/s to km/hr by multiplying by 3.6.
   warpPrint("4b. Speed (m/hr): %d.\n", 1000 * speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
