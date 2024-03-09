@@ -27,7 +27,7 @@ WarpStatus updateAccelerations();
 void classifierAlgorithm();
 
 #define SAMPLE_PERIOD 0.01 // Take a sample every 10ms across all three cartesian axes.
-#define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
+#define BUFFER_SIZE 39 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
 int16_t XCombined = 0;
@@ -54,8 +54,9 @@ uint32_t speed = 0; // Initialised to 0.
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
-// These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied by 1,000.
-uint16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34};
+// These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied by 1,000,000.
+// uint16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34};
+uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618, 7658, 11853, 17232, 23649, 30751, 37991, 44691, 50136, 53694, 54932, 53694, 50136, 44691, 37991, 30751, 23649, 17232, 11853, 7658, 4618, 2578, 1316, 604, 243, 82, 21, 4, 0, 0};
 
 uint32_t sqrtInt(uint32_t base);
 void simpleDiff(); // Function to identify maxima and minima by considering the gradient on either side of each data point.
