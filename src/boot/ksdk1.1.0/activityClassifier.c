@@ -51,13 +51,17 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
 void simpleDiff(){
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
     if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
+      warpPrint("%d > %d and %d > %d - maximum detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
     }
     else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
+      warpPrint("%d < %d and %d < %d - minimum detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
     }
   }
+  warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
   numberOfSteps = numberOfInflectionPoints / 2; // If counting both maxima and minima, we need to divide by 2 to get the number of steps.
+  warpPrint("Final numberOfSteps inside loop = %d.\n", numberOfSteps);
 }
 
 uint32_t sqrtInt(uint32_t base){
