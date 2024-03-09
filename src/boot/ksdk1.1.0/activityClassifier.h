@@ -37,7 +37,8 @@ int16_t ZCombined = 0;
 
 uint32_t accelerationMagnitude = 0;
 uint32_t exampleData[BUFFER_SIZE] = {500, 739, 920, 998, 954, 799, 570, 324, 121, 11, 20, 147, 360, 607, 828, 968, 994, 899, 706}; // Sine wave with known frequency of 0.5Hz for testing.
-uint8_t exampleDataCounter = 0;
+uint8_t exampleDataCounter = 0; // For selecting the correct array elements in exampleData in sequence.
+uint8_t cycleCounter = 0; // This ensures the cumulative number of steps is only added to when the buffer has been fully refreshed to avoid double-counting.
 
 // Declare activityReading as the enumerated type detectedActivity defined above.
 detectedActivity activityReading;
