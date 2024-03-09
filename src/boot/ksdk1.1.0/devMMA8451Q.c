@@ -183,11 +183,11 @@ configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1, uint8_
 WarpStatus
 readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes)
 {
-	warpPrint("Declaring cmdBuf and status variables.\n");
+	// warpPrint("Declaring cmdBuf and status variables.\n");
 	uint8_t		cmdBuf[1] = {0xFF};
 	i2c_status_t	status;
 
-	warpPrint("Checking for kWarpStatusBadDeviceCommand error.\n");
+	// warpPrint("Checking for kWarpStatusBadDeviceCommand error.\n");
 	USED(numberOfBytes);
 	switch (deviceRegister)
 	{
@@ -213,19 +213,19 @@ readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes)
 		}
 	}
 
-	warpPrint("Configuring slave device.\n");
+	// warpPrint("Configuring slave device.\n");
 	i2c_device_t slave =
 		{
 		.address = deviceMMA8451QState.i2cAddress,
 		.baudRate_kbps = gWarpI2cBaudRateKbps
 	};
 
-	warpPrint("Enabling I2C pins.\n");
+	// warpPrint("Enabling I2C pins.\n");
 	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 	cmdBuf[0] = deviceRegister;
 	warpEnableI2Cpins();
 
-	warpPrint("Executing I2C_DRV_MasterReceiveDataBlocking() function.\n");
+	// warpPrint("Executing I2C_DRV_MasterReceiveDataBlocking() function.\n");
 	status = I2C_DRV_MasterReceiveDataBlocking(
 		0 /* I2C peripheral instance */,
 		&slave,
@@ -235,7 +235,7 @@ readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes)
 		numberOfBytes,
 		gWarpI2cTimeoutMilliseconds);
 
-	warpPrint("Checking if status equals kStatus_I2C_Success.\n");
+	// warpPrint("Checking if status equals kStatus_I2C_Success.\n");
 	
 	if (status != kStatus_I2C_Success)
 	{
