@@ -178,21 +178,22 @@ void classifierAlgorithm(){
   warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  distance = ((float)numberOfInflectionPoints / 2) * (float)0.716; // Calculate distance travelled over the previous 10-second period (in metres).
-  speed = (distance * 3.6) / 10; // Calculate speed over the previous 10-second period (in km/hr).
-  warpPrint("4. Distance (mm): %d, Speed (mm/s): %d, Speed (m/hr): %d.\n", (uint32_t)(distance * 1000), (uint32_t)((speed * 1000) / 3.6), (uint32_t)(speed * 1000)); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
+  // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
+  distance = numberOfInflectionPoints * 358; // Calculate distance travelled over the previous 10-second period (in mm).
+  speed = (distance * 36) / 100; // Calculate speed over the previous 10-second period (in m/hr).
+  warpPrint("4. Distance (mm): %d, Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
   // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
-  if(speed > 7.92){
+  if(speed > 7920){ // 7.92 km/hr = 7920 m/hr.
     activityReading = ActivityRunning; // Equals 0x2.
     warpPrint("5. Activity = Running.\n");
   }
   // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
   // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
-  else if(speed > 0.828){
+  else if(speed > 828){ // 0.828 km/hr = 828 m/hr.
     activityReading = ActivityWalking; // Equals 0x1.
     warpPrint("5. Activity = Walking.\n");
   }
