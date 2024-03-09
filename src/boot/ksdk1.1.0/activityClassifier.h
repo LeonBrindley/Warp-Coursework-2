@@ -28,6 +28,7 @@ void classifierAlgorithm();
 
 #define SAMPLE_PERIOD 0.01 // Take a sample every 10ms across all three cartesian axes.
 #define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
+#define SYNTHETIC_DATA 1 // Set this to 1 to call generateData() and overwrite the raw MMA8451Q data for testing purposes.
 
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
 int16_t XCombined = 0;
