@@ -34,8 +34,26 @@
 
 // Combine all steps in classifierAlgorithm().
 
-void generateData(){
-  AccelerationBuffer = {500, 739, 920, 998, 954, 799, 570, 324, 121, 11, 20, 147, 360, 607, 828, 968, 994, 899, 706}; // Sine wave with known frequency of 0.5Hz for testing.
+void generateData(){ // Sine wave with known frequency of 0.5Hz for testing.
+  AccelerationBuffer[0] = 500;
+  AccelerationBuffer[1] = 739;
+  AccelerationBuffer[2] = 920;
+  AccelerationBuffer[3] = 998;
+  AccelerationBuffer[4] = 954;
+  AccelerationBuffer[5] = 799;
+  AccelerationBuffer[6] = 570;
+  AccelerationBuffer[7] = 324;
+  AccelerationBuffer[8] = 121;
+  AccelerationBuffer[9] = 11;
+  AccelerationBuffer[10] = 20;
+  AccelerationBuffer[11] = 147;
+  AccelerationBuffer[12] = 360;
+  AccelerationBuffer[13] = 607;
+  AccelerationBuffer[14] = 828;
+  AccelerationBuffer[15] = 968;
+  AccelerationBuffer[16] = 994;
+  AccelerationBuffer[17] = 899;
+  AccelerationBuffer[18] = 706;
 }
 
 /*
