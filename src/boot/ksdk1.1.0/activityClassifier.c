@@ -49,13 +49,15 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
 // To identify inflection points, look at the points either side of the current data point.
 // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
 void simpleDiff(){
+  numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints.
+  numberOfSteps = 0; // Reset numberOfSteps.
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
     if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
-      warpPrint("%d > %d and %d > %d - maximum detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
+      warpPrint("%d > %d and %d > %d - MAXIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
     }
     else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
-      warpPrint("%d < %d and %d < %d - minimum detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
+      warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
     }
   }
