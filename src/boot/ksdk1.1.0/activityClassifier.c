@@ -34,28 +34,6 @@
 
 // Combine all steps in classifierAlgorithm().
 
-void generateData(){ // Sine wave with known frequency of 0.5Hz for testing.
-  AccelerationBuffer[0] = 500;
-  AccelerationBuffer[1] = 739;
-  AccelerationBuffer[2] = 920;
-  AccelerationBuffer[3] = 998;
-  AccelerationBuffer[4] = 954;
-  AccelerationBuffer[5] = 799;
-  AccelerationBuffer[6] = 570;
-  AccelerationBuffer[7] = 324;
-  AccelerationBuffer[8] = 121;
-  AccelerationBuffer[9] = 11;
-  AccelerationBuffer[10] = 20;
-  AccelerationBuffer[11] = 147;
-  AccelerationBuffer[12] = 360;
-  AccelerationBuffer[13] = 607;
-  AccelerationBuffer[14] = 828;
-  AccelerationBuffer[15] = 968;
-  AccelerationBuffer[16] = 994;
-  AccelerationBuffer[17] = 899;
-  AccelerationBuffer[18] = 706;
-}
-
 /*
 
 void generateData(){ // Function to generate synthetic acceleration data for testing purposes. To save on memory, the below code can be substituted for pre-computed values.
@@ -190,7 +168,15 @@ void classifierAlgorithm(){
   LPFBuffer[BUFFER_SIZE - 1] = 0;
 
   if(SYNTHETIC_DATA == 1){
-    generateData();	
+    if(exampleDataCounter < 19){	  
+      AccelerationBuffer[BUFFER_SIZE - 1] = exampleData[exampleDataCounter];
+      exampleDataCounter++;
+    }
+    else{
+      exampleDataCounter = 0;
+      AccelerationBuffer[BUFFER_SIZE - 1] = exampleData[exampleDataCounter];
+      exampleDataCounter++;    
+    }
   }
   else{
     AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;	
