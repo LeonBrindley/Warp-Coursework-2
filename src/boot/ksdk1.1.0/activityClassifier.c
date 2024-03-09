@@ -34,17 +34,25 @@
 
 // Combine all steps in classifierAlgorithm().
 
-void generateData(){ // Function to generate synthetic acceleration data for testing purposes.
-  uint16_t exampleData[BUFFER_SIZE];
+void generateData(){
+  AccelerationBuffer = {500, 739, 920, 998, 954, 799, 570, 324, 121, 11, 20, 147, 360, 607, 828, 968, 994, 899, 706}; // Sine wave with known frequency of 0.5Hz for testing.
+}
+
+/*
+
+void generateData(){ // Function to generate synthetic acceleration data for testing purposes. To save on memory, the below code can be substituted for pre-computed values.
   float exampleTime; // exampleTime should be of the floating point type in the sinusoid below.
   warpPrint("\nGenerating synthetic acceleration data.\n");
   for (int i = 0; i < BUFFER_SIZE; i++){
     exampleTime = i * SAMPLE_PERIOD;
-    exampleData[i] = sin(2 * exampleTime); // Make the output acceleration data a standard sinusoid for testing the algorithm.
-    warpPrint("%d, ", exampleData[i]);
+    AccelerationBuffer[i] = 500 + (500 * sin(2 * exampleTime)); // Make the output acceleration data a standard sinusoid for testing the algorithm.
+    // The maximum value of 1000 is comparable to accelerationMagnitude below, and the offset of 500 is added so all results are positive (as the data type is uint32_t).
+    warpPrint("%d, ", AccelerationBuffer[i]);
   }
   warpPrint("\nFinished generating synthetic acceleration data.\n");
 }
+
+*/
 
 // To identify inflection points, look at the points either side of the current data point.
 // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
@@ -162,8 +170,13 @@ void classifierAlgorithm(){
   // Reset the final element in each buffer to 0.
   AccelerationBuffer[BUFFER_SIZE - 1] = 0;
   LPFBuffer[BUFFER_SIZE - 1] = 0;
-  
-  AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
+
+  if(SYNTHETIC_DATA == 1){
+    generateData();	
+  }
+  else{
+    AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;	
+  }
   warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
