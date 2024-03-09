@@ -65,8 +65,12 @@ void simpleDiff(){
     }
   }
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
-  cumulativeNumberOfInflectionPoints += numberOfInflectionPoints;
-  warpPrint("Final cumulativeNumberOfInflectionPoints inside loop = %d.\n", cumulativeNumberOfInflectionPoints);
+  if(cycleCounter == 19){
+    cycleCounter = 0;
+    cumulativeNumberOfInflectionPoints += numberOfInflectionPoints;
+    warpPrint("Final cumulativeNumberOfInflectionPoints inside loop = %d.\n", cumulativeNumberOfInflectionPoints);
+  }
+  cycleCounter++;
 }
 
 uint32_t sqrtInt(uint32_t base){
