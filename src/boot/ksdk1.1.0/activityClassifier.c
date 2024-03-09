@@ -82,13 +82,15 @@ uint32_t sqrtInt(uint32_t base){
 }
 
 WarpStatus updateAccelerations(){
+  warpPrint("Declaring LSB, MSB and acceleration variables now.\n");
   uint16_t XLSB, YLSB, ZLSB; // Least significant byte of each acceleration measurement.
   uint16_t XMSB, YMSB, ZMSB; // Most significant byte of each acceleration measurement.
   int32_t XAcceleration, YAcceleration, ZAcceleration; // Actual acceleration values for checking their accuracy.
   WarpStatus i2cReadStatus;
 
   warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-	
+
+  warpPrint("Reading from the MMA8451Q's registers now.\n");	
   i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */);
   // warpPrint("Reading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
   if (i2cReadStatus != kWarpStatusOK){
@@ -153,9 +155,9 @@ WarpStatus updateAccelerations(){
 
 void classifierAlgorithm(){
 
-  warpPrint("Running updateAccelerations() now.\n");
+  warpPrint("\nCalling updateAccelerations() now.\n");
   updateAccelerations();
-  warpPrint("Finished running updateAccelerations().\n");
+  warpPrint("\nFinished running updateAccelerations().\n");
 
   warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
