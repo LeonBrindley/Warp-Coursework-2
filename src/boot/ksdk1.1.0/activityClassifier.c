@@ -164,9 +164,9 @@ WarpStatus updateAccelerations(){
 
 void classifierAlgorithm(){
 
-  warpPrint("\nCalling updateAccelerations() now.\n");
+  warpPrint("\nCalling updateAccelerations() now from inside activityClassifier.c.\n");
   updateAccelerations();
-  warpPrint("\nFinished running updateAccelerations().\n");
+  warpPrint("\nFinished running updateAccelerations() from inside activityClassifier.c.\n");
 
   warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
@@ -190,19 +190,19 @@ void classifierAlgorithm(){
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
   // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
   if(speed > 7.92){
-    activityReading = ActivityRunning;
+    activityReading = ActivityRunning; // Equals 0x2.
     warpPrint("5. Activity = Running.\n");
   }
   // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
   // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
   else if(speed > 0.828){
-    activityReading = ActivityWalking;
+    activityReading = ActivityWalking; // Equals 0x1.
     warpPrint("5. Activity = Walking.\n");
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
-    activityReading = ActivityStationary;
+    activityReading = ActivityStationary; // Equals 0x0.
     warpPrint("5. Activity = Stationary.\n");
   }
 }
