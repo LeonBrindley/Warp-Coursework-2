@@ -32,9 +32,14 @@ Finally, the aforementioned speed calculation is converted to an activity. [Long
 
 <ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
 
-To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). In the example below, there are **39** taps, the maximum attenuation of **130dB** is chosen and the cut-off frequency and sampling frequency are set to **450 Hz** and **4,096 Hz**, respectively.
+To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). The default LPFWeights array gives **19** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **2,048 Hz**, respectively.
+
+![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/6077812a-89a3-4bdd-9bc7-1a61fba09cd7)
+
+In contrast, the alternative LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **4,096 Hz**, respectively.
 
 ![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/a63f13e9-0b34-45bc-ab6a-496e3c0f1f94)
+
 
 <ins>**Configuration: MMA8451Q Registers**</ins>
 
