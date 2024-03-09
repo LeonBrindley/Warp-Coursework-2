@@ -16,8 +16,6 @@ typedef enum
 	ActivityRunning		        = 0x2,
 } detectedActivity;
 
-void classifierAlgorithm();
-
 /*
 void stepOneCombine();
 void stepTwoFilter();
@@ -26,6 +24,7 @@ void stepFourSpeed();
 */
 
 WarpStatus updateAccelerations();
+void classifierAlgorithm();
 
 #define SAMPLE_PERIOD 0.01 // Take a sample every 10ms across all three cartesian axes.
 #define BUFFER_SIZE 19 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
@@ -60,5 +59,5 @@ uint16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43
 uint32_t sqrtInt(uint32_t base);
 void simpleDiff();
 
-void printGUI();
-void printNumber(uint8_t column, uint8_t row, uint8_t number);
+// void printGUI();
+// void printNumber(uint8_t column, uint8_t row, uint8_t number);
