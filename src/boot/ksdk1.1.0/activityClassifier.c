@@ -36,6 +36,42 @@
 
 /*
 
+void calculateSpeed(){
+  numberOfCycles += 1;
+  warpPrint("numberOfCycles: %d.\n", numberOfCycles);
+  cumulativeInflectionPoints += numberOfInflectionPoints;
+  warpPrint("cumulativeInflectionPoints: %d.\n", cumulativeInflectionPoints);
+  cumulativeSteps = cumulativeInflectionPoints / 2;
+  warpPrint("cumulativeSteps: %d.\n", cumulativeSteps);
+  
+  // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
+  // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
+  distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
+  speed = (distance * 36) / (numberOfCycles * 195); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
+  warpPrint("4. Distance (mm): %d, Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
+
+  // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
+  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
+  // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
+  if(speed > 7920){ // 7.92 km/hr = 7920 m/hr.
+    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type).
+    warpPrint("5. Activity = Running.\n"); // "RUNNING" on OLED display.
+  }
+  // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
+  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
+  // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
+  else if(speed > 828){ // 0.828 km/hr = 828 m/hr.
+    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type).
+    warpPrint("5. Activity = Walking.\n"); // "WALKING" on OLED display.
+  }
+  // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
+  else{
+    activityReading = ActivityStationary; // Equals 0x0 (see enumerated type).
+    warpPrint("5. Activity = Stationary.\n"); // "STILL" on OLED display.
+    // clearDisplay();
+  }
+}
+
 void generateData(){ // Function to generate synthetic acceleration data for testing purposes. To save on memory, the below code can be substituted for pre-computed values.
   float exampleTime; // exampleTime should be of the floating point type in the sinusoid below.
   warpPrint("\nGenerating synthetic acceleration data.\n");
@@ -65,12 +101,6 @@ void simpleDiff(){
     }
   }
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
-  if(cycleCounter == 39){
-    cycleCounter = 0;
-    cumulativeInflectionPoints += numberOfInflectionPoints;
-    warpPrint("Final cumulativeInflectionPoints inside loop = %d.\n", cumulativeInflectionPoints);
-  }
-  cycleCounter++;
 }
 
 uint32_t sqrtInt(uint32_t base){
@@ -199,33 +229,12 @@ void classifierAlgorithm(){
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
   simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
   warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
-	
-  // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
-  distance = numberOfInflectionPoints * 358; // Calculate distance travelled across the previous 10-second period (in mm).
-  speed = (distance * 36 * 100) / 19500; // Calculate speed (distance over time) across the previous 10-second period (in m/hr).
-  warpPrint("4. Distance (mm): %d, Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 
-  // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
-  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
-  // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
-  if(speed > 7920){ // 7.92 km/hr = 7920 m/hr.
-    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type).
-    warpPrint("5. Activity = Running.\n"); // "RUNNING" on OLED display.
+  if(cycleCounter == 39){
+    calculateSpeed();
+    cycleCounter = 0;
   }
-  // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
-  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
-  // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
-  else if(speed > 828){ // 0.828 km/hr = 828 m/hr.
-    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type).
-    warpPrint("5. Activity = Walking.\n"); // "WALKING" on OLED display.
-  }
-  // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
-  else{
-    activityReading = ActivityStationary; // Equals 0x0 (see enumerated type).
-    warpPrint("5. Activity = Stationary.\n"); // "STILL" on OLED display.
-    // clearDisplay();
-  }
+  cycleCounter++;
 }
 
 /*
