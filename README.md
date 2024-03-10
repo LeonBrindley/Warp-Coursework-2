@@ -42,6 +42,12 @@ Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass 
 
 Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals **4g**.
 
+<ins>**Configuration: Sampling Rate**</ins>
+
+It is insufficient to simply configure the time period (for example, **250ms**) using the argument of **OSA_TimeDelay()**, as this does not account for the time required to execute the data processing steps. Furthermore, this duration can vary between samples (for example, because more iterations are required in the **sqrtInt()** function using the Newton-Raphson method).
+
+Fortunately, this execution time can be recorded by calling **OSA_TimeGetMsec()** before and after running the necessary code (and calculating the difference). Subsequently, this is subtracted from the nominal time period before being fed into the OSA_TimeDelay() function.
+
 <ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
 
 To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). The default LPFWeights array gives **19** taps, a maximum attenuation of **120dB** and a cut-off frequency and sampling frequency of **450 Hz** and **8,192 Hz**, respectively. These parameters were chosen as the resulting coefficients were all positive and there were minimal rounding errors (such as in comparison to an attenuation of 130dB).
@@ -65,7 +71,6 @@ After this data was low-pass filtered, the **simpleDiff()** function only detect
 When the **LPFWeights** array was expanded to 39 elements, the argument of the relevant **OSA_Time_Delay()** function in **boot.c** was halved (to maintain an approximately equal test duration).
 
 <img width="929" alt="MMA8451Q Acceleration Across 39 Elements" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/ddd586a6-8d4d-4250-91b1-5a15e54f3048">
-
 
 <ins>**OLED Display**</ins>
 
