@@ -54,9 +54,9 @@ To set the low-pass filter frequency, you can use a program such as [WinRFCalc](
 
 ![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/f3751657-6c32-4f95-8307-0c1e51b3f1d3)
 
-In contrast, the alternative LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **4,096 Hz**, respectively.
+In contrast, the alternative LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **16,384 Hz**, respectively.
 
-![WinRFCalc](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/a63f13e9-0b34-45bc-ab6a-496e3c0f1f94)
+![WinRFCalc39](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/7eb2f182-b25a-4429-aba4-f512030f2af0)
 
 <ins>**Low-Pass Filter Effect**</ins>
 
