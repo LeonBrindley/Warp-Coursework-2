@@ -2083,7 +2083,13 @@ main(void)
 	  timeAfter = OSA_TimeGetMsec();
 	  timeDifference = timeAfter - timeBefore;
 	  warpPrint("timeAfter: %d, timeBefore: %d, timeDifference: %d.\n", timeAfter, timeBefore, timeDifference);
-	  OSA_TimeDelay(250 - timeDifference);
+	  if(timeDifference < 500){
+	    OSA_TimeDelay(500 - timeDifference);
+	  }
+          else{
+	    warpPrint("Error: timeDifference > 500ms.\n");
+	    break;
+	  }
 	}
 	warpPrint("\nFinished calling classifierAlgorithm().\n");
 	
