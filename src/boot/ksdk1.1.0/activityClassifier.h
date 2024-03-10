@@ -26,7 +26,7 @@ void stepFourSpeed();
 WarpStatus updateAccelerations();
 void classifierAlgorithm();
 
-#define SAMPLE_PERIOD 100 // Take a sample every 100ms across all three cartesian axes.
+#define SAMPLE_PERIOD 200 // Take a sample every 200ms across all three cartesian axes.
 #define BUFFER_SIZE 39 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 // #define SYNTHETIC_DATA 0 // Set this to 1 to call generateData() and overwrite the raw MMA8451Q data for testing purposes.
 
