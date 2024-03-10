@@ -63,6 +63,7 @@ uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618,
 
 uint32_t sqrtInt(uint32_t base); // Return the square root of an integer using the Newton-Raphson method.
 void simpleDiff(); // Function to identify maxima and minima by considering the gradient on either side of each data point.
+void calculateSpeed(); // Calculate the speed every time cycleCounter resets.
 
 // void printGUI();
 // void printCharacter(uint8_t column, uint8_t row, uint8_t number);
