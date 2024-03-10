@@ -34,8 +34,6 @@
 
 // Combine all steps in classifierAlgorithm().
 
-/*
-
 void calculateSpeed(){
   numberOfCycles += 1;
   warpPrint("numberOfCycles: %d.\n", numberOfCycles);
@@ -71,6 +69,8 @@ void calculateSpeed(){
     // clearDisplay();
   }
 }
+
+/*
 
 void generateData(){ // Function to generate synthetic acceleration data for testing purposes. To save on memory, the below code can be substituted for pre-computed values.
   float exampleTime; // exampleTime should be of the floating point type in the sinusoid below.
