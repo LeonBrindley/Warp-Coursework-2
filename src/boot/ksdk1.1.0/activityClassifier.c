@@ -34,7 +34,52 @@
 
 // Combine all steps in classifierAlgorithm().
 
-void calculateSpeed(){
+uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the acceleration using Pythagoras' theorem across three cartesian axes.
+  if(base == 0 || base == 1){ // If the number equals 0 or 1, the root equals the base.
+    return base;
+  }
+  else{
+    uint32_t root = base / 8; // Guess the square root at first.
+    // warpPrint("Square rooting the number %d.\n", base);
+    while(1){ // Perform this iterative result until the square root is calculated.
+      uint32_t oldRoot = root; // Save the old root to compare the new one to.
+      root = (root / 2) + (base / (2 * root));
+      if(abs(root - oldRoot) <= 1){ // <= 1 to prevent the result hopping between two adjacent numbers and failing to converge.
+        return (root + 1); // Add 1 to round up, so the final square root result is accurate.
+      }
+      else{
+        // warpPrint("Guessed the number %d.\n", root);
+        // warpPrint("%d != %d.\n", root, oldRoot);  
+      }
+    }
+  }
+}
+
+void applyLPF(){ // Step 2: apply a low-pass filter to the data.
+  for (int i = 0; i < BUFFER_SIZE; i++){
+    LPFBuffer[BUFFER_SIZE - 1] += ((uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Divide by 1000 to avoid 32-bit overflow when the values are summed.
+    warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
+    // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
+  }	
+}
+
+void simpleDiff(){ // Step 3: search for points of inflection by considering the values either side of each data point.
+  // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
+  numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints. Includes both maxima and minima with the implementation below.
+  for(int i = 1; i < BUFFER_SIZE - 1; i++){
+    if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
+      numberOfInflectionPoints = numberOfInflectionPoints + 1;
+      warpPrint("%d > %d and %d > %d - MAXIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
+    }
+    else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
+      numberOfInflectionPoints = numberOfInflectionPoints + 1;
+      warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
+    }
+  }
+  warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
+}
+
+void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   numberOfCycles += 1;
   warpPrint("numberOfCycles: %d.\n", numberOfCycles);
   cumulativeInflectionPoints += numberOfInflectionPoints;
@@ -85,44 +130,6 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
 }
 
 */
-
-// To identify inflection points, look at the points either side of the current data point.
-// This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
-void simpleDiff(){
-  numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints. Includes both maxima and minima with the implementation below.
-  for(int i = 1; i < BUFFER_SIZE - 1; i++){
-    if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
-      numberOfInflectionPoints = numberOfInflectionPoints + 1;
-      warpPrint("%d > %d and %d > %d - MAXIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
-    }
-    else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
-      numberOfInflectionPoints = numberOfInflectionPoints + 1;
-      warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
-    }
-  }
-  warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
-}
-
-uint32_t sqrtInt(uint32_t base){
-  if(base == 0 || base == 1){ // If the number equals 0 or 1, the root equals the base.
-    return base;
-  }
-  else{
-    uint32_t root = base / 8; // Guess the square root at first.
-    // warpPrint("Square rooting the number %d.\n", base);
-    while(1){ // Perform this iterative result until the square root is calculated.
-      uint32_t oldRoot = root; // Save the old root to compare the new one to.
-      root = (root / 2) + (base / (2 * root));
-      if(abs(root - oldRoot) <= 1){ // <= 1 to prevent the result hopping between two adjacent numbers and failing to converge.
-        return (root + 1); // Add 1 to round up, so the final square root result is accurate.
-      }
-      else{
-        // warpPrint("Guessed the number %d.\n", root);
-        // warpPrint("%d != %d.\n", root, oldRoot);  
-      }
-    }
-  }
-}
 
 void classifierAlgorithm(){
 
@@ -221,14 +228,9 @@ void classifierAlgorithm(){
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
-  for (int i = 0; i < BUFFER_SIZE; i++){
-    LPFBuffer[BUFFER_SIZE - 1] += ((uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Divide by 1000 to avoid 32-bit overflow when the values are summed.
-    warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
-    // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
-  }
-
   if(cycleCounter == 39){
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
+    applyLPF(); // Low-pass filter the array with a cut-off frequency of 450 Hz.
     simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
     calculateSpeed();
     cycleCounter = 0;
