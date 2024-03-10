@@ -90,7 +90,7 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
   distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
-  speed = (distance * 36) / (numberOfCycles * 195); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
+  speed = (distance * 3600) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
   warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (numberOfCycles * 195) / 10, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
@@ -228,7 +228,7 @@ void classifierAlgorithm(){
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 	
-  if(cycleCounter == 39){
+  if(cycleCounter == BUFFER_SIZE){
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
     applyLPF(); // Low-pass filter the array with a cut-off frequency of 450 Hz.
     simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
