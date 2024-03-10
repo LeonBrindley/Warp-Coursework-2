@@ -48,7 +48,7 @@ void calculateSpeed(){
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
   distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
   speed = (distance * 36) / (numberOfCycles * 195); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
-  warpPrint("4. Distance (mm): %d, Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
+  warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (numberOfCycles * 195) / 10, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
