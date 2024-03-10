@@ -80,8 +80,6 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
 }
 
 void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
-  numberOfCycles += 1;
-  warpPrint("numberOfCycles: %d.\n", numberOfCycles);
   cumulativeInflectionPoints += numberOfInflectionPoints;
   warpPrint("cumulativeInflectionPoints: %d.\n", cumulativeInflectionPoints);
   cumulativeSteps = cumulativeInflectionPoints / 2;
@@ -90,9 +88,11 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
   distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
-  speed = (distance * 3600) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
+  speed = (distance * 3600) / ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
   warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (numberOfCycles * 195) / 10, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
+}
 
+void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
   // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
@@ -228,12 +228,20 @@ void classifierAlgorithm(){
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 
-  applyLPF(); // Low-pass filter the array with a cut-off frequency of 450 Hz.
+  applyLPF(); // Step 2.
 	
-  if(cycleCounter == BUFFER_SIZE){
+  if((cycleCounter == BUFFER_SIZE) && (cycleCounter != 0)){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that numberOfCycles doesn't equal 0.
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
-    simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
-    calculateSpeed();
+    numberOfCycles += 1;
+    warpPrint("numberOfCycles: %d.\n", numberOfCycles);
+    simpleDiff(); // Step 3.
+    calculateSpeed(); // Step 4.
+    identifyActivity(); // Step 5.
+    cycleCounter = 0;
+  }
+  else if((cycleCounter == BUFFER_SIZE) && (cycleCounter == 0)){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
+    numberOfCycles += 1;
+    warpPrint("numberOfCycles: %d.\n", numberOfCycles);
     cycleCounter = 0;
   }
   cycleCounter++;
