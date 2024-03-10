@@ -62,9 +62,10 @@ uint32_t speed = 0; // Initialised to 0.
 uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618, 7658, 11853, 17232, 23649, 30751, 37991, 44691, 50136, 53694, 54932, 53694, 50136, 44691, 37991, 30751, 23649, 17232, 11853, 7658, 4618, 2578, 1316, 604, 243, 82, 21, 4, 0, 0}; // 39-element array.
 
 uint32_t sqrtInt(uint32_t base); // Return the square root of an integer using the Newton-Raphson method.
-void applyLPF(); // Low-pass filter the data in the AccelerationBuffer.
-void simpleDiff(); // Function to identify maxima and minima by considering the gradient on either side of each data point.
-void calculateSpeed(); // Calculate the speed every time cycleCounter resets.
+void applyLPF(); // Step 2.
+void simpleDiff(); // Step 3.
+void calculateSpeed(); // Step 4.
+void identifyActivity(); // Step 5.
 
 // void printGUI();
 // void printCharacter(uint8_t column, uint8_t row, uint8_t number);
