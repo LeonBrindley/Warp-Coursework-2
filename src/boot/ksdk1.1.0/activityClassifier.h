@@ -26,7 +26,7 @@ void stepFourSpeed();
 WarpStatus updateAccelerations();
 void classifierAlgorithm();
 
-#define SAMPLE_PERIOD 0.01 // Take a sample every 10ms across all three cartesian axes.
+#define SAMPLE_PERIOD 500 // Take a sample every 500ms across all three cartesian axes.
 #define BUFFER_SIZE 39 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 // #define SYNTHETIC_DATA 0 // Set this to 1 to call generateData() and overwrite the raw MMA8451Q data for testing purposes.
 
@@ -62,6 +62,7 @@ uint32_t speed = 0; // Initialised to 0.
 uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618, 7658, 11853, 17232, 23649, 30751, 37991, 44691, 50136, 53694, 54932, 53694, 50136, 44691, 37991, 30751, 23649, 17232, 11853, 7658, 4618, 2578, 1316, 604, 243, 82, 21, 4, 0, 0}; // 39-element array.
 
 uint32_t sqrtInt(uint32_t base); // Return the square root of an integer using the Newton-Raphson method.
+void applyLPF(); // Low-pass filter the data in the AccelerationBuffer.
 void simpleDiff(); // Function to identify maxima and minima by considering the gradient on either side of each data point.
 void calculateSpeed(); // Calculate the speed every time cycleCounter resets.
 
