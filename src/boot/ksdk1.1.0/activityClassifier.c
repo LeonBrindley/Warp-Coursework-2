@@ -437,7 +437,18 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 			break;
 		}
 	}
-}
+} 
+
+void printRunning(){ // 7 letters = width of 35, with spacing of 2 between each letter.
+  clearDisplay(); // 128 - 35 - (6 * 2) = 81, so start at trunc(81 / 2) = 40.
+  printCharacter(40, 10, 14);
+  printCharacter(47, 10, 22);
+  printCharacter(54, 10, 20);
+  printCharacter(61, 10, 20);
+  printCharacter(68, 10, 19);
+  printCharacter(75, 10, 20);
+  printCharacter(82, 10, 21);
+} 
 
 void printStill(){ // 5 letters = width of 25, with spacing of 2 between each letter.
   clearDisplay(); // 128 - 25 - (4 * 2) = 95, so start at trunc(95 / 2) = 47.
