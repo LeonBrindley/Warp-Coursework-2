@@ -439,6 +439,15 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 	}
 }
 
+void printStill(){ // 5 letters = width of 25, with spacing of 2 between each letter.
+  clearDisplay(); // 128 - 25 - (4 * 2) = 95, so start at trunc(95 / 2) = 47.
+  printCharacter(47, 10, 23);
+  printCharacter(54, 10, 24);
+  printCharacter(61, 10, 19);
+  printCharacter(68, 10, 18);
+  printCharacter(75, 10, 18);
+}
+
 */
 
 /*
