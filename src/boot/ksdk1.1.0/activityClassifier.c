@@ -230,7 +230,7 @@ void classifierAlgorithm(){
 
   applyLPF(); // Step 2.
 	
-  if((cycleCounter == BUFFER_SIZE) && (cycleCounter != 0)){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that numberOfCycles doesn't equal 0.
+  if((cycleCounter == BUFFER_SIZE) && (numberOfCycles != 0)){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that numberOfCycles doesn't equal 0.
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
     numberOfCycles += 1;
     warpPrint("numberOfCycles: %d.\n", numberOfCycles);
@@ -239,7 +239,7 @@ void classifierAlgorithm(){
     identifyActivity(); // Step 5.
     cycleCounter = 0;
   }
-  else if((cycleCounter == BUFFER_SIZE) && (cycleCounter == 0)){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
+  else if((cycleCounter == BUFFER_SIZE) && (numberOfCycles == 0)){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
     numberOfCycles += 1;
     warpPrint("numberOfCycles: %d.\n", numberOfCycles);
     warpPrint("First cycle, so not performing any additional steps.\n");
