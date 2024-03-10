@@ -100,7 +100,7 @@ void simpleDiff(){
       warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
     }
   }
-  warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
+  warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
 }
 
 uint32_t sqrtInt(uint32_t base){
@@ -215,6 +215,7 @@ void classifierAlgorithm(){
   // else{
   //   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
   // }
+
   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
   warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 
@@ -222,15 +223,13 @@ void classifierAlgorithm(){
 	
   for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[BUFFER_SIZE - 1] += ((uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Divide by 1000 to avoid 32-bit overflow when the values are summed.
-    // warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
+    warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
     // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
   }
 
-  // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
-  simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
-  warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
-
   if(cycleCounter == 39){
+    // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
+    simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
     calculateSpeed();
     cycleCounter = 0;
   }
