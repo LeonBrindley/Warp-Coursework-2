@@ -202,8 +202,8 @@ void classifierAlgorithm(){
 	
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
-  distance = numberOfInflectionPoints * 358; // Calculate distance travelled over the previous 10-second period (in mm).
-  speed = (distance * 36) / 100; // Calculate speed over the previous 10-second period (in m/hr).
+  distance = numberOfInflectionPoints * 358; // Calculate distance travelled across the previous 10-second period (in mm).
+  speed = (distance * 36 * 100) / 9750; // Calculate speed (distance over time) across the previous 10-second period (in m/hr).
   warpPrint("4. Distance (mm): %d, Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
