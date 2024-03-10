@@ -67,8 +67,8 @@ void simpleDiff(){
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
   if(cycleCounter == 19){
     cycleCounter = 0;
-    cumulativeNumberOfInflectionPoints += numberOfInflectionPoints;
-    warpPrint("Final cumulativeNumberOfInflectionPoints inside loop = %d.\n", cumulativeNumberOfInflectionPoints);
+    cumulativeInflectionPoints += numberOfInflectionPoints;
+    warpPrint("Final cumulativeInflectionPoints inside loop = %d.\n", cumulativeInflectionPoints);
   }
   cycleCounter++;
 }
