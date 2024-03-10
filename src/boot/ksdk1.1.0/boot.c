@@ -2083,11 +2083,11 @@ main(void)
 	  timeAfter = OSA_TimeGetMsec();
 	  timeDifference = timeAfter - timeBefore;
 	  warpPrint("timeAfter: %d, timeBefore: %d, timeDifference: %d.\n", timeAfter, timeBefore, timeDifference);
-	  if(timeDifference < 500){
-	    OSA_TimeDelay(500 - timeDifference);
+	  if(timeDifference < SAMPLE_PERIOD){
+	    OSA_TimeDelay(SAMPLE_PERIOD - timeDifference);
 	  }
           else{
-	    warpPrint("Error: timeDifference > 500ms.\n");
+	    warpPrint("Error: timeDifference > %dms.\n", SAMPLE_PERIOD);
 	    break;
 	  }
 	}
