@@ -65,7 +65,7 @@ void simpleDiff(){
     }
   }
   warpPrint("Final numberOfInflectionPoints inside loop = %d.\n", numberOfInflectionPoints);
-  if(cycleCounter == 19){
+  if(cycleCounter == 39){
     cycleCounter = 0;
     cumulativeInflectionPoints += numberOfInflectionPoints;
     warpPrint("Final cumulativeInflectionPoints inside loop = %d.\n", cumulativeInflectionPoints);
@@ -193,7 +193,7 @@ void classifierAlgorithm(){
   for (int i = 0; i < BUFFER_SIZE; i++){
     LPFBuffer[BUFFER_SIZE - 1] += ((uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Divide by 1000 to avoid 32-bit overflow when the values are summed.
     // warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
-    warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
+    // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
   }
 
   // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
