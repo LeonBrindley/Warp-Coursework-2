@@ -68,9 +68,9 @@ After this data was low-pass filtered, the **simpleDiff()** function only detect
 
 <img width="1128" alt="MMA8451Q Acceleration After LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/4f8d1ca4-8ebd-42bf-bde8-ecaed3974d83">
 
-When the **LPFWeights** array was expanded to 39 elements, the argument of the relevant **OSA_Time_Delay()** function in **boot.c** was halved (to maintain an approximately equal test duration).
+When the **LPFWeights** array was expanded to **39** elements, the nominal argument of the relevant **OSA_Time_Delay()** function in **boot.c** (excluding the algorithm's execution time) was halved to maintain an equal test duration. The resulting waveform was smoother, but an identical number of inflection points were detected (when an approximately identical activity was performed).
 
-<img width="929" alt="MMA8451Q Acceleration Across 39 Elements" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/ddd586a6-8d4d-4250-91b1-5a15e54f3048">
+<img width="1160" alt="MMA8451Q Acceleration Across 39 Elements" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/761789eb-ee85-4b9d-bd84-da035341409c">
 
 <ins>**OLED Display**</ins>
 
