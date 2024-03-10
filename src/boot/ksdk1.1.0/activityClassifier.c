@@ -60,7 +60,7 @@ void applyLPF(){ // Step 2: apply a low-pass filter to the data.
     LPFBuffer[BUFFER_SIZE - 1] += ((uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Divide by 1000 to avoid 32-bit overflow when the values are summed.
     // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
   }
-  warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFWeights[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
+  // warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFWeights[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 }
 
 void simpleDiff(){ // Step 3: search for points of inflection by considering the values either side of each data point.
@@ -76,14 +76,15 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
       warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
     }
   }
-  warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
+  // warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
 }
 
 void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   cumulativeInflectionPoints += numberOfInflectionPoints;
-  warpPrint("cumulativeInflectionPoints: %d.\n", cumulativeInflectionPoints);
+  // warpPrint("cumulativeInflectionPoints: %d.\n", cumulativeInflectionPoints);
   cumulativeSteps = cumulativeInflectionPoints / 2;
-  warpPrint("cumulativeSteps: %d.\n", cumulativeSteps);
+  // warpPrint("cumulativeSteps: %d.\n", cumulativeSteps);
+  warpPrint("3. numberOfInflectionPoints: %d, cumulativeInflectionPoints: %d, cumulativeSteps: %d.\n", numberOfInflectionPoints, cumulativeInflectionPoints, cumulativeSteps);
   
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
@@ -224,7 +225,7 @@ void classifierAlgorithm(){
   // }
 
   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
-  warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  // warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 
