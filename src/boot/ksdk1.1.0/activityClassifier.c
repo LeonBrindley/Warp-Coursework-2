@@ -89,7 +89,7 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
   distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
   speed = (distance * 3600) / ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
-  warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (numberOfCycles * 195) / 10, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
+  warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, ((numberOfCycles - 1) * SAMPLE_PERIOD * BUFFER_SIZE) / 1000, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 }
 
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
@@ -242,6 +242,7 @@ void classifierAlgorithm(){
   else if((cycleCounter == BUFFER_SIZE) && (cycleCounter == 0)){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
     numberOfCycles += 1;
     warpPrint("numberOfCycles: %d.\n", numberOfCycles);
+    warpPrint("First cycle, so not performing any additional steps.\n");
     cycleCounter = 0;
   }
   cycleCounter++;
