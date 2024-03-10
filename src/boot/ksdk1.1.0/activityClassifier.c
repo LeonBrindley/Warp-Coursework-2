@@ -227,10 +227,11 @@ void classifierAlgorithm(){
   warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
+
+  applyLPF(); // Low-pass filter the array with a cut-off frequency of 450 Hz.
 	
   if(cycleCounter == BUFFER_SIZE){
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
-    applyLPF(); // Low-pass filter the array with a cut-off frequency of 450 Hz.
     simpleDiff(); // Identify the maxima and minima of the low-pass filtered waveform.
     calculateSpeed();
     cycleCounter = 0;
