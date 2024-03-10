@@ -439,24 +439,35 @@ void printCharacter(uint8_t column, uint8_t row, uint8_t number){
 	}
 } 
 
+void printWalking(){ // 7 letters = width of 35, with spacing of 2 between each letter.
+  clearDisplay(); // 128 - 35 - (6 * 2) = 81, so start at trunc(81 / 2) = 40.
+  printCharacter(40, 10, 16); // W = 16.
+  printCharacter(47, 10, 17); // A = 17.
+  printCharacter(54, 10, 18); // L = 18.
+  printCharacter(61, 10, 10); // K = 10.
+  printCharacter(68, 10, 19); // I = 19.
+  printCharacter(75, 10, 20); // N = 20.
+  printCharacter(82, 10, 21); // G = 21.
+}  
+
 void printRunning(){ // 7 letters = width of 35, with spacing of 2 between each letter.
   clearDisplay(); // 128 - 35 - (6 * 2) = 81, so start at trunc(81 / 2) = 40.
-  printCharacter(40, 10, 14);
-  printCharacter(47, 10, 22);
-  printCharacter(54, 10, 20);
-  printCharacter(61, 10, 20);
-  printCharacter(68, 10, 19);
-  printCharacter(75, 10, 20);
-  printCharacter(82, 10, 21);
-} 
+  printCharacter(40, 10, 14); // R = 14.
+  printCharacter(47, 10, 22); // U = 22.
+  printCharacter(54, 10, 20); // N = 20.
+  printCharacter(61, 10, 20); // N = 20.
+  printCharacter(68, 10, 19); // I = 19.
+  printCharacter(75, 10, 20); // N = 20.
+  printCharacter(82, 10, 21); // G = 21.
+}
 
 void printStill(){ // 5 letters = width of 25, with spacing of 2 between each letter.
   clearDisplay(); // 128 - 25 - (4 * 2) = 95, so start at trunc(95 / 2) = 47.
-  printCharacter(47, 10, 23);
-  printCharacter(54, 10, 24);
-  printCharacter(61, 10, 19);
-  printCharacter(68, 10, 18);
-  printCharacter(75, 10, 18);
+  printCharacter(47, 10, 23); // S = 23.
+  printCharacter(54, 10, 24); // T = 24.
+  printCharacter(61, 10, 19); // I = 19.
+  printCharacter(68, 10, 18); // L = 18.
+  printCharacter(75, 10, 18); // L = 18.
 }
 
 */
