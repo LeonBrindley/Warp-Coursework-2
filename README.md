@@ -74,6 +74,16 @@ When the **LPFWeights** array was expanded to **39** elements, the nominal argum
 
 <img width="1160" alt="MMA8451Q Acceleration Across 39 Elements" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/761789eb-ee85-4b9d-bd84-da035341409c">
 
+<ins>**Uncertainty Calculation**</ins>
+
+As fixed-point computations are widely used to eliminate any rounding errors, the main sources of error are due to variations in people's characteristic transition velocities, variations in people's step lengths and (with low runtimes) the exlusion of inflection points slightly outside of the duration tested.
+
+[Saibene and Minetti](https://link.springer.com/article/10.1007/s00421-002-0654-9) report that previous studies have calculated the characteristic velocity between walking and running as between 1.80 and 2.50ms^-1. By assuming that the true characteristic velocity of humans can be derived from a uniform distribution between these two figures, a percentage uncertainty due to this factor is calculated. For example, if the velocity is measured as 2.15ms^-1 (the midpoint of this range), the confidence level should be multiplied by 50%.
+
+The variation in people's step lengths has not been statistically characterised in prior literature, and the 0.414 * HEIGHT estimate is frequently used across the industry, so this form of uncertainty was negated. Furthermore, this result can vary with numerous factors, such as the presence of rain, any incline of the ground and your footwear, so the calculation of type B uncertainty is unfeasible.
+
+Finally, the confidence level is also affected by the duration of the experiment, as this effects the accuracy of the total time that has been elapsed (the denominator of the speed equation).
+
 <ins>**OLED Display**</ins>
 
 The function **printCharacter()** in **activityClassifier.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **K**, **M**, **H**, **R**, **W**, **A**, **L**, **I**, **N**, **G**, **U**, **S** and **T**, a full stop (**.**) or a forward slash (**/**). This allows for the classifications **RUNNING**, **WALKING** and **STILL** to be printed, as well as the unit **KM/HR**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** in **devSSD1331.c** can be used instead.
