@@ -24,7 +24,7 @@ Thirdly, the frequency of the signal is extracted by counting the number of **in
 
 <ins>**Step 4: Step Counting and Speed Calculation**</ins>
 
-Fourthly, the number of steps in a particular period of time is extracted from the data. By accounting for the length of each step, the algorithm also estimates the speed at which the device is moving. Please note that the speed results will only become valid once the AccelerationBuffer and LPFBuffer have been filled. 
+Fourthly, the **number of steps** in a particular period of time is extracted from the data. By estimating the length of each step ([equal to 0.415 and 0.413 times the user's height for men and women, respectively](https://www.verywellfit.com/set-pedometer-better-accuracy-3432895)), the algorithm also estimates the **speed** at which the device is moving. Please note that the speed results will only become valid once the AccelerationBuffer and LPFBuffer have been filled. 
 
 Due to the strict memory requirements of the FRDM-KL03Z, only 39 elements are stored in the AccelerationBuffer and LPFBuffer. Waveforms with **different frequencies** can still have the **same number of inflection points** over this short time period, causing a significant rounding error. Hence, the number of inflection points is retained over **multiple** 39-element cycles using the variable **cumulativeInflectionPoints**. If the program is run for longer, its rounding error decreases substantially (and the speed calculation is more accurate). It is recommended that steps should be counted for at least **10 seconds** for the speed to be determined with sufficient accuracy.
 
