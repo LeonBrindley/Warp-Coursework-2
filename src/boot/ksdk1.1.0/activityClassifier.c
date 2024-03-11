@@ -121,7 +121,7 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   // To account for the excess time either side of the first/final inflection point, find out the fraction of the total program runtime this represents.
   // The greater the fraction, the greater the uncertainty introduced by this effect. To account for this, subtract (firstExcessTime + finalExcessTime) from the result and subtract 1 from cumulativeInflectionPoints.
   finalExcessTime = numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE) - finalInflectionTime; // Additional time to the right of the final inflectionPoint;
-  culumativeInflectionPoints -= 1; // Subtract 1 from the cumulativeInflectionPoints, as explained above.
+  cumulativeInflectionPoints -= 1; // Subtract 1 from the cumulativeInflectionPoints, as explained above.
 	
   // On average, step length = height * 0.415 in males and height * 0.413 in females: https://www.verywellfit.com/set-pedometer-better-accuracy-3432895.
   // Note that one stride equals two steps, so the average stride length is 0.415 + 0.413 = 0.828 times an individual's height.
