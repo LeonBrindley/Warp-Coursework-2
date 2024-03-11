@@ -81,7 +81,7 @@ void applyLPF(){ // Step 2: apply a low-pass filter to the data.
     // warpPrint("AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
     // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
   }
-  warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFWeights[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
+  warpPrint("2. AccelerationBuffer[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 }
 
 void simpleDiff(){ // Step 3: search for points of inflection by considering the values either side of each data point.
@@ -97,21 +97,18 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
       warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
     }
   }
-  // warpPrint("3. numberOfInflectionPoints: %d.\n", numberOfInflectionPoints);
 }
 
 void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
-  cumulativeInflectionPoints += numberOfInflectionPoints;
-  // warpPrint("cumulativeInflectionPoints: %d.\n", cumulativeInflectionPoints);
-  cumulativeSteps = cumulativeInflectionPoints / 2;
-  // warpPrint("cumulativeSteps: %d.\n", cumulativeSteps);
+  cumulativeInflectionPoints += numberOfInflectionPoints; // Calculate the number of inflection points since starting the program.
+  cumulativeSteps = cumulativeInflectionPoints / 2; // This line can introduce significant rounding error early on, so consider cumulativeInflectionPoints instead.
   warpPrint("3. numberOfInflectionPoints: %d, cumulativeInflectionPoints: %d, cumulativeSteps: %d.\n", numberOfInflectionPoints, cumulativeInflectionPoints, cumulativeSteps);
   
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
   distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
-  speed = (distance * 3600) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
-  warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (numberOfCycles * SAMPLE_PERIOD * BUFFER_SIZE) / 1000, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
+  speed = (distance * 3600) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). Takes SAMPLE_PERIOD * BUFFER_SIZE per cycle.
+  warpPrint("4. Distance (mm): %d / Time (ms): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, numberOfCycles * SAMPLE_PERIOD * BUFFER_SIZE, (speed * 10) / 36, speed); // Print time and speed in ms and m/hr, respectively, as warpPrint() can only display integers (so km/hr would be too imprecise).
 }
 
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
