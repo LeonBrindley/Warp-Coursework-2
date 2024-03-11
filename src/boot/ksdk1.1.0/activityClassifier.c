@@ -77,8 +77,8 @@ void shiftBuffer(){ // Shift the AccelerationBuffer and LPFBuffer left and set t
 void applyLPF(){ // Step 2: apply a low-pass filter to the data.
   for (int i = 0; i < BUFFER_SIZE; i++){
     // Note that the LPF coefficients have all been multiplied by 1,000,000.
-    LPFBuffer[BUFFER_SIZE - 1] += (AccelerationBuffer[i] / 1000) * (uint32_t)LPFWeights[i]; // Divide by 1,000 to avoid 32-bit overflow. This is less than 1,000,000, so the results are scaled by 1,000 to give ums^-2.
-    warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
+    LPFBuffer[BUFFER_SIZE - 1] += (AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Denominator of 1,000 is less than the factor of 1,000,000 mentioned above, so the results are effectively scaled by 1,000 to give ums^-2.
+    // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
   }
   warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFWeights[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 }
