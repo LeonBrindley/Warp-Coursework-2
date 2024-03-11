@@ -306,6 +306,11 @@ void classifierAlgorithm(){
 	
   if((cycleCounter == BUFFER_SIZE) && dataValid){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that this condition is met.
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf for ideas.
+    if(firstTimeRunning){
+      firstTimeRunning = 0;
+      lastElement = LPFBuffer[0]; // Make sure the first element tested by the algorithm isn't erroneously detected as an inflection point. This ensures the > and < conditions cannot be met for the first element.
+      secondToLastElement = LPFBuffer[0]; // Make sure the first element tested by the algorithm isn't erroneously detected as an inflection point. This ensures the > and < conditions cannot be met for the first element.
+    }
     numberOfCycles += 1;
     warpPrint("numberOfCycles: %d.\n", numberOfCycles);
     simpleDiff(); // Step 3.
