@@ -78,7 +78,7 @@ void applyLPF(){ // Step 2: apply a low-pass filter to the data.
   for (int i = 0; i < BUFFER_SIZE; i++){
     // Note that the LPF coefficients have all been multiplied by 1,000,000.
     LPFBuffer[BUFFER_SIZE - 1] += (AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Denominator of 1,000 is less than the factor of 1,000,000 mentioned above, so the results are effectively scaled by 1,000 to give ums^-2.
-    warpPrint("AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
+    // warpPrint("AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", i, AccelerationBuffer[i], i, LPFWeights[i], i, LPFBuffer[i]);
     // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
   }
   warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFWeights[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
@@ -110,8 +110,8 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
   // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
   distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
-  speed = (distance * 3600) / ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
-  warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, ((numberOfCycles - 1) * SAMPLE_PERIOD * BUFFER_SIZE) / 1000, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
+  speed = (distance * 3600) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). 19500ms (19.5s) per cycle.
+  warpPrint("4. Distance (mm): %d / Time (s): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (numberOfCycles * SAMPLE_PERIOD * BUFFER_SIZE) / 1000, (speed * 10) / 36, speed); // Print speed in m/hr as warpPrint() can only display integers (so km/hr would be too imprecise).
 }
 
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
@@ -217,7 +217,7 @@ void classifierAlgorithm(){
 
   applyLPF(); // Step 2.
 	
-  if((cycleCounter == BUFFER_SIZE) && (numberOfCycles != 0)){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that numberOfCycles doesn't equal 0.
+  if((cycleCounter == BUFFER_SIZE) && dataValid){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that this condition is met.
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf.
     numberOfCycles += 1;
     warpPrint("numberOfCycles: %d.\n", numberOfCycles);
@@ -226,11 +226,10 @@ void classifierAlgorithm(){
     identifyActivity(); // Step 5.
     cycleCounter = 0;
   }
-  else if((cycleCounter == BUFFER_SIZE) && (numberOfCycles == 0)){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
-    numberOfCycles += 1;
-    warpPrint("numberOfCycles: %d.\n", numberOfCycles);
+  else if((cycleCounter == BUFFER_SIZE) && !dataValid){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
     warpPrint("First cycle, so not performing any additional steps.\n");
     cycleCounter = 0;
+    dataValid = 1;
   }
   cycleCounter++;
 }
