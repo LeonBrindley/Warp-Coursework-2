@@ -76,10 +76,11 @@ void shiftBuffer(){ // Shift the AccelerationBuffer and LPFBuffer left and set t
 
 void applyLPF(){ // Step 2: apply a low-pass filter to the data.
   for (int i = 0; i < BUFFER_SIZE; i++){
-    LPFBuffer[BUFFER_SIZE - 1] += ((uint32_t)AccelerationBuffer[i] * (uint32_t)LPFWeights[i]) / 1000; // Divide by 1000 to avoid 32-bit overflow when the values are summed.
-    // warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
+    // Note that the LPF coefficients have all been multiplied by 1,000,000.
+    LPFBuffer[BUFFER_SIZE - 1] += (AccelerationBuffer[i] / 1000) * (uint32_t)LPFWeights[i]); // Divide by 1,000 to avoid 32-bit overflow. This is less than 1,000,000, so the results are scaled by 1,000 to give ums^-2.
+    warpPrint("%d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data for checking the validity of the algorithm.
   }
-  // warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFWeights[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
+  warpPrint("2. AccelerationBuffer[%d] = %d, LPFWeights[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFWeights[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 }
 
 void simpleDiff(){ // Step 3: search for points of inflection by considering the values either side of each data point.
@@ -196,7 +197,7 @@ void classifierAlgorithm(){
   shiftBuffer();
 
   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
-  warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+  warpPrint("1. Acceleration Magnitude: %dmms^-2.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 	
   // if(SYNTHETIC_DATA == 1){
   //   if(exampleDataCounter < 19){	  
@@ -212,10 +213,6 @@ void classifierAlgorithm(){
   // else{
   //   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
   // }
-
-
-
-  // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 
   applyLPF(); // Step 2.
 	
