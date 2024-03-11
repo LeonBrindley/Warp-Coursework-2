@@ -170,21 +170,21 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
 }
 
 void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
-  cumulativeInflectionPoints += numberOfInflectionPoints; // Calculate the number of inflection points since starting the program.
+  cumulativeInflectionPoints += numberOfInflectionPoints; // Calculate the total number of inflection points since starting the program.
   cumulativeSteps = cumulativeInflectionPoints / 2; // This line can introduce significant rounding error early on, so consider cumulativeInflectionPoints instead.
   warpPrint("3. numberOfInflectionPoints: %d, cumulativeInflectionPoints: %d, cumulativeSteps: %d.\n", numberOfInflectionPoints, cumulativeInflectionPoints, cumulativeSteps);
 
   // To account for the excess time either side of the first/final inflection point, find out the fraction of the total program runtime this represents.
   // The greater the fraction, the greater the uncertainty introduced by this effect. To account for this, subtract (firstExcessTime + finalExcessTime) from the result and subtract 1 from cumulativeInflectionPoints.
   finalExcessTime = numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE) - finalInflectionTime; // Additional time to the right of the final inflectionPoint;
-  cumulativeInflectionPoints -= 1; // Subtract 1 from the cumulativeInflectionPoints, as explained above.
+  cumulativeInflectionPoints -= 1; // Subtract 1 from the cumulativeInflectionPoints, as with an inflection point on both ends of the program runtime (as enforced above), the frequency will be slightly overestimated.
 	
   // On average, step length = height * 0.415 in males and height * 0.413 in females: https://www.verywellfit.com/set-pedometer-better-accuracy-3432895.
   // Note that one stride equals two steps, so the average stride length is 0.415 + 0.413 = 0.828 times an individual's height.
   // As both maxima and minima are accounted for, the average step length of HEIGHT * 0.414 is used.
   distance = (cumulativeInflectionPoints * (HEIGHT * 414)) / 100; // Calculate distance travelled so far (in mm). For this formula to work, the HEIGHT must be in cm.
   speed = (distance * 3600) / ((numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (firstExcessTime + finalExcessTime)); // Calculate speed (distance over time) so far (in m/hr). Takes SAMPLE_PERIOD * BUFFER_SIZE per cycle.
-  warpPrint("4. Distance (mm): %d / Time (ms): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, numberOfCycles * SAMPLE_PERIOD * BUFFER_SIZE, (speed * 10) / 36, speed); // Print time and speed in ms and m/hr, respectively, as warpPrint() can only display integers (so km/hr would be too imprecise).
+  warpPrint("4. Distance (mm): %d / Time (ms): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, (numberOfCycles * SAMPLE_PERIOD * BUFFER_SIZE) - (firstExcessTime + finalExcessTime), (speed * 10) / 36, speed); // Print time and speed in ms and m/hr, respectively, as warpPrint() can only display integers (so km/hr would be too imprecise).
 }
 
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
@@ -193,31 +193,32 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
   // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
   // To calculate uncertainty, consider range from 1.80 m/s (6.48 km/hr) to 2.50m/s (9 km/hr).
   if(speed > 9000){ // 9 km/hr = 9000 m/hr.
-    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). "RUNNING" on OLED display.
+    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). Represented by "RUNNING" on OLED display.
     characteristicUncertainty = 0;
     warpPrint("5. Activity = Running. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
   }
   else if(speed > 6480){ // 6.48 km/hr = 6480 m/hr.
-    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). "RUNNING" on OLED display.
+    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). Represented by "RUNNING" on OLED display.
     characteristicUncertainty = (100 * (9000 - speed)) / (9000 - 6480);
     warpPrint("5. Activity = Running. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
   }
   // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
   // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
+  // To calculate uncertainty, consider range from 0.23 m/s (0.828 km/hr) to 0.50m/s (1.8 km/hr).
   else if(speed > 1800){ // 0.5 m/s = 1.8 km/hr = 1800 m/hr.
-    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). "WALKING" on OLED display.
+    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). Represented by "WALKING" on OLED display.
     characteristicUncertainty = 0;
     warpPrint("5. Activity = Walking. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
   }
   else if(speed > 828){ // 0.23 m/s = 0.828 km/hr = 828 m/hr.
-    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). "WALKING" on OLED display.
+    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). Represented by "WALKING" on OLED display.
     characteristicUncertainty = (100 * (1800 - speed)) / (1800 - 828);
     warpPrint("5. Activity = Walking. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
-    activityReading = ActivityStationary; // Equals 0x0 (see enumerated type). "STILL" on OLED display.
+    activityReading = ActivityStationary; // Equals 0x0 (see enumerated type). Represented by "STILL" on OLED display.
     characteristicUncertainty = 0;
     warpPrint("5. Activity = Stationary. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
     // clearDisplay();
