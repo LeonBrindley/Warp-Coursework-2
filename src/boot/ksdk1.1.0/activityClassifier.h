@@ -32,6 +32,7 @@ void classifierAlgorithm();
 // #define SYNTHETIC_DATA 0 // Set this to 1 to call generateData() and overwrite the raw MMA8451Q data for testing purposes.
 
 bool dataValid = 0; // Data is not valid until the AccelerationBuffer is filled, so initialise dataValid to 0.
+bool firstTimeRunning = 1; // Used to overwrite the lastElement and secondToLastElement variables during the first cycle, as these must be set such that a peak cannot be detected in the first element.
 
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
 int16_t XCombined = 0;
