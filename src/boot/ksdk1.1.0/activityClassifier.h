@@ -57,6 +57,10 @@ uint16_t cumulativeSteps = 0; // Cumulative number of steps since booting the de
 uint32_t distance = 0; // Initialised to 0.
 uint32_t speed = 0; // Initialised to 0.
 
+uint16_t characteristicUncertainty; // Uncertainty due to the characteristic velocity being between 1.80 and 2.50ms^-1.
+uint16_t durationUncertainty; // Uncertainty due to the duration varying with the same number of inflection points.
+uint16_t totalUncertainty; // Total uncertainty due to the factors referenced above (expressed as a percentage).
+
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
 // These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied (e.g. by 10,000) to provide integer results.
