@@ -30,6 +30,8 @@ void classifierAlgorithm();
 #define BUFFER_SIZE 39 // Size of AccelerationBuffer and LPFBuffer. LPF must have an odd number of taps.
 // #define SYNTHETIC_DATA 0 // Set this to 1 to call generateData() and overwrite the raw MMA8451Q data for testing purposes.
 
+bool dataValid = 0; // Data is not valid until the AccelerationBuffer is filled, so initialise dataValid to 0.
+
 // Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
 int16_t XCombined = 0;
 int16_t YCombined = 0;
@@ -61,7 +63,9 @@ uint32_t speed = 0; // Initialised to 0.
 // uint16_t LPFWeights[BUFFER_SIZE] = {0, 3, 40, 238, 875, 2303, 4664, 7555, 10014, 10986, 10014, 7555, 4664, 2303, 875, 238, 40, 3, 0}; // NEW 19-element array.
 uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618, 7658, 11853, 17232, 23649, 30751, 37991, 44691, 50136, 53694, 54932, 53694, 50136, 44691, 37991, 30751, 23649, 17232, 11853, 7658, 4618, 2578, 1316, 604, 243, 82, 21, 4, 0, 0}; // 39-element array.
 
-uint32_t sqrtInt(uint32_t base); // Return the square root of an integer using the Newton-Raphson method.
+int32_t convertAcceleration(int16_t number);
+uint32_t sqrtInt(uint32_t base); // Return the square root of an integer using the Newton-Raphson method
+void shiftBuffer();
 void applyLPF(); // Step 2.
 void simpleDiff(); // Step 3.
 void calculateSpeed(); // Step 4.
