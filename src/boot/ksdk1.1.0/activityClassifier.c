@@ -116,21 +116,35 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
   // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
-  if(speed > 7920){ // 7.92 km/hr = 7920 m/hr.
-    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type).
-    warpPrint("5. Activity = Running.\n"); // "RUNNING" on OLED display.
+  // To calculate uncertainty, consider range from 1.80 m/s (6.48 km/hr) to 2.50m/s (9 km/hr).
+  if(speed > 9000){ // 9 km/hr = 9000 m/hr.
+    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). "RUNNING" on OLED display.
+    characteristicUncertainty = 0;
+    warpPrint("5. Activity = Running. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
+  }
+  else if(speed > 6480){ // 6.48 km/hr = 6480 m/hr.
+    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). "RUNNING" on OLED display.
+    characteristicUncertainty = (100 * (9000 - speed)) / (9000 - 6480);
+    warpPrint("5. Activity = Running. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
   }
   // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
   // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
-  else if(speed > 828){ // 0.828 km/hr = 828 m/hr.
-    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type).
-    warpPrint("5. Activity = Walking.\n"); // "WALKING" on OLED display.
+  else if(speed > 1800){ // 0.5 m/s = 1.8 km/hr = 1800 m/hr.
+    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). "WALKING" on OLED display.
+    characteristicUncertainty = 0;
+    warpPrint("5. Activity = Walking. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
+  }
+  else if(speed > 828){ // 0.23 m/s = 0.828 km/hr = 828 m/hr.
+    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). "WALKING" on OLED display.
+    characteristicUncertainty = (100 * (1800 - speed)) / (1800 - 828);
+    warpPrint("5. Activity = Walking. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
-    activityReading = ActivityStationary; // Equals 0x0 (see enumerated type).
-    warpPrint("5. Activity = Stationary.\n"); // "STILL" on OLED display.
+    activityReading = ActivityStationary; // Equals 0x0 (see enumerated type). "STILL" on OLED display.
+    characteristicUncertainty = 0;
+    warpPrint("5. Activity = Stationary. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
     // clearDisplay();
   }
 }
