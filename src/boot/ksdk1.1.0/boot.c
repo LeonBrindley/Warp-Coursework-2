@@ -2077,12 +2077,12 @@ main(void)
 	uint16_t timeBefore = 0; // Initialising timeBefore variable to 0.
 	uint16_t timeAfter = 0; // Initialising timeAfter variable to 0.
 	uint16_t timeDifference = 0; // Initialising timeDifference variable to 0.
-	for (int i = 0; i < 400; i++){
+	for (int i = 0; i < 600; i++){
 	  timeBefore = OSA_TimeGetMsec();
 	  classifierAlgorithm();
 	  timeAfter = OSA_TimeGetMsec();
 	  timeDifference = timeAfter - timeBefore;
-	  warpPrint("timeAfter: %d, timeBefore: %d, timeDifference: %d.\n", timeAfter, timeBefore, timeDifference);
+	  // warpPrint("timeAfter: %d, timeBefore: %d, timeDifference: %d.\n", timeAfter, timeBefore, timeDifference);
 	  if(timeDifference < SAMPLE_PERIOD){
 	    OSA_TimeDelay(SAMPLE_PERIOD - timeDifference);
 	  }
