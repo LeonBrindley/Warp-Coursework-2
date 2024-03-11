@@ -91,20 +91,24 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
       warpPrint("%d > %d and %d > %d - MAXIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
-      if(firstInflectionTest){ // Runs if this is the first inflection point of the experiment.
-        firstInflectionTest = 0;
-	firstInflectionTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+      if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
+        firstExcessTest = 0;
+	firstExcessTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+	warpPrint("firstExcessTime: %d.", firstExcessTime);
       }
       finalInflectionTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+      warpPrint("finalInflecionTime: %d.", finalInflectionTime);
     }
     else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
       warpPrint("%d < %d and %d < %d - MINIMUM detected. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], numberOfInflectionPoints);
-      if(firstInflectionTest){ // Runs if this is the first inflection point of the experiment.
-        firstInflectionTest = 0;
-	firstInflectionTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+      if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
+        firstExcessTest = 0;
+	firstExcessTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+	warpPrint("firstExcessTime: %d.", firstExcessTime);
       }
       finalInflectionTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+      warpPrint("finalInflecionTime: %d.", finalInflectionTime);
     }
   }
 }
@@ -113,16 +117,18 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   cumulativeInflectionPoints += numberOfInflectionPoints; // Calculate the number of inflection points since starting the program.
   cumulativeSteps = cumulativeInflectionPoints / 2; // This line can introduce significant rounding error early on, so consider cumulativeInflectionPoints instead.
   warpPrint("3. numberOfInflectionPoints: %d, cumulativeInflectionPoints: %d, cumulativeSteps: %d.\n", numberOfInflectionPoints, cumulativeInflectionPoints, cumulativeSteps);
-  
+
+  // To account for the excess time either side of the first/final inflection point, find out the fraction of the total program runtime this represents.
+  // The greater the fraction, the greater the uncertainty introduced by this effect. To account for this, subtract (firstExcessTime + finalExcessTime) from the result and subtract 1 from cumulativeInflectionPoints.
+  finalExcessTime = numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE) - finalInflectionTime; // Additional time to the right of the final inflectionPoint;
+  culumativeInflectionPoints -= 1; // Subtract 1 from the cumulativeInflectionPoints, as explained above.
+	
   // On average, step length = height * 0.415 in males and height * 0.413 in females: https://www.verywellfit.com/set-pedometer-better-accuracy-3432895.
   // Note that one stride equals two steps, so the average stride length is 0.415 + 0.413 = 0.828 times an individual's height.
   // As both maxima and minima are accounted for, the average step length of HEIGHT * 0.414 is used.
   distance = (cumulativeInflectionPoints * (HEIGHT * 414)) / 100; // Calculate distance travelled so far (in mm). For this formula to work, the HEIGHT must be in cm.
-  speed = (distance * 3600) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). Takes SAMPLE_PERIOD * BUFFER_SIZE per cycle.
+  speed = (distance * 3600) / ((numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (firstExcessTime + finalExcessTime)); // Calculate speed (distance over time) so far (in m/hr). Takes SAMPLE_PERIOD * BUFFER_SIZE per cycle.
   warpPrint("4. Distance (mm): %d / Time (ms): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, numberOfCycles * SAMPLE_PERIOD * BUFFER_SIZE, (speed * 10) / 36, speed); // Print time and speed in ms and m/hr, respectively, as warpPrint() can only display integers (so km/hr would be too imprecise).
-
-  finalExcessTime = numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE) - finalInflectionTime; // Additional time to the right of the final inflectionPoint;
-  fractionOutside = (100 * (firstExcessTime + finalExcessTime)) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE) = total time consumed by the experiment.
 }
 
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
