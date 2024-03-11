@@ -51,7 +51,7 @@ uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the accel
       uint32_t oldRoot = root; // Save the old root to compare the new one to.
       root = (root / 2) + (base / (2 * root));
       if(abs(root - oldRoot) <= 1){ // <= 1 to prevent the result hopping between two adjacent numbers and failing to converge.
-	warpPrint("sqrt(%d) = %d.\n", base, root + 1);
+	warpPrint("sqrt(%d) = %d mms^-2.\n", base, root + 1);
         return (root + 1); // Add 1 to round up, so the final square root result is accurate.
       }
       else{
@@ -171,7 +171,7 @@ void classifierAlgorithm(){
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
   warpPrint("XMSB: %d, XMSB: %d.\n, XCombined - Decimal: %d, Hexadecimal: %x.", XMSB, XLSB, XCombined, XCombined);
   XAcceleration = convertAcceleration(XCombined);
-  warpPrint("XAcceleration (ums^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
+  warpPrint("XAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
@@ -179,20 +179,23 @@ void classifierAlgorithm(){
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
   warpPrint("YMSB: %d, YMSB: %d.\n, YCombined - Decimal: %d, Hexadecimal: %x.", YMSB, YLSB, YCombined, YCombined);
   YAcceleration = convertAcceleration(YCombined);
-  warpPrint("YAcceleration (ums^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration)
+  warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration)
 	
   ZMSB = deviceMMA8451QState.i2cBuffer[2];
   ZLSB = deviceMMA8451QState.i2cBuffer[3];
-  ZCombined = ((ZMSB & 0xFF) << 6) | (YLSB >> 2);
+  ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
   warpPrint("ZMSB: %d, ZMSB: %d.\n, ZCombined - Decimal: %d, Hexadecimal: %x.", ZMSB, ZLSB, ZCombined, ZCombined);
   ZAcceleration = convertAcceleration(ZCombined);
-  warpPrint("ZAcceleration (ums^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration)
+  warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration)
 
   warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAccelerationYXAcceleration, ZAcceleration*ZAcceleration);
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
   	
   shiftBuffer();
+
+  AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
+  warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
 	
   // if(SYNTHETIC_DATA == 1){
   //   if(exampleDataCounter < 19){	  
@@ -209,8 +212,7 @@ void classifierAlgorithm(){
   //   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
   // }
 
-  AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
-  // warpPrint("1. Acceleration Magnitude (mms^-2): %d.\n", AccelerationBuffer[BUFFER_SIZE - 1]);
+
 
   // warpPrint("LPFBuffer[%d] Before Update: %d.\n", BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
 
