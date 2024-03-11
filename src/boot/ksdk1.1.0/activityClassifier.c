@@ -104,9 +104,9 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   cumulativeSteps = cumulativeInflectionPoints / 2; // This line can introduce significant rounding error early on, so consider cumulativeInflectionPoints instead.
   warpPrint("3. numberOfInflectionPoints: %d, cumulativeInflectionPoints: %d, cumulativeSteps: %d.\n", numberOfInflectionPoints, cumulativeInflectionPoints, cumulativeSteps);
   
-  // Average step length between men and women = 0.716m. https://marathonhandbook.com/average-stride-length
-  // Dividing this by 2 (to account for both maxima and minima) gives the figure 358mm.
-  distance = cumulativeInflectionPoints * 358; // Calculate distance travelled so far (in mm).
+  // On average, stride length = height * 0.415 in males and height * 0.413 in females: https://www.verywellfit.com/set-pedometer-better-accuracy-3432895
+  // Taking the average of 0.414 and dividing this by 2 (to account for both maxima and minima) gives the figure of HEIGHT * 0.207.
+  distance = (cumulativeInflectionPoints * (HEIGHT * 207)) / 100; // Calculate distance travelled so far (in mm). For this formula to work, the HEIGHT must be in cm.
   speed = (distance * 3600) / (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)); // Calculate speed (distance over time) so far (in m/hr). Takes SAMPLE_PERIOD * BUFFER_SIZE per cycle.
   warpPrint("4. Distance (mm): %d / Time (ms): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, numberOfCycles * SAMPLE_PERIOD * BUFFER_SIZE, (speed * 10) / 36, speed); // Print time and speed in ms and m/hr, respectively, as warpPrint() can only display integers (so km/hr would be too imprecise).
 }
