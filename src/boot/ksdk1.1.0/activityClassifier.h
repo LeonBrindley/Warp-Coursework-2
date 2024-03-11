@@ -76,5 +76,10 @@ void simpleDiff(); // Step 3.
 void calculateSpeed(); // Step 4.
 void identifyActivity(); // Step 5.
 
+// Variables for dealing with uncertainty in the result.
+firstExcessTest = 1; // Set to 0 when the first inflection point is detected.
+uint16_t firstExcessTime, finalInflectionTime, finalExcessTime;
+
+
 // void printGUI();
 // void printCharacter(uint8_t column, uint8_t row, uint8_t number);
