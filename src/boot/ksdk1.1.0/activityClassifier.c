@@ -31,8 +31,14 @@
 // As I want to calculate the actual speed, the code below calculates the magnitude of the acceleration instead of simply detecting the maximal activity axis.
 // Try a sampling rate of 50Hz, which matches the algorithm found at https://www.ti.com/lit/pdf/slaa599. Decrease this if there is insufficient memory.
 // The algorithm referenced above requires 1.2 kilobytes of code memory and 640 bytes of data memory, but makes use of efficient fixed-point computations. 
+// Note that the %f (float) format specifier does not work with SEGGER_RTT_printf, instead use %d (decimal).
+// Details of bit manipulation with the MMA8451Q can be found at https://www.nxp.com/docs/en/application-note/AN4076.pdf.
 
-// Combine all steps in classifierAlgorithm().
+int32_t convertAcceleration(int16_t number){ // Convert the acceleration from multiples of (1/1024)g to mms^-2. 
+  // Acceleration is given in multiples of (1/1024)g with the chosen +/- 8g range and 14-bit resolution of the MMA8451Q readings.
+  // Hence, multiply by 9810 and then divide by 1024 to convert to mms^-2. Therefore, there is an implicit scaling factor of 1,000.
+  result = ((int32_t)(number) * 9810) / 1024;
+}
 
 uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the acceleration using Pythagoras' theorem across three cartesian axes.
   if(base == 0 || base == 1){ // If the number equals 0 or 1, the root equals the base.
@@ -45,6 +51,7 @@ uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the accel
       uint32_t oldRoot = root; // Save the old root to compare the new one to.
       root = (root / 2) + (base / (2 * root));
       if(abs(root - oldRoot) <= 1){ // <= 1 to prevent the result hopping between two adjacent numbers and failing to converge.
+	warpPrint("sqrt(%d) = %d.\n", base, root + 1);
         return (root + 1); // Add 1 to round up, so the final square root result is accurate.
       }
       else{
@@ -53,6 +60,17 @@ uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the accel
       }
     }
   }
+}
+
+void shiftBuffer(){ // Shift the AccelerationBuffer and LPFBuffer left and set the final element to 0.
+  // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
+  for (int i = 1; i < BUFFER_SIZE; i++){
+    AccelerationBuffer[i - 1] = AccelerationBuffer[i];
+    LPFBuffer[i - 1] = LPFBuffer[i];
+  }
+  // Reset the final element in each buffer to 0.
+  AccelerationBuffer[BUFFER_SIZE - 1] = 0;
+  LPFBuffer[BUFFER_SIZE - 1] = 0;
 }
 
 void applyLPF(){ // Step 2: apply a low-pass filter to the data.
@@ -133,16 +151,10 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
 */
 
 void classifierAlgorithm(){
-
-  // warpPrint("\nDeclaring LSB, MSB and acceleration variables now.\n");
   uint16_t XLSB, YLSB, ZLSB; // Least significant byte of each acceleration measurement.
   uint16_t XMSB, YMSB, ZMSB; // Most significant byte of each acceleration measurement.
   int32_t XAcceleration, YAcceleration, ZAcceleration; // Actual acceleration values for checking their accuracy.
-
-  // warpPrint("\nDeclaring i2cReadStatus variable now.\n");	
   WarpStatus i2cReadStatus;
-
-  // warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 
   i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 6 /* numberOfBytes */); // Read 6 bytes consecutively to get 14-bit acceleration measurements from all three axes.
   // warpPrint("\nReading acceleration measurements from MMA8451Q registers %d to %d.\n", kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, kWarpSensorOutputRegisterMMA8451QOUT_X_MSB + 5);
@@ -151,64 +163,37 @@ void classifierAlgorithm(){
     return; // Return from the classifierAlgorithm() function if the MMA8451Q can't be read from.
   }
 
-  // LSB of acceleration readings in 14-bit mode with a full-scale range of +/-4g = 8g/16384 = 0.488mg.
-  // Therefore, to convert to the acceleration to ums^-2, multiply by (488 * 9.81) = 4787 to the nearest integer.
-  // Note that the %f (float) format specifier does not work with SEGGER_RTT_printf, instead use %d (decimal).
-  // Details of bit manipulation with the MMA8451Q can be found at https://www.nxp.com/docs/en/application-note/AN4076.pdf.
-
   // warpPrint("\nParsing the bytes received from MMA8451Q's registers now.\n");	
 
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
-  // warpPrint("Calculating XCombined now.\n");
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-  // warpPrint("Calculating XAcceleration now.\n");
-  XAcceleration = (int32_t)(XCombined) * 4787; // Convert the acceleration to ums^-2.
-  XAcceleration = XAcceleration / 1000; // Convert the acceleration to mms^-2.
-  // warpPrint("XMSB: %d.\n", XMSB);
-  // warpPrint("XLSB: %d.\n", XLSB);
-  // warpPrint("XCombined - Decimal: %d, Hexadecimal: %x.\n", XCombined, XCombined);
-  // warpPrint("XAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
+  warpPrint("XMSB: %d, XMSB: %d.\n, XCombined - Decimal: %d, Hexadecimal: %x.", XMSB, XLSB, XCombined, XCombined);
+  XAcceleration = convertAcceleration(XCombined);
+  warpPrint("XAcceleration (ums^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
-  // warpPrint("Calculating YCombined now.\n");
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-  // warpPrint("Calculating YAcceleration now.\n");
-  YAcceleration = (int32_t)(YCombined) * 4787; // Convert the acceleration to ums^-2.
-  YAcceleration = YAcceleration / 1000; // Convert the acceleration to mms^-2.
-  // warpPrint("YMSB: %d.\n", YMSB);
-  // warpPrint("YLSB: %d.\n", YLSB);
-  // warpPrint("YCombined - Decimal: %d, Hexadecimal: %x.\n", YCombined, YCombined);
-  // warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
-
-  ZMSB = deviceMMA8451QState.i2cBuffer[4];
-  ZLSB = deviceMMA8451QState.i2cBuffer[5];
-  // warpPrint("Calculating ZCombined now.\n");
-  ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
+  warpPrint("YMSB: %d, YMSB: %d.\n, YCombined - Decimal: %d, Hexadecimal: %x.", YMSB, YLSB, YCombined, YCombined);
+  YAcceleration = convertAcceleration(YCombined);
+  warpPrint("YAcceleration (ums^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration)
+	
+  ZMSB = deviceMMA8451QState.i2cBuffer[2];
+  ZLSB = deviceMMA8451QState.i2cBuffer[3];
+  ZCombined = ((ZMSB & 0xFF) << 6) | (YLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-  // warpPrint("Calculating ZAcceleration now.\n");
-  ZAcceleration = (int32_t)(ZCombined) * 4787; // Convert the acceleration to ums^-2.
-  ZAcceleration = ZAcceleration / 1000; // Convert the acceleration to mms^-2.
-  // warpPrint("ZMSB: %d.\n", ZMSB);
-  // warpPrint("ZLSB: %d.\n", ZLSB);
-  // warpPrint("ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZCombined, ZCombined);
-  // warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
+  warpPrint("ZMSB: %d, ZMSB: %d.\n, ZCombined - Decimal: %d, Hexadecimal: %x.", ZMSB, ZLSB, ZCombined, ZCombined);
+  ZAcceleration = convertAcceleration(ZCombined);
+  warpPrint("ZAcceleration (ums^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration)
 
+  warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAccelerationYXAcceleration, ZAcceleration*ZAcceleration);
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
-
-  // Shift AccelerationBuffer and LPFBuffer left to free up space for new data.
-  for (int i = 1; i < BUFFER_SIZE; i++){
-    AccelerationBuffer[i - 1] = AccelerationBuffer[i];
-    LPFBuffer[i - 1] = LPFBuffer[i];
-  }
-
-  // Reset the final element in each buffer to 0.
-  AccelerationBuffer[BUFFER_SIZE - 1] = 0;
-  LPFBuffer[BUFFER_SIZE - 1] = 0;
-
+  	
+  shiftBuffer();
+	
   // if(SYNTHETIC_DATA == 1){
   //   if(exampleDataCounter < 19){	  
   //     AccelerationBuffer[BUFFER_SIZE - 1] = exampleData[exampleDataCounter];
