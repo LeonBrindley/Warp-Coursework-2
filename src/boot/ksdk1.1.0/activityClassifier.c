@@ -37,7 +37,8 @@
 int32_t convertAcceleration(int16_t number){ // Convert the acceleration from multiples of (1/1024)g to mms^-2. 
   // Acceleration is given in multiples of (1/1024)g with the chosen +/- 8g range and 14-bit resolution of the MMA8451Q readings.
   // Hence, multiply by 9810 and then divide by 1024 to convert to mms^-2. Therefore, there is an implicit scaling factor of 1,000.
-  result = ((int32_t)(number) * 9810) / 1024;
+  int32_t result = ((int32_t)(number) * 9810) / 1024;
+  return result;
 }
 
 uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the acceleration using Pythagoras' theorem across three cartesian axes.
@@ -179,7 +180,7 @@ void classifierAlgorithm(){
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
   warpPrint("YMSB: %d, YMSB: %d.\n, YCombined - Decimal: %d, Hexadecimal: %x.", YMSB, YLSB, YCombined, YCombined);
   YAcceleration = convertAcceleration(YCombined);
-  warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration)
+  warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
 	
   ZMSB = deviceMMA8451QState.i2cBuffer[2];
   ZLSB = deviceMMA8451QState.i2cBuffer[3];
@@ -187,7 +188,7 @@ void classifierAlgorithm(){
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
   warpPrint("ZMSB: %d, ZMSB: %d.\n, ZCombined - Decimal: %d, Hexadecimal: %x.", ZMSB, ZLSB, ZCombined, ZCombined);
   ZAcceleration = convertAcceleration(ZCombined);
-  warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration)
+  warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
 
   warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAccelerationYXAcceleration, ZAcceleration*ZAcceleration);
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
