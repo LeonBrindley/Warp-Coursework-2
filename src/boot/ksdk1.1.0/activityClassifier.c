@@ -190,7 +190,7 @@ void classifierAlgorithm(){
   ZAcceleration = convertAcceleration(ZCombined);
   warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
 
-  warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAccelerationYXAcceleration, ZAcceleration*ZAcceleration);
+  warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAcceleration*YAcceleration, ZAcceleration*ZAcceleration);
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
   	
   shiftBuffer();
