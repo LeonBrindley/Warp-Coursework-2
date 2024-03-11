@@ -38,6 +38,7 @@ int32_t convertAcceleration(int16_t number){ // Convert the acceleration from mu
   // Acceleration is given in multiples of (1/1024)g with the chosen +/- 8g range and 14-bit resolution of the MMA8451Q readings.
   // Hence, multiply by 9810 and then divide by 1024 to convert to mms^-2. Therefore, there is an implicit scaling factor of 1,000.
   int32_t result = ((int32_t)(number) * 9810) / 1024;
+  warpPrint("convertAcceleration: %d * (9810/1024) = %d.\n", number, result);
   return result;
 }
 
