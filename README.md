@@ -82,7 +82,10 @@ As fixed-point computations are widely used to eliminate any rounding errors, th
 
 The variation in people's step lengths has not been statistically characterised in prior literature, and the 0.414 * HEIGHT estimate is frequently used across the industry, so this form of uncertainty was negated. Furthermore, this result can vary with numerous factors, such as the presence of rain, any incline of the ground and your footwear, so the calculation of type B uncertainty is unfeasible.
 
-Finally, the confidence level is also affected by the duration of the experiment, as this effects the accuracy of the total time that has been elapsed (the denominator of the speed equation).
+Finally, the confidence level is also affected by the duration of the experiment, as this effects the accuracy of the total time that has been elapsed (the denominator of the speed equation). For example, in the image below, while the experimental runtime (and thus the demoninator of the speed equation) varies between the green and red experiments, the number of inflection points does not. Hence, the calculated speed is different (despite the results being derived from the same sine wave).
+
+![Uncertainty From Sampling Times](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/4e8f34ad-2e9f-46bc-8836-dba09cd807a9)
+
 
 <ins>**OLED Display**</ins>
 
