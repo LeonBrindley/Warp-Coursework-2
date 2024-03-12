@@ -192,37 +192,39 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
   // "The average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106
-  // Therefore, set the threshold to distinguish running from walking to 2.2 m/s (7.92 km/hr).
-  // To calculate uncertainty, consider range from 1.80 m/s (6.48 km/hr) to 2.50m/s (9 km/hr).
+  // "The speed at which the transition from walking to running naturally occurs is not well defined: different observations have reported values ranging from 1.80 to 2.50 m/s.
+  // https://link.springer.com/article/10.1007/s00421-002-0654-9
+  // Therefore, to calculate uncertainty, consider range from 1.80 m/s (6.48 km/hr) to 2.50m/s (9 km/hr).
   if(speed > 9000){ // 9 km/hr = 9000 m/hr.
     activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). Represented by "RUNNING" on OLED display.
     characteristicUncertainty = 0;
-    warpPrint("5. Activity = Running. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
+    warpPrint("5. Activity = Running (Confidence Level = %d\%).\n", 100 - characteristicUncertainty);
   }
   else if(speed > 6480){ // 6.48 km/hr = 6480 m/hr.
-    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). Represented by "RUNNING" on OLED display.
+    activityReading = ActivityRunning; // Equals 0x2 (see enumerated type).
     characteristicUncertainty = (100 * (9000 - speed)) / (9000 - 6480);
-    warpPrint("5. Activity = Running. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
+    warpPrint("5. Activity = Running (Confidence Level = %d\%), Walking (Confidence Level = %d\%).\n", 100 - characteristicUncertainty, characteristicUncertainty);
   }
   // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
-  // Therefore, set the threshold to distinguish walking from stationary to 0.23 m/s (0.828 km/hr).
-  // To calculate uncertainty, consider range from 0.23 m/s (0.828 km/hr) to 0.50m/s (1.8 km/hr).
-  else if(speed > 1800){ // 0.5 m/s = 1.8 km/hr = 1800 m/hr.
+  // "The mean (95% CI) walking speed for slow pace (in apparently healthy adults) was 0.82 (0.77–0.86) m/s.
+  // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7806575
+  // Therefore, to calculate uncertainty, consider range from 0.23 m/s (0.828 km/hr) to 0.82m/s (2.952 km/hr).
+  else if(speed > 2952){ // 0.82 m/s = 2.952 km/hr = 2952 m/hr.
     activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). Represented by "WALKING" on OLED display.
     characteristicUncertainty = 0;
-    warpPrint("5. Activity = Walking. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
+    warpPrint("5. Activity = Walking (Confidence Level = %d\%).\n", 100 - characteristicUncertainty);
   }
   else if(speed > 828){ // 0.23 m/s = 0.828 km/hr = 828 m/hr.
-    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). Represented by "WALKING" on OLED display.
-    characteristicUncertainty = (100 * (1800 - speed)) / (1800 - 828);
-    warpPrint("5. Activity = Walking. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
+    activityReading = ActivityWalking; // Equals 0x1 (see enumerated type).
+    characteristicUncertainty = (100 * (2952 - speed)) / (2952 - 828);
+    warpPrint("5. Activity = Walking (Confidence Level = %d\%), Stationary (Confidence Level = %d\%).\n", 100 - characteristicUncertainty, characteristicUncertainty);
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
     activityReading = ActivityStationary; // Equals 0x0 (see enumerated type). Represented by "STILL" on OLED display.
     characteristicUncertainty = 0;
-    warpPrint("5. Activity = Stationary. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
+    warpPrint("5. Activity = Stationary (Confidence Level = %d\%).\n", 100 - characteristicUncertainty);
     // clearDisplay();
   }
   warpPrint("\n--------------------------------------------------------------------------\n"); // Print a divide to make it easier to study the output.
