@@ -311,8 +311,8 @@ void classifierAlgorithm(){
       firstTimeRunning = 0;
       lastElement = LPFBuffer[0]; // Make sure the first element tested by the algorithm isn't erroneously detected as an inflection point. This ensures the > and < conditions cannot be met for the first element.
       secondToLastElement = LPFBuffer[0]; // Make sure the first element tested by the algorithm isn't erroneously detected as an inflection point. This ensures the > and < conditions cannot be met for the first element.
-      warpPrint("firstTimeRunning = 1, LPFBuffer[0] = %d, lastElement = %d, secondToLastElement = %d.\n", LPFBuffer[0], lastElement, secondToLastElement); // Print the work of this if statement to check that it functions correctly.
     }
+    warpPrint("firstTimeRunning = %d, LPFBuffer[0] = %d, lastElement = %d, secondToLastElement = %d.\n",  firstTimeRunning, LPFBuffer[0], lastElement, secondToLastElement); // Print the work of this if statement to check that it functions correctly.
     numberOfCycles += 1;
     warpPrint("numberOfCycles: %d.\n", numberOfCycles);
     simpleDiff(); // Step 3.
