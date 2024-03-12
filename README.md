@@ -80,6 +80,8 @@ As fixed-point computations are widely used to eliminate any rounding errors, th
 
 [Saibene and Minetti](https://link.springer.com/article/10.1007/s00421-002-0654-9) report that previous studies have calculated the characteristic velocity between walking and running as between 1.80 and 2.50ms^-1. By assuming that the true characteristic velocity of humans can be derived from a uniform distribution between these two figures, a percentage uncertainty due to this factor is calculated. For example, if the velocity is measured as 2.15ms^-1 (the midpoint of this range), the confidence level should be multiplied by 50%.
 
+![4B25 Uncertainty Graph](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/bf23527b-f32e-4394-bf73-f5fff0f9a193)
+
 The variation in people's step lengths has not been statistically characterised in prior literature, and the 0.414 * HEIGHT estimate is frequently used across the industry, so this form of uncertainty was negated. Furthermore, this result can vary with numerous factors, such as the presence of rain, any incline of the ground and your footwear, so the calculation of type B uncertainty is unfeasible.
 
 Finally, the confidence level is also affected by the duration of the experiment, as this effects the accuracy of the total time that has been elapsed (the denominator of the speed equation). For example, in the image below, while the experimental runtime (and thus the demoninator of the speed equation) changes between the green and red experiments, the number of inflection points does not. Hence, the calculated speed is different (despite the results being derived from the same sine wave). If the experiment is longer, then more inflection points are identified, and the uncertainty due to this decreases.
