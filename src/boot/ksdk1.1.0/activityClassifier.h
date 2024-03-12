@@ -57,6 +57,7 @@ uint16_t cumulativeInflectionPoints = 0; // The cumulative number of inflection 
 uint16_t cumulativeSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
 
 uint32_t distance = 0; // Initialised to 0.
+uint32_t time = 0; // Initialised to 0.
 uint32_t speed = 0; // Initialised to 0.
 
 uint16_t characteristicUncertainty; // Uncertainty due to the characteristic velocity being between 1.80 and 2.50ms^-1.
