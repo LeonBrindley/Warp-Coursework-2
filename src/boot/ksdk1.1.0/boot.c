@@ -2087,7 +2087,7 @@ main(void)
 	    OSA_TimeDelay(SAMPLE_PERIOD - timeDifference);
 	  }
           else{
-	    warpPrint("Error: timeDifference > %dms.\n", SAMPLE_PERIOD);
+	    warpPrint("Error: timeDifference of %dms > %dms.\n", timeDifference, SAMPLE_PERIOD);
 	    break;
 	  }
 	}
