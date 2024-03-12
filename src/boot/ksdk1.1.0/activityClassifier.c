@@ -121,10 +121,10 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[0]. numberOfInflectionPoints = %d.\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1], numberOfInflectionPoints);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
-      firstExcessTime = numberOfCycles + SAMPLE_PERIOD;
+      firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
       warpPrint("simpleDiff(): firstExcessTime: %d.\n", firstExcessTime);
     }
-    finalInflectionTime = numberOfCycles + SAMPLE_PERIOD;
+    finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
     warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
   }
   else if((LPFBuffer[0] < lastElement) && (LPFBuffer[0] < LPFBuffer[1])){ // A convex inflection point (minimum) has been reached.
@@ -132,10 +132,10 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[0]. numberOfInflectionPoints = %d.\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1], numberOfInflectionPoints);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
-      firstExcessTime = numberOfCycles + SAMPLE_PERIOD;
+      firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
       warpPrint("simpleDiff(): firstExcessTime: %d.\n", firstExcessTime);
     }
-    finalInflectionTime = numberOfCycles + SAMPLE_PERIOD;
+    finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
     warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
   }
 
@@ -146,10 +146,10 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
       warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[%d]. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i, numberOfInflectionPoints);
       if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
         firstExcessTest = 0;
-	firstExcessTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+	firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
 	warpPrint("simpleDiff(): firstExcessTime: %d.\n", firstExcessTime);
       }
-      finalInflectionTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+      finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
       warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
     }
     else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
@@ -157,10 +157,10 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
       warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[%d]. numberOfInflectionPoints = %d.\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i, numberOfInflectionPoints);
       if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
         firstExcessTest = 0;
-	firstExcessTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+	firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
 	warpPrint("simpleDiff(): firstExcessTime: %d.\n", firstExcessTime);
       }
-      finalInflectionTime = (numberOfCycles * (SAMPLE_PERIOD * BUFFER_SIZE)) - (SAMPLE_PERIOD * i);
+      finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
       warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
     }
   }
@@ -225,7 +225,7 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     warpPrint("5. Activity = Stationary. Confidence Level = %d\%.\n", 100 - characteristicUncertainty);
     // clearDisplay();
   }
-  warpPrint("----------------------------------------------------------------"); // Print a divide to make it easier to study the output.
+  warpPrint("\n--------------------------------------------------------------------------\n"); // Print a divide to make it easier to study the output.
 }
 
 /*
