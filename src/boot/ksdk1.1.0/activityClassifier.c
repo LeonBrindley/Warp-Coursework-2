@@ -124,7 +124,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
       firstExcessTime = numberOfCycles + SAMPLE_PERIOD;
       warpPrint("simpleDiff(): firstExcessTime: %d.", firstExcessTime);
     }
-    finalInflectionTime = numberOfCycles + SAMPLE_PERIOD);
+    finalInflectionTime = numberOfCycles + SAMPLE_PERIOD;
     warpPrint("simpleDiff(): finalInflecionTime: %d.", finalInflectionTime);
   }
   else if((LPFBuffer[0] < lastElement) && (LPFBuffer[0] < LPFBuffer[1])){ // A convex inflection point (minimum) has been reached.
@@ -165,8 +165,8 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     }
   }
   // Save the last and second-to-last elements in the range - this is required to avoid missing inflection points which occur in the 0th and 38th elements of the buffer.
-  lastElement = lpfBuffer[BUFFER_SIZE - 1];
-  secondToLastElement = lpfBuffer[BUFFER_SIZE - 2];
+  lastElement = LPFBuffer[BUFFER_SIZE - 1];
+  secondToLastElement = LPFBuffer[BUFFER_SIZE - 2];
 }
 
 void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
