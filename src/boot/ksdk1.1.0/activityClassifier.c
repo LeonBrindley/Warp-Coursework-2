@@ -227,7 +227,7 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     warpPrint("5. Activity = Stationary (Confidence Level = %d\%).\n", 100 - characteristicUncertainty);
     // clearDisplay();
   }
-  warpPrint("\n--------------------------------------------------------------------------\n"); // Print a divide to make it easier to study the output.
+  warpPrint("\n--------------------------------------------------------------------------------\n"); // Print a divide to make it easier to study the output.
 }
 
 /*
@@ -236,12 +236,13 @@ void generateData(){ // Function to generate synthetic acceleration data for tes
   float exampleTime; // exampleTime should be of the floating point type in the sinusoid below.
   warpPrint("\nGenerating synthetic acceleration data.\n");
   for (int i = 0; i < BUFFER_SIZE; i++){
-    exampleTime = i * SAMPLE_PERIOD;
-    AccelerationBuffer[i] = 500 + (500 * sin(2 * exampleTime)); // Make the output acceleration data a standard sinusoid for testing the algorithm.
+    exampleTime = ((generateDataCycle * 39) + i) * 10; // Multiple of 10ms used in the example in 4B25 lecture 2.
+    AccelerationBuffer[i] = 500 + (500 * sin(40 * exampleTime)); // Make the output acceleration data a standard sinusoid for testing the algorithm.
     // The maximum value of 1000 is comparable to accelerationMagnitude below, and the offset of 500 is added so all results are positive (as the data type is uint32_t).
     warpPrint("%d, ", AccelerationBuffer[i]);
   }
   warpPrint("\nFinished generating synthetic acceleration data.\n");
+  generateDateCycle++;
 }
 
 */
