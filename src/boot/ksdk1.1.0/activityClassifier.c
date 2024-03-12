@@ -38,7 +38,7 @@ int32_t convertAcceleration(int16_t number){ // Convert the acceleration from mu
   // Acceleration is given in multiples of (1/1024)g with the chosen +/- 8g range and 14-bit resolution of the MMA8451Q readings.
   // Hence, multiply by 9810 and then divide by 1024 to convert to mms^-2. Therefore, there is an implicit scaling factor of 1,000.
   int32_t result = ((int32_t)(number) * 9810) / 1024;
-  warpPrint("convertAcceleration(): %d * (9810/1024) = %d.\n", number, result);
+  // warpPrint("convertAcceleration(): %d * (9810/1024) = %d.\n", number, result);
   return result;
 }
 
@@ -48,12 +48,12 @@ uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the accel
   }
   else{
     uint32_t root = base / 8; // Guess the square root at first.
-    warpPrint("sqrtInt(): Square rooting the number %d.\n", base);
+    // warpPrint("sqrtInt(): Square rooting the number %d.\n", base);
     while(1){ // Perform this iterative result until the square root is calculated.
       uint32_t oldRoot = root; // Save the old root to compare the new one to.
       root = (root / 2) + (base / (2 * root));
       if(abs(root - oldRoot) <= 1){ // <= 1 to prevent the result hopping between two adjacent numbers and failing to converge.
-	warpPrint("sqrtInt(): Square root of %d = %d mms^-2.\n", base, root + 1);
+	// warpPrint("sqrtInt(): Square root of %d = %d mms^-2.\n", base, root + 1);
         return (root + 1); // Add 1 to round up, so the final square root result is accurate.
       }
       else{
@@ -259,7 +259,7 @@ void classifierAlgorithm(){
     return; // Return from the classifierAlgorithm() function if the MMA8451Q can't be read from.
   }
 
-  // warpPrint("\nParsing the bytes received from MMA8451Q's registers now.\n");	
+  // warpPrint("\nParsing the bytes received from the MMA8451Q's registers now.\n");	
 
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
