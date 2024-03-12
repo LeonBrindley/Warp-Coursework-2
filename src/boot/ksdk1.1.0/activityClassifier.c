@@ -85,7 +85,7 @@ void applyLPF(){ // Step 2: apply a low-pass filter to the data.
     // warpPrint("applyLPF(), %d, %d\n", AccelerationBuffer[i], LPFBuffer[i]); // Use this for extracting raw data into a CSV for checking the validity of the LPF.
   }
   // warpPrint("2. AccelerationBuffer[%d] = %d, LPFBuffer[%d] = %d.\n", BUFFER_SIZE - 1, AccelerationBuffer[BUFFER_SIZE - 1], BUFFER_SIZE - 1, LPFBuffer[BUFFER_SIZE - 1]);
-  warpPrint("%d, %d", AccelerationBuffer[BUFFER_SIZE - 1], LPFBuffer[BUFFER_SIZE - 1]; // For copying to a CSV file.
+  warpPrint("%d, %d", AccelerationBuffer[BUFFER_SIZE - 1], LPFBuffer[BUFFER_SIZE - 1]); // For copying to a CSV file.
 
 }
 
