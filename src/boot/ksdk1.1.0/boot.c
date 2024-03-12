@@ -3295,7 +3295,7 @@ writeAllSensorsToFlash(int menuDelayBetweenEachRun, int loopForever)
 #if (WARP_BUILD_ENABLE_DEVMMA8451Q)
 	numberOfConfigErrors += configureSensorMMA8451Q(
 		0x00, /* Payload: Disable FIFO */
-		0x05, /* Normal read 14-bit (F_READ = 0), 800Hz, reduced noise, active mode */
+		0x01, /* Normal read 14-bit (F_READ = 0), 800Hz, active mode, change to 0x05 for reduced noise mode */
 		0x00, /* HPF enabled for pulse processing with default HPF cut-off frequency of 16 Hz @ 800Hz ODR */
   		0x11 /* Output data high-pass filtered with full-scale range of 4g */
 	);
