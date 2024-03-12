@@ -30,7 +30,11 @@ Due to the strict memory requirements of the FRDM-KL03Z, only 39 elements are st
 
 <ins>**Step 5: Activity Classification**</ins>
 
-Finally, the aforementioned speed calculation is converted to an activity. [Long and Srinivasan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106) have shown that the average speed with equal amounts of walking and running (running fraction = 0.5) is about 2.2 m/s. Therefore, the **activityReading** variable is set to **ActivityRunning** if the speed exceeds 2.2 m/s (7.92 km/hr). Meanwhile, [Graham et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707) have shown that mean walking speeds of 0.23 m/s have been reported for older adults in geriatric rehabilitation settings. Therefore, the **activityReading** variable is set to **ActivityWalking** if the speed is between 0.23 m/s (0.828 km/hr) and 2.2 m/s (7.92 km/hr). Similarly, if the speed is below 0.23 m/s (0.828 km/hr), the **activityReading** variable is set to **ActivityStationary**.
+Finally, the aforementioned speed calculation is converted to an activity (**ActivityRunning**, **ActivityWalking** or **ActivityStationary**). [Long and Srinivasan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106) found that the characteristic velocity of running, the average velocity with equal amounts of walking and running (a running fraction of 0.5), equals about **2.2 m/s** (**7.92 km/hr**) on average, and [Saibene and Minetti](https://link.springer.com/article/10.1007/s00421-002-0654-9) found that the characteristic velocity calculated in previous literature varied between **1.80** and **2.50 m/s** (**6.48** and **9.00 km/hr**, respectively). By assuming that the characteristic velocity of individual users follows a uniform distribution between these two figures, the activity (and its confidence level) is classified.
+
+The same logic was used to discern between the walking and stationary states, as a threshold of 0 m/s will always be exceeded due to fluctuations in the user's position or the measurement setup. [Graham et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707) have shown that the mean walking speed of older adults in geriatric rehabilitation settings is **0.23 m/s** (**0.828 km/hr**), so this is used as the lower bound. Meanwhile, [Murtagh et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7806575/) have shown that the mean walking speed of healthy adults when purposefully walking slowly is **0.82 m/s** (**2.952 km/hr**), so this is used as the upper bound.
+
+![4B25 Uncertainty Graph](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/2d196c63-3130-4b48-bab8-7d4cf2a66d92)
 
 <ins>**Configuration: MMA8451Q Registers**</ins>
 
@@ -74,21 +78,17 @@ When the **LPFWeights** array was expanded to **39** elements, the nominal argum
 
 <img width="1160" alt="MMA8451Q Acceleration Across 39 Elements" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/761789eb-ee85-4b9d-bd84-da035341409c">
 
-<ins>**Uncertainty Calculation**</ins>
+<ins>**Other Sources of Uncertainty**</ins>
 
-As fixed-point computations are widely used to eliminate any rounding errors, the main sources of error are due to variations in people's characteristic transition velocities, variations in people's step lengths and (with low runtimes) any excess time consumed outside of the leftmost and rightmost inflection points.
-
-[Saibene and Minetti](https://link.springer.com/article/10.1007/s00421-002-0654-9) report that previous studies have calculated the characteristic velocity between walking and running as between 1.80 and 2.50ms^-1. By assuming that the true characteristic velocity of humans can be derived from a uniform distribution between these two figures, a percentage uncertainty due to this factor is calculated. For example, if the velocity is measured as 2.15ms^-1 (the midpoint of this range), the confidence level should be multiplied by 50%.
-
-![4B25 Uncertainty Graph](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/bf23527b-f32e-4394-bf73-f5fff0f9a193)
+As fixed-point computations are widely used to eliminate any rounding errors, the main sources of error are due to variations in people's characteristic transition velocities (as accounted for in **step 5** of the algorithm), variations in people's step lengths and (with low runtimes) any excess time consumed outside of the leftmost and rightmost inflection points.
 
 The variation in people's step lengths has not been statistically characterised in prior literature, and the 0.414 * HEIGHT estimate is frequently used across the industry, so this form of uncertainty was negated. Furthermore, this result can vary with numerous factors, such as the presence of rain, any incline of the ground and your footwear, so the calculation of type B uncertainty is unfeasible.
 
-Finally, the confidence level is also affected by the duration of the experiment, as this effects the accuracy of the total time that has been elapsed (the denominator of the speed equation). For example, in the image below, while the experimental runtime (and thus the demoninator of the speed equation) changes between the green and red experiments, the number of inflection points does not. Hence, the calculated speed is different (despite the results being derived from the same sine wave). If the experiment is longer, then more inflection points are identified, and the uncertainty due to this decreases.
+Finally, the confidence level is also affected by the duration of the experiment, as this affects the accuracy of the total time that has been elapsed (the denominator of the speed equation). For example, in the image below, while the experimental runtime (and thus the denominator of the speed equation) changes between the green and red experiments, the number of inflection points does not. Hence, the calculated speed is different (despite the results being derived from the same sine wave). If the experiment is longer, then more inflection points are identified, and the uncertainty due to this decreases.
 
 ![Uncertainty From Sampling Times](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/4e8f34ad-2e9f-46bc-8836-dba09cd807a9)
 
-In this example, if the time period equals 2 seconds, then for the same number of inflection points (**3**), the time can vary between **2** and **4** seconds. In contrast, if **7** inflection points are covered, the time can vary between and **6** and **8** seconds. A unifom distribution between the resulting speeds is studied by the algorithm, and if it is possible to cross one of the characteristic velocities as a result, the likelihood of this occurring is calculated and the uncertainty is scaled accordingly.
+In this example, if the time period equals 2 seconds, then for the same number of inflection points (**3**), the time can vary between **2** and **4** seconds. In contrast, if **7** inflection points are covered, the time can vary between and **6** and **8** seconds. To avoid this, the duration was made to exclude any time before the first inflection point or after the final inflection point, and the **cumulativeInflectionPoints** variable was decremented to avoid overestimating the speed due to starting and finishing on an inflection point.
 
 <ins>**OLED Display**</ins>
 
