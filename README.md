@@ -34,7 +34,7 @@ Finally, the aforementioned speed calculation is converted to an activity (**Act
 
 The same logic was used to discern between the walking and stationary states, as a threshold of 0 m/s will always be exceeded due to fluctuations in the user's position or the measurement setup. [Graham et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707) have shown that the mean walking speed of older adults in geriatric rehabilitation settings is **0.23 m/s** (**0.828 km/hr**), so this is used as the lower bound. Meanwhile, [Murtagh et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7806575/) have shown that the mean walking speed of healthy adults when purposefully walking slowly is **0.82 m/s** (**2.952 km/hr**), so this is used as the upper bound.
 
-![4B25 Uncertainty Graph](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/2d196c63-3130-4b48-bab8-7d4cf2a66d92)
+![4B25 Uncertainty Graph](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/a8c710e1-cc23-44e6-87a5-a37fde6872a5)
 
 <ins>**Configuration: MMA8451Q Registers**</ins>
 
