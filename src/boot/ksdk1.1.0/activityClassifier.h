@@ -51,6 +51,7 @@ detectedActivity activityReading;
 // Define buffers to store the magnitudes of the acceleration measurements before and after low-pass filtering.
 uint32_t AccelerationBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
 uint32_t LPFBuffer[BUFFER_SIZE] = {0}; // Initialised to 0.
+uint32_t lastElement, secondToLastElement = {0}; // Initialised to 0.
 uint16_t numberOfInflectionPoints = 0; // The number of local maxima and minima in the array. Use numberOfInflectionPoints / 2 instead of the number of steps to avoid rounding errors.
 uint16_t cumulativeInflectionPoints = 0; // The cumulative number of inflection points since starting the program.
 uint16_t cumulativeSteps = 0; // Cumulative number of steps since booting the device. Initialised to 0.
