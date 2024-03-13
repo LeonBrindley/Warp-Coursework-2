@@ -323,7 +323,7 @@ void classifierAlgorithm(){
       firstTimeRunning = 0;
     }
     else{
-      warpPrint("\nfirstTimeRunning = %d, numberOfCycles = %d, LPFBuffer[0] = %d, lastElement = %d, secondToLastElement = %d.\n",  firstTimeRunning, numberOfCycles, LPFBuffer[0], lastElement, secondToLastElement); // Print the work of this if statement to check that it functions correctly.    
+      warpPrint("\nnumberOfCycles = %d, LPFBuffer[0] = %d, lastElement = %d, secondToLastElement = %d.\n", numberOfCycles, LPFBuffer[0], lastElement, secondToLastElement); // Print the work of this if statement to check that it functions correctly.    
     }
     simpleDiff(); // Step 3.
     calculateSpeed(); // Step 4.
