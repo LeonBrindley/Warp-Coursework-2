@@ -12,7 +12,7 @@ This project determines the number of steps taken by an individual over a **10-s
 
 <ins>**Step 1: Magnitude Calculation**</ins>
 
-Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed using bit shift operations. The magnitude of these three readings is calculated using Pythagoras' theorem across three cartesian axes. The **sqrt()** function in **math.h** is too large relative to the FRDM-KL03Z's **2 KB** of SRAM, so an integer-based implementation using the Newton-Raphson method is executed in **sqrtInt()** instead. By default, **19** results are stored in the **AccelerationBuffer**.
+Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed using bit shift operations. Any unexpected **type A uncertainty** can be identified by statistically analysing the variance of the results and excluding any sudden outliers. The magnitude of these three readings is calculated using Pythagoras' theorem across three cartesian axes. The **sqrt()** function in **math.h** is too large relative to the FRDM-KL03Z's **2 KB** of SRAM, so an integer-based implementation using the Newton-Raphson method is executed in **sqrtInt()** instead. By default, **19** results are stored in the **AccelerationBuffer**.
 
 <ins>**Step 2: Low-Pass Filter**</ins>
 
