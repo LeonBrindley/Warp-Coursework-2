@@ -70,8 +70,8 @@ uint16_t totalUncertainty; // Total uncertainty due to the factors referenced ab
 // These have been calculated using https://rfcalculator.com/FIR-Filters and then multiplied (e.g. by 10,000) to provide integer results.
 // uint16_t LPFWeights[BUFFER_SIZE] = {34, 459, 1942, 5428, 11757, 21089, 32428, 43607, 51876, 54932, 51876, 43607, 32428, 21089, 11757, 5428, 1942, 459, 34}; // OLD 19-element array.
 // uint16_t LPFWeights[BUFFER_SIZE] = {0, 3, 40, 238, 875, 2303, 4664, 7555, 10014, 10986, 10014, 7555, 4664, 2303, 875, 238, 40, 3, 0}; // NEW 19-element array.
-// uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618, 7658, 11853, 17232, 23649, 30751, 37991, 44691, 50136, 53694, 54932, 53694, 50136, 44691, 37991, 30751, 23649, 17232, 11853, 7658, 4618, 2578, 1316, 604, 243, 82, 21, 4, 0, 0}; // 39-element array.
-uint16_t LPFWeights[BUFFER_SIZE] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000}; // Dummy coefficients for testing the cut-off frequency using a moving average (movag) filter. This gives a phase-modulated sinc() function.
+uint16_t LPFWeights[BUFFER_SIZE] = {0, 0, 4, 21, 82, 243, 604, 1316, 2578, 4618, 7658, 11853, 17232, 23649, 30751, 37991, 44691, 50136, 53694, 54932, 53694, 50136, 44691, 37991, 30751, 23649, 17232, 11853, 7658, 4618, 2578, 1316, 604, 243, 82, 21, 4, 0, 0}; // 39-element array.
+// uint16_t LPFWeights[BUFFER_SIZE] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000}; // Dummy coefficients for testing the cut-off frequency using a moving average (movag) filter. This gives a phase-modulated sinc() function.
 
 int32_t convertAcceleration(int16_t number);
 uint32_t sqrtInt(uint32_t base); // Return the square root of an integer using the Newton-Raphson method
