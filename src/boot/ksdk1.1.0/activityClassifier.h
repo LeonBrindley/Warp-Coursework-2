@@ -1,27 +1,11 @@
 #pragma once
 
-/*
-typedef enum
-{
-	kMMA8451QXAxis			= 0x0,
-	kMMA8451QYAxis		        = 0x1,
-	kMMA8451QZAxis		        = 0x2,
-} MMA8451QConstants;
-*/
-
 typedef enum
 {
 	ActivityStationary		= 0x0,
 	ActivityWalking		        = 0x1,
 	ActivityRunning		        = 0x2,
 } detectedActivity;
-
-/*
-void stepOneCombine();
-void stepTwoFilter();
-void stepThreeMidpoint();
-void stepFourSpeed();
-*/
 
 WarpStatus updateAccelerations();
 void classifierAlgorithm();
@@ -62,8 +46,6 @@ uint32_t time = 0; // Initialised to 0.
 uint32_t speed = 0; // Initialised to 0.
 
 uint16_t characteristicUncertainty; // Uncertainty due to the characteristic velocity being between 1.80 and 2.50ms^-1.
-uint16_t durationUncertainty; // Uncertainty due to the duration varying with the same number of inflection points.
-uint16_t totalUncertainty; // Total uncertainty due to the factors referenced above (expressed as a percentage).
 
 // The LPF uses a finite impulse response (FIR) structure.
 // The FIR coefficients h(n) are defined below.
@@ -88,6 +70,3 @@ uint16_t firstExcessTime, finalInflectionTime, finalExcessTime;
 uint16_t timeBefore = 0; // Initialising timeBefore variable to 0.
 uint16_t timeAfter = 0; // Initialising timeAfter variable to 0.
 uint16_t timeDifference = 0; // Initialising timeDifference variable to 0.
-
-// void printGUI();
-// void printCharacter(uint8_t column, uint8_t row, uint8_t number);
