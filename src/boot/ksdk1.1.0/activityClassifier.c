@@ -53,7 +53,7 @@ uint32_t sqrtInt(uint32_t base){ // Step 1: calculate the magnitude of the accel
       uint32_t oldRoot = root; // Save the old root to compare the new one to.
       root = (root / 2) + (base / (2 * root));
       if(abs(root - oldRoot) <= 1){ // <= 1 to prevent the result hopping between two adjacent numbers and failing to converge.
-	// warpPrint("sqrtInt(): Square root of %d = %d mms^-2.\n", base, root + 1);
+	warpPrint("sqrtInt(): Square root of %d = %d mms^-2.\n", base, root + 1);
         return (root + 1); // Add 1 to round up, so the final square root result is accurate.
       }
       else{
