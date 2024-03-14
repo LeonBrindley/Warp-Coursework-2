@@ -66,13 +66,13 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	warpPrint("Initialising MMA8451Q accelerometer.\n");
 	deviceMMA8451QState.i2cAddress			= i2cAddress;
 	deviceMMA8451QState.operatingVoltageMillivolts	= operatingVoltageMillivolts;
-	
+
 	uint8_t configErrors = 0;
 	configErrors += configureSensorMMA8451Q(
-		0x00, /* Payload: Disable FIFO */
-		0x05, /* Normal read 14-bit (F_READ = 0), 800Hz, reduced noise, active mode */
-		0x00, /* HPF enabled for pulse processing with default HPF cut-off frequency of 16 Hz @ 800Hz ODR */
-  		0x12 /* Output data high-pass filtered with full-scale range of +/-8g */
+		0x00, /* [F_SETUP] Payload: Disable FIFO (use AccelerationBuffer[39] instead). */
+		0x01, /* [CTRL_REG1] Normal read 14-bit (F_READ = 0), 800Hz output data rate, LNOISE mode off (change to 0x05 to turn LNOISE mode on), active mode (changed to standby when writing to CTRL_REG1). */
+		0x03, /* [HP_FILTER_CUTOFF] HPF enabled for pulse processing with HPF cut-off frequency of 2 Hz @ 800Hz ODR. */
+  		0x12 /* [XYZ_DATA_CFG] Output data high-pass filtered with full-scale range of +/-8g. */
 	);
 	warpPrint("configErrors: %d.\n", configErrors);
 	
@@ -138,6 +138,9 @@ writeSensorRegisterMMA8451Q(uint8_t deviceRegister, uint8_t payload)
 
 	return kWarpStatusOK;
 }
+
+
+// Note: Except for STANDBY mode selection, the device must be in STANDBY mode to change any of the fields within CTRL_REG1 (0x2A).	
 
 WarpStatus
 configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1, uint8_t payloadHP_FILTER_CUTOFF, uint8_t payloadXYZ_DATA_CFG)
