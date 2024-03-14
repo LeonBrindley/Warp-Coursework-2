@@ -81,17 +81,6 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 		LPFBuffer[i] = 0;
 	}
 
-	/*
-	classifierAlgorithm();
-	OSA_TimeDelay(5000);
-	*/
-	
-	/*
-	stepOneCombine();
-	stepTwoFilter();
-	stepThreeMidpoint();
-	stepFourSpeed();
-	*/
 	warpPrint("Finished initialising MMA8451Q accelerometer.\n");
 	return;
 }
