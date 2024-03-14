@@ -293,7 +293,7 @@ void classifierAlgorithm(){
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
   uint16_t timeAfterFunc = OSA_TimeGetMsec();
   uint16_t timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-  warpPrint("EXECUTION TIME of sqrtInt() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
+  // warpPrint("EXECUTION TIME of sqrtInt() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	
   shiftBuffer();
 
@@ -319,7 +319,7 @@ void classifierAlgorithm(){
   applyLPF(); // Step 2.
   timeAfterFunc = OSA_TimeGetMsec();
   timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-  warpPrint("EXECUTION TIME of applyLPF() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
+  // warpPrint("EXECUTION TIME of applyLPF() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	
   if((cycleCounter == BUFFER_SIZE) && dataValid){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that this condition is met.
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf for ideas.
@@ -338,19 +338,19 @@ void classifierAlgorithm(){
     simpleDiff(); // Step 3.
     timeAfterFunc = OSA_TimeGetMsec();
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-    warpPrint("EXECUTION TIME of simpleDiff() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
+    // warpPrint("EXECUTION TIME of simpleDiff() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	  
     timeBeforeFunc = OSA_TimeGetMsec();
     calculateSpeed(); // Step 4.
     timeAfterFunc = OSA_TimeGetMsec();
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-    warpPrint("EXECUTION TIME of calculateSpeed() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
+    // warpPrint("EXECUTION TIME of calculateSpeed() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 
     timeBeforeFunc = OSA_TimeGetMsec();	
     identifyActivity(); // Step 5.
     timeAfterFunc = OSA_TimeGetMsec();
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-    warpPrint("EXECUTION TIME of identifyActivity() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
+    // warpPrint("EXECUTION TIME of identifyActivity() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	  
     cycleCounter = 0;
   }
