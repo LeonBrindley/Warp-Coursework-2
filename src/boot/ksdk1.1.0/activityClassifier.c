@@ -95,7 +95,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
   // Firstly, check if the last element of the previous LPFBuffer was an inflection point.
   if((lastElement > secondToLastElement) && (lastElement > LPFBuffer[0])){ // A concave inflection point (maximum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
-    // warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[-1].\n", lastElement, secondToLastElement, lastElement, LPFBuffer[0]);
+    warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[-1].\n", lastElement, secondToLastElement, lastElement, LPFBuffer[0]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
       firstExcessTime = (numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE);
@@ -106,7 +106,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
   }
   else if((lastElement < secondToLastElement) && (lastElement < LPFBuffer[0])){ // A convex inflection point (minimum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
-    // warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[-1].\n", lastElement, secondToLastElement, lastElement, LPFBuffer[0]);
+    warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[-1].\n", lastElement, secondToLastElement, lastElement, LPFBuffer[0]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
       firstExcessTime = (numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE);
@@ -119,7 +119,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
   // Secondly, check if the first element of the current LPFBuffer is an inflection point.
   if((LPFBuffer[0] > lastElement) && (LPFBuffer[0] > LPFBuffer[1])){ // A concave inflection point (maximum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
-    // warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[0].\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1]);
+    warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[0].\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
       firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
@@ -130,7 +130,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
   }
   else if((LPFBuffer[0] < lastElement) && (LPFBuffer[0] < LPFBuffer[1])){ // A convex inflection point (minimum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
-    // warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[0].\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1]);
+    warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[0].\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
       firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
@@ -144,7 +144,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
     if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
-      // warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[%d].\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i);
+      warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[%d].\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i);
       if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
         firstExcessTest = 0;
 	firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
@@ -155,7 +155,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     }
     else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
-      // warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[%d].\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i);
+      warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[%d].\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i);
       if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
         firstExcessTest = 0;
 	firstExcessTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
@@ -268,32 +268,32 @@ void classifierAlgorithm(){
   XLSB = deviceMMA8451QState.i2cBuffer[1];
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
   XCombined = (XCombined ^ (1 << 13)) - (1 << 13);
-  warpPrint("XMSB: %d, XMSB: %d, XCombined - Decimal: %d, Hexadecimal: %x.\n", XMSB, XLSB, XCombined, XCombined);
+  // warpPrint("XMSB: %d, XMSB: %d, XCombined - Decimal: %d, Hexadecimal: %x.\n", XMSB, XLSB, XCombined, XCombined);
   XAcceleration = convertAcceleration(XCombined);
-  warpPrint("XAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
+  // warpPrint("XAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
 
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
   YCombined = (YCombined ^ (1 << 13)) - (1 << 13);
-  warpPrint("YMSB: %d, YMSB: %d, YCombined - Decimal: %d, Hexadecimal: %x.\n", YMSB, YLSB, YCombined, YCombined);
+  // warpPrint("YMSB: %d, YMSB: %d, YCombined - Decimal: %d, Hexadecimal: %x.\n", YMSB, YLSB, YCombined, YCombined);
   YAcceleration = convertAcceleration(YCombined);
-  warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
+  // warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
 	
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
   ZCombined = ((ZMSB & 0xFF) << 6) | (ZLSB >> 2);
   ZCombined = (ZCombined ^ (1 << 13)) - (1 << 13);
-  warpPrint("ZMSB: %d, ZMSB: %d, ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZMSB, ZLSB, ZCombined, ZCombined);
+  // warpPrint("ZMSB: %d, ZMSB: %d, ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZMSB, ZLSB, ZCombined, ZCombined);
   ZAcceleration = convertAcceleration(ZCombined);
-  warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
+  // warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
 
-  warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAcceleration*YAcceleration, ZAcceleration*ZAcceleration);
+  // warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAcceleration*YAcceleration, ZAcceleration*ZAcceleration);
   uint16_t timeBeforeFunc = OSA_TimeGetMsec();
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
   uint16_t timeAfterFunc = OSA_TimeGetMsec();
   uint16_t timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-  warpPrint("sqrtInt() execution time = %dms.\n", timeDifferenceFunc);
+  warpPrint("sqrtInt() execution time = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	
   shiftBuffer();
 
@@ -319,7 +319,7 @@ void classifierAlgorithm(){
   applyLPF(); // Step 2.
   timeAfterFunc = OSA_TimeGetMsec();
   timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-  warpPrint("applyLPF() execution time = %dms.\n", timeDifferenceFunc);
+  warpPrint("applyLPF() execution time = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	
   if((cycleCounter == BUFFER_SIZE) && dataValid){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that this condition is met.
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf for ideas.
@@ -338,19 +338,19 @@ void classifierAlgorithm(){
     simpleDiff(); // Step 3.
     timeAfterFunc = OSA_TimeGetMsec();
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-    warpPrint("simpleDiff() execution time = %dms.\n", timeDifferenceFunc);
+    warpPrint("simpleDiff() execution time = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	  
     timeBeforeFunc = OSA_TimeGetMsec();
     calculateSpeed(); // Step 4.
     timeAfterFunc = OSA_TimeGetMsec();
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-    warpPrint("calculateSpeed() execution time = %dms\n.", timeDifferenceFunc);
+    warpPrint("calculateSpeed() execution time = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 
     timeBeforeFunc = OSA_TimeGetMsec();	
     identifyActivity(); // Step 5.
     timeAfterFunc = OSA_TimeGetMsec();
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
-    warpPrint("identifyActivity() execution time = %dms.\n", timeDifferenceFunc);
+    warpPrint("identifyActivity() execution time = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 	  
     cycleCounter = 0;
   }
