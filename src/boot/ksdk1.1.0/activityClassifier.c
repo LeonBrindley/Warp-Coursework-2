@@ -91,7 +91,7 @@ void applyLPF(){ // Step 2: apply a low-pass filter to the data.
 void simpleDiff(){ // Step 3: search for points of inflection by considering the values either side of each data point.
   // This method works when changing rapidly from stationary to running, as the midpoint detection option may be inaccurate in this case.
   numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints. Includes both maxima and minima with the implementation below.
-	
+
   // Firstly, check if the last element of the previous LPFBuffer was an inflection point.
   if((lastElement > secondToLastElement) && (lastElement > LPFBuffer[0])){ // A concave inflection point (maximum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
@@ -289,8 +289,12 @@ void classifierAlgorithm(){
   warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
 
   warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAcceleration*YAcceleration, ZAcceleration*ZAcceleration);
+  uint16_t timeBeforeFunc = OSA_TimeGetMsec();
   accelerationMagnitude = sqrtInt((uint32_t)(XAcceleration*XAcceleration) + (uint32_t)(YAcceleration*YAcceleration) + (uint32_t)(ZAcceleration*ZAcceleration));
-  	
+  uint16_t timeAfterFunc = OSA_TimeGetMsec();
+  uint16_t timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
+  warpPrint("sqrtInt() execution time = %dms.", timeDifferenceFunc);
+	
   shiftBuffer();
 
   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
@@ -311,7 +315,11 @@ void classifierAlgorithm(){
   //   AccelerationBuffer[BUFFER_SIZE - 1] = accelerationMagnitude;
   // }
 
+  timeBeforeFunc = OSA_TimeGetMsec();
   applyLPF(); // Step 2.
+  timeAfterFunc = OSA_TimeGetMsec();
+  timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
+  warpPrint("applyLPF() execution time = %dms.", timeDifferenceFunc);
 	
   if((cycleCounter == BUFFER_SIZE) && dataValid){ // The data is not valid if the AccelerationBuffer has yet to be filled, so make sure that this condition is met.
     // See https://www.vle.cam.ac.uk/pluginfile.php/27161189/mod_resource/content/1/chapter-02-measurements-and-uncertainty-and-cover.pdf for ideas.
@@ -325,9 +333,25 @@ void classifierAlgorithm(){
     else{
       warpPrint("\nnumberOfCycles = %d, LPFBuffer[0] = %d, lastElement = %d, secondToLastElement = %d.\n", numberOfCycles, LPFBuffer[0], lastElement, secondToLastElement); // Print the work of this if statement to check that it functions correctly.    
     }
+
+    timeBeforeFunc = OSA_TimeGetMsec();
     simpleDiff(); // Step 3.
+    timeAfterFunc = OSA_TimeGetMsec();
+    timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
+    warpPrint("simpleDiff() execution time = %dms.", timeDifferenceFunc);
+	  
+    timeBeforeFunc = OSA_TimeGetMsec();
     calculateSpeed(); // Step 4.
+    timeAfterFunc = OSA_TimeGetMsec();
+    timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
+    warpPrint("calculateSpeed() execution time = %dms.", timeDifferenceFunc);
+
+    timeBeforeFunc = OSA_TimeGetMsec();	
     identifyActivity(); // Step 5.
+    timeAfterFunc = OSA_TimeGetMsec();
+    timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
+    warpPrint("identifyActivity() execution time = %dms.", timeDifferenceFunc);
+	  
     cycleCounter = 0;
   }
   else if((cycleCounter == BUFFER_SIZE) && !dataValid){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
