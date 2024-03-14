@@ -85,6 +85,9 @@ void identifyActivity(); // Step 5.
 bool firstExcessTest = 1; // Set to 0 when the first inflection point is detected.
 uint16_t firstExcessTime, finalInflectionTime, finalExcessTime;
 
+uint16_t timeBefore = 0; // Initialising timeBefore variable to 0.
+uint16_t timeAfter = 0; // Initialising timeAfter variable to 0.
+uint16_t timeDifference = 0; // Initialising timeDifference variable to 0.
 
 // void printGUI();
 // void printCharacter(uint8_t column, uint8_t row, uint8_t number);
