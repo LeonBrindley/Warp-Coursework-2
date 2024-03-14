@@ -34,6 +34,19 @@
 // Note that the %f (float) format specifier does not work with SEGGER_RTT_printf, instead use %d (decimal).
 // Details of bit manipulation with the MMA8451Q can be found at https://www.nxp.com/docs/en/application-note/AN4076.pdf.
 
+// void generateData(){ // Function to generate synthetic acceleration data for testing purposes. To save on memory, the below code can be substituted for pre-computed values.
+//   float exampleTime; // exampleTime should be of the floating point type in the sinusoid below.
+//   warpPrint("\nGenerating synthetic acceleration data.\n");
+//   for (int i = 0; i < BUFFER_SIZE; i++){
+//     exampleTime = ((generateDataCycle * 39) + i) * 10; // Multiple of 10ms used in the example in 4B25 lecture 2.
+//     AccelerationBuffer[i] = 500 + (500 * sin(40 * exampleTime)); // Make the output acceleration data a standard sinusoid for testing the algorithm.
+//     // The maximum value of 1000 is comparable to accelerationMagnitude below, and the offset of 500 is added so all results are positive (as the data type is uint32_t).
+//     warpPrint("%d, ", AccelerationBuffer[i]);
+//   }
+//   warpPrint("\nFinished generating synthetic acceleration data.\n");
+//   generateDateCycle++;
+// }
+
 int32_t convertAcceleration(int16_t number){ // Convert the acceleration from multiples of (1/1024)g to mms^-2. 
   // Acceleration is given in multiples of (1/1024)g with the chosen +/- 8g range and 14-bit resolution of the MMA8451Q readings.
   // Hence, multiply by 9810 and then divide by 1024 to convert to mms^-2. Therefore, there is an implicit scaling factor of 1,000.
@@ -202,6 +215,8 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     characteristicUncertainty = 0;
     // warpPrint("5. Activity = Running (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty);
   }
+    // clearDisplay();
+    // printRunning(); // See devSSD1331.c for printRunning() and printCharacter().
   else if(speed > 6480){ // 6.48 km/hr = 6480 m/hr.
     activityReading = ActivityRunning; // Equals 0x2 (see enumerated type).
     characteristicUncertainty = (100 * (9000 - speed)) / (9000 - 6480);
@@ -216,6 +231,8 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     activityReading = ActivityWalking; // Equals 0x1 (see enumerated type). Represented by "WALKING" on OLED display.
     characteristicUncertainty = 0;
     // warpPrint("5. Activity = Walking (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty);
+    // clearDisplay();
+    // printWalking(); // See devSSD1331.c for printWalking() and printCharacter().
   }
   else if(speed > 828){ // 0.23 m/s = 0.828 km/hr = 828 m/hr.
     activityReading = ActivityWalking; // Equals 0x1 (see enumerated type).
@@ -228,26 +245,10 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     characteristicUncertainty = 0;
     // warpPrint("5. Activity = Stationary (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty);
     // clearDisplay();
+    // printStill();  // See devSSD1331.c for printStill() and printCharacter().
   }
   // warpPrint("\n------------------------------------------------------------------------------------------\n"); // Print a divide to make it easier to study the output.
 }
-
-/*
-
-void generateData(){ // Function to generate synthetic acceleration data for testing purposes. To save on memory, the below code can be substituted for pre-computed values.
-  float exampleTime; // exampleTime should be of the floating point type in the sinusoid below.
-  warpPrint("\nGenerating synthetic acceleration data.\n");
-  for (int i = 0; i < BUFFER_SIZE; i++){
-    exampleTime = ((generateDataCycle * 39) + i) * 10; // Multiple of 10ms used in the example in 4B25 lecture 2.
-    AccelerationBuffer[i] = 500 + (500 * sin(40 * exampleTime)); // Make the output acceleration data a standard sinusoid for testing the algorithm.
-    // The maximum value of 1000 is comparable to accelerationMagnitude below, and the offset of 500 is added so all results are positive (as the data type is uint32_t).
-    warpPrint("%d, ", AccelerationBuffer[i]);
-  }
-  warpPrint("\nFinished generating synthetic acceleration data.\n");
-  generateDateCycle++;
-}
-
-*/
 
 void classifierAlgorithm(){
   uint16_t XLSB, YLSB, ZLSB; // Least significant byte of each acceleration measurement.
@@ -363,260 +364,3 @@ void classifierAlgorithm(){
   }
   cycleCounter++;
 }
-
-/*
-
-void printCharacter(uint8_t column, uint8_t row, uint8_t number){
-	switch(number){
-		case 0: // Number 0.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 10, column + 5, row, 0xFF, 0x00, 0x00);	
-			break;
-		}
-		case 1: // Number 1.
-		{
-			printLine(column + 5, row + 10, column + 5, row, 0xFF, 0x00, 0x00);	
-			break;
-		}
-		case 2: // Number 2.
-		{
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 3: // Number 3.
-		{
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 4: // Number 4.
-		{
-			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 5: // Number 5.
-		{
-			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 6: // Number 6.
-		{
-			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 10, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 7: // Number 7.
-		{
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 8: // Number 8.
-		{
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 9: // Number 9.
-		{
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 10: // Letter 'K'.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 11: // Letter 'M'.
-		{
-			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 10, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 10, row + 5, column + 10, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 12: // Character '/'.
-		{
-			printLine(column, row + 10, column + 5, row, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 13: // Letter 'H'.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 14: // Character 'R'.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 15: // Character '.'.
-		{
-			printLine(column + 2, row + 10, column + 2, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 16: // Character 'W'.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 2, row + 8, 0xFF, 0x00, 0x00);
-			printLine(column + 3, row + 8, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 10, row, column + 10, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 17: // Character 'A'.
-		{
-			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 2, row, 0xFF, 0x00, 0x00);
-			printLine(column + 3, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 18: // Character 'L'.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 19: // Character 'I'.
-		{
-			printLine(column + 2, row + 10, column + 2, row, 0xFF, 0x00, 0x00);	
-			break;
-		}
-		case 20: // Character 'N'.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 21: // Character 'G'.
-		{
-			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 10, column + 5, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 5, column + 2, row + 5, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 22: // Character 'U'.
-		{
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 23: // Character 'S'.
-		{
-			printLine(column + 5, row, column + 1, row, 0xFF, 0x00, 0x00);
-			printLine(column + 1, row, column, row + 1, 0xFF, 0x00, 0x00);
-			printLine(column, row + 1, column, row + 4, 0xFF, 0x00, 0x00);
-			printLine(column, row + 4, column + 1, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 1, row + 5, column + 4, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 4, row + 5, column + 5, row + 6, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 6, column + 5, row + 9, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 9, column + 4, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 4, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 24: // Character 'T'.
-		{
-			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
-			printLine(column + 2, row, column + 2, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-		case 25: // Character 'B'.
-		{
-			printLine(column, row, column + 4, row, 0xFF, 0x00, 0x00);
-			printLine(column + 4, row, column + 5, row + 1, 0xFF, 0x00, 0x00);
-			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 1, column + 5, row + 4, 0xFF, 0x00, 0x00);
-			printLine(column, row + 5, column + 4, row + 5, 0xFF, 0x00, 0x00);
-			printLine(column + 4, row + 5, column + 5, row + 4, 0xFF, 0x00, 0x00);
-			printLine(column + 4, row + 5, column + 5, row + 6, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 6, column + 5, row + 9, 0xFF, 0x00, 0x00);
-			printLine(column + 5, row + 9, column + 4, row + 10, 0xFF, 0x00, 0x00);
-			printLine(column, row + 10, column + 4, row + 10, 0xFF, 0x00, 0x00);
-			break;
-		}
-	}
-} 
-
-void printWalking(){ // 7 letters = width of 35, with spacing of 2 between each letter.
-  clearDisplay(); // 128 - 35 - (6 * 2) = 81, so start at trunc(81 / 2) = 40.
-  printCharacter(40, 10, 16); // W = 16.
-  printCharacter(47, 10, 17); // A = 17.
-  printCharacter(54, 10, 18); // L = 18.
-  printCharacter(61, 10, 10); // K = 10.
-  printCharacter(68, 10, 19); // I = 19.
-  printCharacter(75, 10, 20); // N = 20.
-  printCharacter(82, 10, 21); // G = 21.
-}  
-
-void printRunning(){ // 7 letters = width of 35, with spacing of 2 between each letter.
-  clearDisplay(); // 128 - 35 - (6 * 2) = 81, so start at trunc(81 / 2) = 40.
-  printCharacter(40, 10, 14); // R = 14.
-  printCharacter(47, 10, 22); // U = 22.
-  printCharacter(54, 10, 20); // N = 20.
-  printCharacter(61, 10, 20); // N = 20.
-  printCharacter(68, 10, 19); // I = 19.
-  printCharacter(75, 10, 20); // N = 20.
-  printCharacter(82, 10, 21); // G = 21.
-}
-
-void printStill(){ // 5 letters = width of 25, with spacing of 2 between each letter.
-  clearDisplay(); // 128 - 25 - (4 * 2) = 95, so start at trunc(95 / 2) = 47.
-  printCharacter(47, 10, 23); // S = 23.
-  printCharacter(54, 10, 24); // T = 24.
-  printCharacter(61, 10, 19); // I = 19.
-  printCharacter(68, 10, 18); // L = 18.
-  printCharacter(75, 10, 18); // L = 18.
-}
-
-*/
-
-/*
-
-void printGUI(){
-	clearDisplay();
-
-	printCharacter(2, 2, 4);  // 4
-	printCharacter(9, 2, 25); // B
-	printCharacter(16, 2, 2); // 2
-	printCharacter(23, 2, 5); // 5
-}
-
-*/
