@@ -16,7 +16,6 @@
 volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
 
-
 /*
  *	Override Warp firmware's use of these pins and define new aliases.
  */
@@ -63,8 +62,6 @@ writeCommand(uint8_t commandByte)
 
 	return status;
 }
-
-
 
 int
 devSSD1331init(void)
@@ -171,39 +168,39 @@ devSSD1331init(void)
 	/*
 	 *	Set the precharge factor of channels A, B and C to their maximum value of 0xFF (0b11111111).
 	 */	
-	writeCommand(kSSD1331CommandPRECHARGEA);
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEB);
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEC);
-	writeCommand(0xFF);
+	// writeCommand(kSSD1331CommandPRECHARGEA);
+	// writeCommand(0xFF);
+	// writeCommand(kSSD1331CommandPRECHARGEB);
+	// writeCommand(0xFF);
+	// writeCommand(kSSD1331CommandPRECHARGEC);
+	// writeCommand(0xFF);
 
 	/*
 	 *	Set the precharge voltage to its maximum value of 0x1F (0b11111).
 	 */
-	writeCommand(kSSD1331CommandPRECHARGELEVEL);
-	writeCommand(0x3E);
+	// writeCommand(kSSD1331CommandPRECHARGELEVEL);
+	// writeCommand(0x3E);
 	
 	/*
 	 *	Set the master current to its maximum value of 0x0F (0b1111).
 	 */
-	writeCommand(kSSD1331CommandMASTERCURRENT);
-	writeCommand(0x0F);
+	// writeCommand(kSSD1331CommandMASTERCURRENT);
+	// writeCommand(0x0F);
 	
 	/*
 	 *	Set the contrast of channels A, B and C to their maximum value of 0xFF (0b11111111).
 	 */	
-	writeCommand(kSSD1331CommandCONTRASTA);
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandCONTRASTB);
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandCONTRASTC);
-	writeCommand(0xFF);
+	// writeCommand(kSSD1331CommandCONTRASTA);
+	// writeCommand(0xFF);
+	// writeCommand(kSSD1331CommandCONTRASTB);
+	// writeCommand(0xFF);
+	// writeCommand(kSSD1331CommandCONTRASTC);
+	// writeCommand(0xFF);
 
 	/*
 	 *	Ensure the OLED display is turned on.
 	 */	
-	writeCommand(kSSD1331CommandDISPLAYON);
+	// writeCommand(kSSD1331CommandDISPLAYON);
 
 	/*
 	 *	See devSSD1331.h for drawing commands.
@@ -214,20 +211,29 @@ devSSD1331init(void)
 	 *	writeCommand(kSSD1331CommandDISPLAYALLON);
 	 */
 	
-	writeCommand(kSSD1331CommandDRAWRECT);
-	writeCommand(0x00); // A[6:0]:  Column Address of Start 
-	writeCommand(0x00); // B[5:0]:  Row Address of Start
-	writeCommand(0x5F); // C[6:0]:  Column Address of End
-	writeCommand(0x3F); // D[5:0]:  Row Address of End
-	writeCommand(0x00); // E[5:1]:  Color C of the line (BLUE)
-	writeCommand(0x3F); // F[5:0]:  Color B of the line (GREEN)
-	writeCommand(0x00); // G[5:1]:  Color A of the line (RED)
-	writeCommand(0x00); // H[5:1]:  Color C of the fill area (BLUE)
-	writeCommand(0x3F); // I[5:0]:  Color B of the fill area (GREEN)
-	writeCommand(0x00); // J[5:1]:  Color A of the fill area (RED)
-	SEGGER_RTT_WriteString(0, "\r\n\tDone with draw rectangle...\n");
+	// writeCommand(kSSD1331CommandDRAWRECT);
+	// writeCommand(0x00); // A[6:0]:  Column Address of Start 
+	// writeCommand(0x00); // B[5:0]:  Row Address of Start
+	// writeCommand(0x5F); // C[6:0]:  Column Address of End
+	// writeCommand(0x3F); // D[5:0]:  Row Address of End
+	// writeCommand(0x00); // E[5:1]:  Color C of the line (BLUE)
+	// writeCommand(0x3F); // F[5:0]:  Color B of the line (GREEN)
+	// writeCommand(0x00); // G[5:1]:  Color A of the line (RED)
+	// writeCommand(0x00); // H[5:1]:  Color C of the fill area (BLUE)
+	// writeCommand(0x3F); // I[5:0]:  Color B of the fill area (GREEN)
+	// writeCommand(0x00); // J[5:1]:  Color A of the fill area (RED)
+	// SEGGER_RTT_WriteString(0, "\r\n\tDone with draw rectangle...\n");
 
 	return 0;
+}
+
+void clearDisplay(){
+	writeCommand(kSSD1331CommandCLEAR);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
 }
 
 void printLine(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEnd, uint8_t blue, uint8_t green, uint8_t red){
@@ -255,11 +261,251 @@ void printRect(uint8_t colStart, uint8_t rowStart, uint8_t colEnd, uint8_t rowEn
 	writeCommand(redFill); // J[5:1]:  Color A of the fill area (RED)
 }
 
-void clearDisplay(){
-	writeCommand(kSSD1331CommandCLEAR);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0x5F);
-	writeCommand(0x3F);
-	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
+void printCharacter(uint8_t column, uint8_t row, uint8_t number){
+	switch(number){
+		case 0: // Number 0.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column + 5, row, 0xFF, 0x00, 0x00);	
+			break;
+		}
+		case 1: // Number 1.
+		{
+			printLine(column + 5, row + 10, column + 5, row, 0xFF, 0x00, 0x00);	
+			break;
+		}
+		case 2: // Number 2.
+		{
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 3: // Number 3.
+		{
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 4: // Number 4.
+		{
+			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 5: // Number 5.
+		{
+			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 6: // Number 6.
+		{
+			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 7: // Number 7.
+		{
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 8: // Number 8.
+		{
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 9: // Number 9.
+		{
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 10: // Letter 'K'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 11: // Letter 'M'.
+		{
+			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 10, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 10, row + 5, column + 10, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 12: // Character '/'.
+		{
+			printLine(column, row + 10, column + 5, row, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 13: // Letter 'H'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 14: // Character 'R'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 15: // Character '.'.
+		{
+			printLine(column + 2, row + 10, column + 2, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 16: // Character 'W'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 2, row + 8, 0xFF, 0x00, 0x00);
+			printLine(column + 3, row + 8, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 10, row, column + 10, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 17: // Character 'A'.
+		{
+			printLine(column, row + 5, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 2, row, 0xFF, 0x00, 0x00);
+			printLine(column + 3, row, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 18: // Character 'L'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 19: // Character 'I'.
+		{
+			printLine(column + 2, row + 10, column + 2, row, 0xFF, 0x00, 0x00);	
+			break;
+		}
+		case 20: // Character 'N'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 21: // Character 'G'.
+		{
+			printLine(column + 5, row, column, row, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 10, column + 5, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 5, column + 2, row + 5, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 22: // Character 'U'.
+		{
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row, column + 5, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 23: // Character 'S'.
+		{
+			printLine(column + 5, row, column + 1, row, 0xFF, 0x00, 0x00);
+			printLine(column + 1, row, column, row + 1, 0xFF, 0x00, 0x00);
+			printLine(column, row + 1, column, row + 4, 0xFF, 0x00, 0x00);
+			printLine(column, row + 4, column + 1, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 1, row + 5, column + 4, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row + 5, column + 5, row + 6, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 6, column + 5, row + 9, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 9, column + 4, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row + 10, column, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 24: // Character 'T'.
+		{
+			printLine(column, row, column + 5, row, 0xFF, 0x00, 0x00);
+			printLine(column + 2, row, column + 2, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+		case 25: // Character 'B'.
+		{
+			printLine(column, row, column + 4, row, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row, column + 5, row + 1, 0xFF, 0x00, 0x00);
+			printLine(column, row, column, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 1, column + 5, row + 4, 0xFF, 0x00, 0x00);
+			printLine(column, row + 5, column + 4, row + 5, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row + 5, column + 5, row + 4, 0xFF, 0x00, 0x00);
+			printLine(column + 4, row + 5, column + 5, row + 6, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 6, column + 5, row + 9, 0xFF, 0x00, 0x00);
+			printLine(column + 5, row + 9, column + 4, row + 10, 0xFF, 0x00, 0x00);
+			printLine(column, row + 10, column + 4, row + 10, 0xFF, 0x00, 0x00);
+			break;
+		}
+	}
+} 
+
+void printWalking(){ // 7 letters = width of 35, with spacing of 2 between each letter.
+  clearDisplay(); // 128 - 35 - (6 * 2) = 81, so start at trunc(81 / 2) = 40.
+  printCharacter(40, 10, 16); // W = 16.
+  printCharacter(47, 10, 17); // A = 17.
+  printCharacter(54, 10, 18); // L = 18.
+  printCharacter(61, 10, 10); // K = 10.
+  printCharacter(68, 10, 19); // I = 19.
+  printCharacter(75, 10, 20); // N = 20.
+  printCharacter(82, 10, 21); // G = 21.
+}  
+
+void printRunning(){ // 7 letters = width of 35, with spacing of 2 between each letter.
+  clearDisplay(); // 128 - 35 - (6 * 2) = 81, so start at trunc(81 / 2) = 40.
+  printCharacter(40, 10, 14); // R = 14.
+  printCharacter(47, 10, 22); // U = 22.
+  printCharacter(54, 10, 20); // N = 20.
+  printCharacter(61, 10, 20); // N = 20.
+  printCharacter(68, 10, 19); // I = 19.
+  printCharacter(75, 10, 20); // N = 20.
+  printCharacter(82, 10, 21); // G = 21.
+}
+
+void printStill(){ // 5 letters = width of 25, with spacing of 2 between each letter.
+  clearDisplay(); // 128 - 25 - (4 * 2) = 95, so start at trunc(95 / 2) = 47.
+  printCharacter(47, 10, 23); // S = 23.
+  printCharacter(54, 10, 24); // T = 24.
+  printCharacter(61, 10, 19); // I = 19.
+  printCharacter(68, 10, 18); // L = 18.
+  printCharacter(75, 10, 18); // L = 18.
+}
+
+void printModuleCode(){
+	clearDisplay();
+
+	printCharacter(2, 2, 4);  // 4
+	printCharacter(9, 2, 25); // B
+	printCharacter(16, 2, 2); // 2
+	printCharacter(23, 2, 5); // 5
 }
