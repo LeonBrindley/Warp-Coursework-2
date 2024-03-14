@@ -352,7 +352,7 @@ void classifierAlgorithm(){
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
     // warpPrint("EXECUTION TIME of identifyActivity() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
 
-    warpPrint("FINAL: Distance (%d) / Time (%d) = Speed (%d).\n", distance, time, speed); 
+    warpPrint("FINAL: Distance (%d mm) / Time (%d ms) = Speed (%d m/hr).\n", distance, time, speed); 
 	    
     cycleCounter = 0;
   }
