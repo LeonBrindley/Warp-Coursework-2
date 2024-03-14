@@ -2079,7 +2079,7 @@ main(void)
 	  classifierAlgorithm();
 	  timeAfter = OSA_TimeGetMsec();
 	  timeDifference = timeAfter - timeBefore;
-	  warpPrint("timeAfter: %d, timeBefore: %d, timeDifference: %d.\n", timeAfter, timeBefore, timeDifference);
+	  warpPrint("EXECUTION TIME of classiferAlgorithm() = %d - %d = %d.\n", timeAfter, timeBefore, timeDifference);
 	  if(timeDifference < SAMPLE_PERIOD){
 	    OSA_TimeDelay(SAMPLE_PERIOD - timeDifference);
 	  }
