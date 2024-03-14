@@ -2074,9 +2074,6 @@ main(void)
 	*/
  
 	warpPrint("\nCalling classifierAlgorithm() now.\n");
-	uint16_t timeBefore = 0; // Initialising timeBefore variable to 0.
-	uint16_t timeAfter = 0; // Initialising timeAfter variable to 0.
-	uint16_t timeDifference = 0; // Initialising timeDifference variable to 0.
 	for (int i = 0; i < 600; i++){
 	  timeBefore = OSA_TimeGetMsec();
 	  classifierAlgorithm();
