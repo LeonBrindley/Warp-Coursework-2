@@ -229,7 +229,7 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     // warpPrint("5. Activity = Stationary (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty);
     // clearDisplay();
   }
-  warpPrint("\n------------------------------------------------------------------------------------------\n"); // Print a divide to make it easier to study the output.
+  // warpPrint("\n------------------------------------------------------------------------------------------\n"); // Print a divide to make it easier to study the output.
 }
 
 /*
@@ -351,7 +351,9 @@ void classifierAlgorithm(){
     timeAfterFunc = OSA_TimeGetMsec();
     timeDifferenceFunc = timeAfterFunc - timeBeforeFunc; 
     // warpPrint("EXECUTION TIME of identifyActivity() = %d - %d = %dms.\n", timeAfterFunc, timeBeforeFunc, timeDifferenceFunc);
-	  
+
+    warpPrint("FINAL: Distance = (%d) / Time (%d) = Speed (%d), distance, time, speed); 
+	    
     cycleCounter = 0;
   }
   else if((cycleCounter == BUFFER_SIZE) && !dataValid){ // When the buffer fills for the first time, reset cycleCounter but don't undertake the next steps of the algorithm.
