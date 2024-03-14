@@ -2079,11 +2079,11 @@ main(void)
 	  classifierAlgorithm();
 	  timeAfter = OSA_TimeGetMsec();
 	  timeDifference = timeAfter - timeBefore;
-	  warpPrint("EXECUTION TIME of classiferAlgorithm() = %d - %d = %d.\n", timeAfter, timeBefore, timeDifference);
+	  warpPrint("EXECUTION TIME of classiferAlgorithm() = %d - %d = %dms.\n", timeAfter, timeBefore, timeDifference);
 	  if(timeDifference < SAMPLE_PERIOD){
 	    OSA_TimeDelay(SAMPLE_PERIOD - timeDifference);
 	  }
-          else{
+          else{ // If this error occurs, try commenting out some warpPrint() statements.
 	    warpPrint("Error: timeDifference of %dms > %dms.\n", timeDifference, SAMPLE_PERIOD);
 	    break;
 	  }
