@@ -64,6 +64,7 @@ void
 initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 {
 	warpPrint("Initialising MMA8451Q accelerometer.\n");
+	
 	deviceMMA8451QState.i2cAddress			= i2cAddress;
 	deviceMMA8451QState.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 
@@ -74,8 +75,9 @@ initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 		0x03, /* [HP_FILTER_CUTOFF] HPF enabled for pulse processing with HPF cut-off frequency of 2 Hz @ 800Hz ODR. */
   		0x12 /* [XYZ_DATA_CFG] Output data high-pass filtered with full-scale range of +/-8g. */
 	);
-	warpPrint("configErrors: %d.\n", configErrors);
-	
+	warpPrint("MMA8451Q Config Errors: %d.\n", configErrors);
+
+	// Initialised all elements of the AccelerationBuffer and LPFBuffer to 0.
 	for(int i = 0; i < BUFFER_SIZE; i++) {
 		AccelerationBuffer[i] = 0;
 		LPFBuffer[i] = 0;
@@ -154,7 +156,7 @@ configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1, uint8_
 	);
 
 	i2cWriteStatus2 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QCTRL_REG1 /* register address CTRL_REG1 */,
-												  (payloadCTRL_REG1 & 0xFE) /* payload - standby mode */
+												  (payloadCTRL_REG1 & 0xE) /* payload - standby mode */
 	);
 
 	i2cWriteStatus3 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QHP_FILTER_CUTOFF /* register address HP_FILTER_CUTOFF */,
@@ -166,7 +168,7 @@ configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1, uint8_
 	);
 
 	i2cWriteStatus5 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QCTRL_REG1 /* register address CTRL_REG1 */,
-												  (payloadCTRL_REG1 & 0xFF) /* payload - active mode */
+												  (payloadCTRL_REG1 & 0xF) /* payload - active mode */
 	);
 
 	return (i2cWriteStatus1 | i2cWriteStatus2 | i2cWriteStatus3 | i2cWriteStatus4 | i2cWriteStatus5);
