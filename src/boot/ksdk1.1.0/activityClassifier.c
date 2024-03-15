@@ -194,8 +194,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
 
 void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   cumulativeInflectionPoints += numberOfInflectionPoints; // Calculate the total number of inflection points since starting the program.
-  cumulativeSteps = cumulativeInflectionPoints / 2; // This line can introduce significant rounding error early on, so consider cumulativeInflectionPoints instead.
-  // warpPrint("3. numberOfInflectionPoints: %d, cumulativeInflectionPoints: %d, cumulativeSteps: %d.\n", numberOfInflectionPoints, cumulativeInflectionPoints, cumulativeSteps);
+  // warpPrint("3. numberOfInflectionPoints: %d, cumulativeInflectionPoints: %d.\n", numberOfInflectionPoints, cumulativeInflectionPoints);
 
   // To account for the excess time either side of the first/final inflection point, find out the fraction of the total program runtime this represents.
   // The greater the fraction, the greater the uncertainty introduced by this effect. To account for this, subtract (firstExcessTime + finalExcessTime) from the result and subtract 1 from cumulativeInflectionPoints.
