@@ -22,9 +22,9 @@ bool firstTimeRunning = 1; // Used to overwrite the lastElement and secondToLast
 int16_t XCombined = 0;
 int16_t YCombined = 0;
 int16_t ZCombined = 0;
-int32_t XVariance = 0;
-int32_t YVariance = 0;
-int32_t ZVariance = 0;
+uint32_t XVariance = 0;
+uint32_t YVariance = 0;
+uint32_t ZVariance = 0;
 
 uint32_t totalSamples = 0; // The total number of acceleration samples that have been taken since the start.
 
