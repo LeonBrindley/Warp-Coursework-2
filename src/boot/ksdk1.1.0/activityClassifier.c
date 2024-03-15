@@ -210,6 +210,22 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   // warpPrint("calculateSpeed(): time = (numberOfCycles (%d) * SAMPLE_PERIOD (%d) * BUFFER_SIZE (%d)) - (firstExcessTime (%d) + finalExcessTime (%d)) = %d ms.\n", numberOfCycles, SAMPLE_PERIOD, BUFFER_SIZE, firstExcessTime, finalExcessTime, time);
   speed = (distance * 3600) / time; // Calculate speed (distance over time) so far (in m/hr). Takes SAMPLE_PERIOD * BUFFER_SIZE per cycle.
   warpPrint("4. Distance (mm): %d / Time (ms): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, time, (speed * 10) / 36, speed); // Print time and speed in ms and m/hr, respectively, as warpPrint() can only display integers (so km/hr would be too imprecise).
+
+  // Shift SpeedBuffer left to free up space for new data.
+  uint32_t averageSpeed = 0;
+  for (int i = 1; i < BUFFER_SIZE; i++){
+    SpeedBuffer[i - 1] = SpeedBuffer[i];
+    averageSpeed += SpeedBuffer[i - 1]
+  }
+  SpeedBuffer[BUFFER_SIZE - 1] = speed;
+  averageSpeed += speed;
+  averageSpeed /= 39;
+  uint32_t speedVariance = 0;
+  for (int i = 0; i < BUFFER_SIZE; i++){
+    speedVariance += ((SpeedBuffer[i] - averageSpeed) * (SpeedBuffer[i] - averageSpeed));
+  }
+  speedVariance /= 39;
+  warpPrint("averageSpeed = %d, speedVariance = %d.\n", averageSpeed, speedVariance);
 }
 
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
