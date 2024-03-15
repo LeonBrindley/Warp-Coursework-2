@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include <math.h> // Required for "sin" function to generate synthetic acceleration data.
+// #include <math.h> // Required for "sin" function to generate synthetic acceleration data.
+// Comment out math.h and replace generateData() with pre-computed values to save memory.
 
 /*
  *	config.h needs to come first
