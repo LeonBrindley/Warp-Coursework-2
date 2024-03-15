@@ -26,7 +26,7 @@ int32_t XVariance = 0;
 int32_t YVariance = 0;
 int32_t ZVariance = 0;
 
-uint32_t totalSamples; // The total number of acceleration samples that have been taken since the start.
+uint32_t totalSamples = 0; // The total number of acceleration samples that have been taken since the start.
 
 uint32_t accelerationMagnitude = 0;
 // uint32_t exampleData[BUFFER_SIZE] = {500, 739, 920, 998, 954, 799, 570, 324, 121, 11, 20, 147, 360, 607, 828, 968, 994, 899, 706}; // Sine wave with known frequency of 0.5Hz for testing.
