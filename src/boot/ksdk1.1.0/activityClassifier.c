@@ -280,7 +280,13 @@ void classifierAlgorithm(){
   // warpPrint("XMSB: %d, XMSB: %d, XCombined - Decimal: %d, Hexadecimal: %x.\n", XMSB, XLSB, XCombined, XCombined);
   XAcceleration = convertAcceleration(XCombined);
   // warpPrint("XAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
-
+  XVariance = 0;
+  for(int i = 0; i < 39; i++){
+    XVariance += XAcceleration[i]*XAcceleration[i];
+  }
+  XVariance /= 39;
+  warpPrint("XVariance = %d.\n", XVariance);
+	
   YMSB = deviceMMA8451QState.i2cBuffer[2];
   YLSB = deviceMMA8451QState.i2cBuffer[3];
   YCombined = ((YMSB & 0xFF) << 6) | (YLSB >> 2);
@@ -288,6 +294,12 @@ void classifierAlgorithm(){
   // warpPrint("YMSB: %d, YMSB: %d, YCombined - Decimal: %d, Hexadecimal: %x.\n", YMSB, YLSB, YCombined, YCombined);
   YAcceleration = convertAcceleration(YCombined);
   // warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
+  YVariance = 0;
+  for(int i = 0; i < 39; i++){
+    YVariance += YAcceleration[i]*YAcceleration[i];
+  }
+  YVariance /= 39;
+  warpPrint("YVariance = %d.\n", YVariance);
 	
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
   ZLSB = deviceMMA8451QState.i2cBuffer[5];
@@ -296,6 +308,12 @@ void classifierAlgorithm(){
   // warpPrint("ZMSB: %d, ZMSB: %d, ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZMSB, ZLSB, ZCombined, ZCombined);
   ZAcceleration = convertAcceleration(ZCombined);
   // warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
+  ZVariance = 0;
+  for(int i = 0; i < 39; i++){
+    ZVariance += ZAcceleration[i]*ZAcceleration[i];
+  }
+  YVariance /= 39;
+  warpPrint("ZVariance = %d.\n", ZVariance);
 
   // warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAcceleration*YAcceleration, ZAcceleration*ZAcceleration);
   uint16_t timeBeforeFunc = OSA_TimeGetMsec();
