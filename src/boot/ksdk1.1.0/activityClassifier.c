@@ -283,7 +283,7 @@ void classifierAlgorithm(){
 
   // warpPrint("\nParsing the bytes received from the MMA8451Q's registers now.\n");	
 
-  totalSamples += 1; // Increment the total number of samples taken by 1.
+  // totalSamples += 1; // Increment the total number of samples taken by 1.
 	
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
