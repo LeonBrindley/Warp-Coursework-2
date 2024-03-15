@@ -42,6 +42,7 @@ uint32_t lastElement, secondToLastElement = {0}; // Initialised to 0.
 uint16_t numberOfInflectionPoints = 0; // The number of local maxima and minima in the array. Use numberOfInflectionPoints / 2 instead of the number of steps to avoid rounding errors.
 uint16_t cumulativeInflectionPoints = 0; // The cumulative number of inflection points since starting the program.
 uint16_t generateDataCycle = 0; // Count the number of times generateData() has run so the sine wave can continue in subsequent cycles. Initialised to 0.
+uint32_t SpeedBuffer[BUFFER_SIZE] = {0}; // Save the previous speeds so you can see what percentage fall outside of the relevant threshold (and calculate the variance).
 
 uint32_t distance = 0; // Initialised to 0.
 uint32_t time = 0; // Initialised to 0.
