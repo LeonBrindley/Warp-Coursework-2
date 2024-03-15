@@ -67,6 +67,10 @@ void identifyActivity(); // Step 5.
 bool firstExcessTest = 1; // Set to 0 when the first inflection point is detected.
 uint16_t firstExcessTime, finalInflectionTime, finalExcessTime;
 
+// Usain Bolt ran at 4.4 steps per second during the fastest 20m segment of his run in the Berlin World Championships: https://posemethod.com/usain-bolts-running-technique.
+// Therefore, if the number of steps is greater than 5 steps per second, there must be a secondary maximum or minimum (which must be discarded).
+uint16_t minimumSamples = 0; // If the number of samples since the last inflection point is less than 10 (i.e. 200ms), discard any inflection points. Initialised to 0.
+
 uint16_t timeBefore = 0; // Initialising timeBefore variable to 0.
 uint16_t timeAfter = 0; // Initialising timeAfter variable to 0.
 uint16_t timeDifference = 0; // Initialising timeDifference variable to 0.
