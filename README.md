@@ -50,19 +50,19 @@ Finally, XYZ_DATA_CFG is set to **0x12** so the high-pass filter is enabled and 
 
 <ins>**Configuration: Sampling Rate**</ins>
 
-It is insufficient to simply configure the time period (for example, **250ms**) using the argument of **OSA_TimeDelay()**, as this does not account for the time required to execute the data processing steps. Furthermore, this duration can vary between samples (for example, because more iterations are required in the **sqrtInt()** function using the Newton-Raphson method).
+It is insufficient to simply configure the time period (for example, **20ms**) using the argument of **OSA_TimeDelay()**, as this does not account for the time required to execute the data processing steps. Furthermore, this duration can vary between samples (for example, because more iterations are required in the **sqrtInt()** function using the Newton-Raphson method).
 
 Fortunately, this execution time can be recorded by calling **OSA_TimeGetMsec()** before and after running the necessary code (and calculating the difference). Subsequently, this is subtracted from the nominal time period before being fed into the OSA_TimeDelay() function.
 
 <ins>**Configuration: Low-Pass Filter Cut-Off Frequency**</ins>
 
-To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). The cut-off frequency should be **greater than** the MMA8451Q's **output data rate** (**ODR**) divided by **2**. Therefore, for the default ODR of **800 Hz**, the cut-off frequency must equal at least **400 Hz**. The default LPFWeights array gives **19** taps, a maximum attenuation of **120dB** and a cut-off frequency and sampling frequency of **450 Hz** and **8,192 Hz**, respectively. These parameters were chosen as the resulting coefficients were all positive and there were minimal rounding errors (such as in comparison to an attenuation of 130dB).
-
-![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/f3751657-6c32-4f95-8307-0c1e51b3f1d3)
-
-In contrast, the alternative LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **16,384 Hz**, respectively.
+To set the low-pass filter frequency, you can use a program such as [WinRFCalc](https://rfcalculator.com). You must make sure that the number of taps is **odd** and that the sampling frequency is **at least twice** the cut-off frequency (to fulfil the Nyquist Criterion). The cut-off frequency should be **greater than** the MMA8451Q's **output data rate** (**ODR**) divided by **2**. Therefore, for the default ODR of **800 Hz**, the cut-off frequency must equal at least **400 Hz**. The default LPFWeights array gives **39** taps, a maximum attenuation of **130dB** and a cut-off frequency and sampling frequency of **450 Hz** and **16,384 Hz**, respectively. These parameters were chosen as the resulting coefficients were all positive and there were minimal rounding errors after scaling.
 
 ![WinRFCalc39](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/7eb2f182-b25a-4429-aba4-f512030f2af0)
+
+In contrast, the more compact LPFWeights array gives **19** taps, a maximum attenuation of **120dB** and a cut-off frequency and sampling frequency of **450 Hz** and **8,192 Hz**, respectively.
+
+![WinRFCalc19](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/f3751657-6c32-4f95-8307-0c1e51b3f1d3)
 
 <ins>**Low-Pass Filter Effect**</ins>
 
@@ -74,35 +74,35 @@ After this data was low-pass filtered, the **simpleDiff()** function only detect
 
 <img width="1128" alt="MMA8451Q Acceleration After LPF" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/4f8d1ca4-8ebd-42bf-bde8-ecaed3974d83">
 
-When the **LPFWeights** array was expanded to **39** elements, the nominal argument of the relevant **OSA_Time_Delay()** function in **boot.c** (excluding the algorithm's execution time) was halved to maintain an equal test duration. The resulting waveform was smoother, but an identical number of inflection points were detected (when an approximately identical activity was performed).
+If the **LPFWeights** array is changed to **19** elements long, the **SAMPLING_PERIOD** should be **doubled** to maintain a roughly equal test duration. The resulting waveform is less smooth, but often an identical number of inflection points are detected (when an approximately identical activity was performed).
 
 <img width="1160" alt="MMA8451Q Acceleration Across 39 Elements" src="https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/761789eb-ee85-4b9d-bd84-da035341409c">
 
 <ins>**Other Sources of Uncertainty**</ins>
 
-As fixed-point computations are widely used to eliminate any rounding errors, the main sources of error are due to variations in people's characteristic transition velocities (as accounted for in **step 5** of the algorithm), variations in people's step lengths and (with low runtimes) any excess time consumed outside of the leftmost and rightmost inflection points.
+As fixed-point computations are widely used to eliminate any rounding errors, the main sources of error are due to variations in people's characteristic transition velocities (as accounted for in **step 5** of the algorithm) and variations in people's step lengths.
 
-The variation in people's step lengths has not been statistically characterised in prior literature, and the 0.414 * HEIGHT estimate is frequently used across the industry, so this form of uncertainty was negated. Furthermore, this result can vary with numerous factors, such as the presence of rain, any incline of the ground and your footwear, so the calculation of type B uncertainty is unfeasible.
+The variation in people's step lengths has not been accurately characterised in prior literature, and the 0.414 * HEIGHT estimate is frequently used across the industry, so this form of uncertainty was negated. Furthermore, this result can vary with numerous factors, such as the presence of rain, any incline of the ground and your footwear, so the calculation of the associated type B uncertainty is unfeasible.
 
-Finally, the confidence level is also affected by the duration of the experiment, as this affects the accuracy of the total time that has been elapsed (the denominator of the speed equation). For example, in the image below, while the experimental runtime (and thus the denominator of the speed equation) changes between the green and red experiments, the number of inflection points does not. Hence, the calculated speed is different (despite the results being derived from the same sine wave). If the experiment is longer, then more inflection points are identified, and the uncertainty due to this decreases.
+Finally, the confidence level is also affected by the duration of the experiment if the full runtime is used in the speed calculations. In the example below, if the time period equals 2 seconds, then for the same number of inflection points (**3**), the time can vary between **2** and **4** seconds. In contrast, if **7** inflection points are covered, the time can vary between and **6** and **8** seconds (causing a smaller **percentage** uncertainty).
 
 ![Uncertainty From Sampling Times](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/4e8f34ad-2e9f-46bc-8836-dba09cd807a9)
 
-In this example, if the time period equals 2 seconds, then for the same number of inflection points (**3**), the time can vary between **2** and **4** seconds. In contrast, if **7** inflection points are covered, the time can vary between and **6** and **8** seconds. To avoid this, the duration was made to exclude any time before the first inflection point or after the final inflection point, and the **cumulativeInflectionPoints** variable was decremented to avoid overestimating the speed due to starting and finishing on an inflection point.
+To avoid this, the duration excludes any time before the first inflection point or after the final inflection point, and the **cumulativeInflectionPoints** variable is decremented to avoid overestimating the speed due to starting and finishing on an inflection point.
 
 <ins>**OLED Display**</ins>
 
-The function **printCharacter()** in **activityClassifier.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **K**, **M**, **H**, **R**, **W**, **A**, **L**, **I**, **N**, **G**, **U**, **S** and **T**, a full stop (**.**) or a forward slash (**/**). This allows for the classifications **RUNNING**, **WALKING** and **STILL** to be printed, as well as the unit **KM/HR**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** in **devSSD1331.c** can be used instead.
+The function **printCharacter()** in **devSSD1331.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **K**, **M**, **H**, **R**, **W**, **A**, **L**, **I**, **N**, **G**, **U**, **S**, **T** or **B**, a full stop (**.**) or a forward slash (**/**). This allows for the classifications **RUNNING**, **WALKING** and **STILL** to be printed, as well as the unit **KM/HR**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** can be used instead.
 
 <ins>**File Structure**</ins>
 
-`src/boot/ksdk1.1.0/activityClassifier.c` - Implements the four steps of the activity classifier algorithm. This source file also includes the function **printCharacter()** so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function **printLine()** to mimic multiple seven-segment displays alongside each other.
+`src/boot/ksdk1.1.0/activityClassifier.c` - Implements the five steps of the activity classifier algorithm as explained above.
 
-`src/boot/ksdk1.1.0/devMMA8451Q.c` - Driver for communicating with MMA8451Q accelerometers. For example, the function **configureSensorMMA8451Q()** will write to the MMA8451Q configuration registers explained above. The I2C address of the MMA8451Q must be set to **0x1D** when calling initMMA8451Q in boot.c with the FRDM-KL03Z. When using the FRDM-KL03Z, as opposed to the more complicated Warp platform, the MMA8451Q's operating voltage cannot be dynamically altered, so the **operatingVoltageMillivolts** member variable has no effect.
+`src/boot/ksdk1.1.0/devMMA8451Q.c` - Driver for communicating with MMA8451Q accelerometers. For example, the function **configureSensorMMA8451Q()** will write to the MMA8451Q configuration registers explained above. The I2C address of the MMA8451Q must be set to **0x1D** when calling initMMA8451Q in boot.c with the FRDM-KL03Z. When using this development board, as opposed to the more complicated Warp platform, the MMA8451Q's operating voltage cannot be dynamically altered, so the **operatingVoltageMillivolts** member variable has no effect.
 
-`src/boot/ksdk1.1.0/devSSD1331.c` - Driver for communicating with SSD1331 OLED displays. For example, the function **printLine()** will print a 2D line between two coordinates in a colour defined by its blue, green and red content. Meanwhile, the function **printRect()** will print a solid rectangle bounded by two coordinates in a colour defined by its fill and its line (border).
+`src/boot/ksdk1.1.0/devSSD1331.c` - Driver for communicating with SSD1331 OLED displays. For example, the function **printLine()** will print a 2D line between two coordinates in a colour defined by its blue, green and red content. Meanwhile, the function **printRect()** will print a solid rectangle bounded by two coordinates in a colour defined by its fill and its line (border). This source file also includes the function **printCharacter()** so the final results can be printed on an SSD1331 OLED display. These numbers are implemented by calling the function **printLine()** to mimic multiple seven-segment displays alongside each other.
 
-`src/boot/ksdk1.1.0/boot.c` - Contains the **main()** function that runs when the program boots. For example, the function **classifierAlgorithm()** is repeatedly called here using a for loop to execute the activity classifier algorithm.
+`src/boot/ksdk1.1.0/boot.c` - Contains the **main()** function that runs when the program boots. For example, the function **classifierAlgorithm()** is repeatedly called here using a for loop to execute the activity classifier algorithm over multiple cycles.
 
 `src/boot/ksdk1.1.0/config.h` - Configures the Warp firmware for the platform in question (in this case, the FRDM-KL03Z). For the activity classifier algorithm to work, **WARP_BUILD_ENABLE_DEVMMA8451Q** must be set to **1**. Furthermore, as two bytes are required for each axis (X, Y and Z), **kWarpSizesI2cBufferBytes** must be set to **at least 6**.
 
