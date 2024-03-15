@@ -233,8 +233,8 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     activityReading = ActivityRunning; // Equals 0x2 (see enumerated type). Represented by "RUNNING" on OLED display.
     characteristicUncertainty = 0;
     warpPrint("5. Activity = Running (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty);
-    numberOfRunning++;
-    warpPrint("numberOfRunning: %d.\n", numberOfRunning);
+    // numberOfRunning++;
+    // warpPrint("numberOfRunning: %d.\n", numberOfRunning);
   }
     // clearDisplay();
     // printRunning(); // See devSSD1331.c for printRunning() and printCharacter().
@@ -242,14 +242,14 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     activityReading = ActivityRunning; // Equals 0x2 (see enumerated type).
     characteristicUncertainty = (100 * (9000 - speed)) / (9000 - 6480);
     warpPrint("5. Activity = Running (Confidence Level = %d Percent), Walking (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty, characteristicUncertainty);
-    if(characteristicUncertainty > 50){
-      numberOfRunning++;
-      warpPrint("numberOfRunning: %d.\n", numberOfRunning);	    
-    }
-    else{
-      numberOfWalking++;
-      warpPrint("numberOfWalking: %d.\n", numberOfWalking);	    
-    }
+    // if(characteristicUncertainty > 50){
+    //   numberOfRunning++;
+    //   warpPrint("numberOfRunning: %d.\n", numberOfRunning);	    
+    // }
+    // else{
+    //   numberOfWalking++;
+    //   warpPrint("numberOfWalking: %d.\n", numberOfWalking);	    
+    // }
   }
   // "Mean walking speeds of 0.50 and 0.23 m/s have been reported for older adults in hospital and geriatric rehabilitation settings, respectively."
   // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707
@@ -262,29 +262,29 @@ void identifyActivity(){ // Step 5: identify the activity as running, walking or
     warpPrint("5. Activity = Walking (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty);
     // clearDisplay();
     // printWalking(); // See devSSD1331.c for printWalking() and printCharacter().
-    numberOfWalking++;
-    warpPrint("numberOfRunning: %d.\n", numberOfRunning);
+    // numberOfWalking++;
+    // warpPrint("numberOfRunning: %d.\n", numberOfRunning);
   }
   else if(speed > 828){ // 0.23 m/s = 0.828 km/hr = 828 m/hr.
     activityReading = ActivityWalking; // Equals 0x1 (see enumerated type).
     characteristicUncertainty = (100 * (2952 - speed)) / (2952 - 828);
     warpPrint("5. Activity = Walking (Confidence Level = %d Percent), Stationary (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty, characteristicUncertainty);
-    if(characteristicUncertainty > 50){
-      numberOfWalking++;
-      warpPrint("numberOfWalking: %d.\n", numberOfWalking);	    
-    }
-    else{
-      numberOfStationary++;
-      warpPrint("numberOfStationary: %d.\n", numberOfStationary);	    
-    }
+    // if(characteristicUncertainty > 50){
+    //   numberOfWalking++;
+    //   warpPrint("numberOfWalking: %d.\n", numberOfWalking);	    
+    // }
+    // else{
+    //   numberOfStationary++;
+    //   warpPrint("numberOfStationary: %d.\n", numberOfStationary);	    
+    // }
   }
   // Finally, if the speed is below 0.23 m/s, set activityReading to ActivityStationary.
   else{
     activityReading = ActivityStationary; // Equals 0x0 (see enumerated type). Represented by "STILL" on OLED display.
     characteristicUncertainty = 0;
     warpPrint("5. Activity = Stationary (Confidence Level = %d Percent).\n", 100 - characteristicUncertainty);
-    numberOfStationary++;
-    warpPrint("numberOfStationary: %d.\n", numberOfStationary);
+    // numberOfStationary++;
+    // warpPrint("numberOfStationary: %d.\n", numberOfStationary);
     // clearDisplay();
     // printStill();  // See devSSD1331.c for printStill() and printCharacter().
   }
