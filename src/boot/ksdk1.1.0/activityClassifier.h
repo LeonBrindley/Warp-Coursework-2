@@ -22,9 +22,9 @@ bool firstTimeRunning = 1; // Used to overwrite the lastElement and secondToLast
 int16_t XCombined = 0;
 int16_t YCombined = 0;
 int16_t ZCombined = 0;
-uint32_t XVariance = 0;
-uint32_t YVariance = 0;
-uint32_t ZVariance = 0;
+// uint32_t XVariance = 0;
+// uint32_t YVariance = 0;
+// uint32_t ZVariance = 0;
 
 uint32_t totalSamples = 0; // The total number of acceleration samples that have been taken since the start.
 
@@ -67,8 +67,8 @@ void simpleDiff(); // Step 3.
 void calculateSpeed(); // Step 4.
 void identifyActivity(); // Step 5.
 
-uint32_t speedVariance = 0; // Variance of all the speeds calculated during the algorithm. Initialised to 0.
-uint32_t averageSpeed = 0; // Average of all the speeds calculated during the algorithm. Initialised to 0.
+// uint32_t speedVariance = 0; // Variance of all the speeds calculated during the algorithm. Initialised to 0.
+// uint32_t averageSpeed = 0; // Average of all the speeds calculated during the algorithm. Initialised to 0.
 
 // Variables for dealing with uncertainty in the result.
 bool firstExcessTest = 1; // Set to 0 when the first inflection point is detected.
