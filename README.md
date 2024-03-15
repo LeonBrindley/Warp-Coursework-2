@@ -82,6 +82,8 @@ If the **LPFWeights** array is changed to **19** elements long, the **SAMPLING_P
 
 <ins>**Other Sources of Uncertainty**</ins>
 
+As shown in the report, there was a significant offset when the accelerometer was stationary, and so the algorithm was rarely 100% confident that the device wasn't moving. Furthermore the standard deviation of either 347 or 572 m/hr, depending on the movement being performed, was large and led to some erroneous classifications.
+
 As fixed-point computations are widely used to eliminate any rounding errors, the main sources of error are due to variations in people's characteristic transition velocities (as accounted for in **step 5** of the algorithm) and variations in people's step lengths.
 
 The variation in people's step lengths has not been accurately characterised in prior literature, and the 0.414 * HEIGHT estimate is frequently used across the industry, so this form of uncertainty was negated. Furthermore, this result can vary with numerous factors, such as the presence of rain, any incline of the ground and your footwear, so the calculation of the associated type B uncertainty is unfeasible.
@@ -94,7 +96,7 @@ To avoid this, the duration excludes any time before the first inflection point 
 
 <ins>**OLED Display**</ins>
 
-The function **printCharacter()** in **devSSD1331.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **K**, **M**, **H**, **R**, **W**, **A**, **L**, **I**, **N**, **G**, **U**, **S**, **T** or **B**, a full stop (**.**) or a forward slash (**/**). This allows for the classifications **RUNNING**, **WALKING** and **STILL** to be printed, as well as the unit **KM/HR**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** can be used instead.
+The function **printCharacter()** in **devSSD1331.c** is used to display the numbers and units of the measurements. This calls the function **printLine()** in **devSSD1331.c** to display the numbers **0 to 9**, the letters **K**, **M**, **H**, **R**, **W**, **A**, **L**, **I**, **N**, **G**, **U**, **S**, **T** or **B**, a full stop (**.**) or a forward slash (**/**). This allows for the classifications **RUNNING**, **WALKING** and **STILL** to be printed, as well as the unit **KM/HR**. Alternatively, for bolder text with a width of greater than one pixel, the function **printRect()** can be used instead. Further work is needed to finish the pedometer display, as the algorithm itself was prioritised instead.
 
 <ins>**File Structure**</ins>
 
