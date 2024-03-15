@@ -18,10 +18,13 @@ void classifierAlgorithm();
 bool dataValid = 0; // Data is not valid until the AccelerationBuffer is filled, so initialise dataValid to 0.
 bool firstTimeRunning = 1; // Used to overwrite the lastElement and secondToLastElement variables during the first cycle, as these must be set such that a peak cannot be detected in the first element.
 
-// Define variables for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
+// Define variables (and variances) for the X, Y and Z acceleration measurements (16-bit 2's complement integers). Initialise to 0.
 int16_t XCombined = 0;
 int16_t YCombined = 0;
 int16_t ZCombined = 0;
+int32_t XVariance = 0;
+int32_t YVariance = 0;
+int32_t ZVariance = 0;
 
 uint32_t accelerationMagnitude = 0;
 // uint32_t exampleData[BUFFER_SIZE] = {500, 739, 920, 998, 954, 799, 570, 324, 121, 11, 20, 147, 360, 607, 828, 968, 994, 899, 706}; // Sine wave with known frequency of 0.5Hz for testing.
