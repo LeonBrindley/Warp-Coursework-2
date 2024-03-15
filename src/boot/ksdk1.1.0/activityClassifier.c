@@ -211,21 +211,15 @@ void calculateSpeed(){ // Step 4: calculate the speed (in m/hr).
   speed = (distance * 3600) / time; // Calculate speed (distance over time) so far (in m/hr). Takes SAMPLE_PERIOD * BUFFER_SIZE per cycle.
   warpPrint("4. Distance (mm): %d / Time (ms): %d = Speed (mm/s): %d, Speed (m/hr): %d.\n", distance, time, (speed * 10) / 36, speed); // Print time and speed in ms and m/hr, respectively, as warpPrint() can only display integers (so km/hr would be too imprecise).
 
-  // Shift SpeedBuffer left to free up space for new data.
-  uint32_t averageSpeed = 0;
-  for (int i = 1; i < BUFFER_SIZE; i++){
-    SpeedBuffer[i - 1] = SpeedBuffer[i];
-    averageSpeed += SpeedBuffer[i - 1]
-  }
-  SpeedBuffer[BUFFER_SIZE - 1] = speed;
+  averageSpeed *= (numberOfCycles - 1); // Undo the division by n when the variance was calculated last.
   averageSpeed += speed;
-  averageSpeed /= 39;
-  uint32_t speedVariance = 0;
-  for (int i = 0; i < BUFFER_SIZE; i++){
-    speedVariance += ((SpeedBuffer[i] - averageSpeed) * (SpeedBuffer[i] - averageSpeed));
-  }
-  speedVariance /= 39;
-  warpPrint("averageSpeed = %d, speedVariance = %d.\n", averageSpeed, speedVariance);
+  averageSpeed /= numberOfCycles; // Implement the new division by n for this cycle.
+  warpPrint("averageSpeed = %d after %d cycles.\n", averageSpeed, numberOfCycles);
+	
+  speedVariance *= (numberOfCycles - 1); // Undo the division by n when the variance was calculated last.
+  speedVariance += ((speed - averageSpeed) * (speed- averageSpeed));
+  speedVariance /= numberOfCycles; // Implement the new division by n for this cycle.
+  warpPrint("speedVariance = %d after %d cycles.\n", speedVariance, numberOfCycles);
 }
 
 void identifyActivity(){ // Step 5: identify the activity as running, walking or stationary.
@@ -289,6 +283,8 @@ void classifierAlgorithm(){
 
   // warpPrint("\nParsing the bytes received from the MMA8451Q's registers now.\n");	
 
+  totalSamples += 1; // Increment the total number of samples taken by 1.
+	
   XMSB = deviceMMA8451QState.i2cBuffer[0];
   XLSB = deviceMMA8451QState.i2cBuffer[1];
   XCombined = ((XMSB & 0xFF) << 6) | (XLSB >> 2);
@@ -296,11 +292,10 @@ void classifierAlgorithm(){
   // warpPrint("XMSB: %d, XMSB: %d, XCombined - Decimal: %d, Hexadecimal: %x.\n", XMSB, XLSB, XCombined, XCombined);
   XAcceleration = convertAcceleration(XCombined);
   // warpPrint("XAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", XAcceleration, XAcceleration);
-  XVariance = 0;
-  for(int i = 0; i < 39; i++){
-    XVariance += XAcceleration[i]*XAcceleration[i];
-  }
-  XVariance /= 39;
+
+  XVariance *= (totalSamples - 1); // Undo the division by n when the variance was calculated last.
+  XVariance += (XAcceleration*XAcceleration);
+  XVariance /= totalSamples; // Implement the new division by n for this sample.
   warpPrint("XVariance = %d.\n", XVariance);
 	
   YMSB = deviceMMA8451QState.i2cBuffer[2];
@@ -310,11 +305,10 @@ void classifierAlgorithm(){
   // warpPrint("YMSB: %d, YMSB: %d, YCombined - Decimal: %d, Hexadecimal: %x.\n", YMSB, YLSB, YCombined, YCombined);
   YAcceleration = convertAcceleration(YCombined);
   // warpPrint("YAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", YAcceleration, YAcceleration);
-  YVariance = 0;
-  for(int i = 0; i < 39; i++){
-    YVariance += YAcceleration[i]*YAcceleration[i];
-  }
-  YVariance /= 39;
+
+  YVariance *= (totalSamples - 1); // Undo the division by n when the variance was calculated last.
+  YVariance += (YAcceleration*YAcceleration);
+  YVariance /= totalSamples; // Implement the new division by n for this sample.
   warpPrint("YVariance = %d.\n", YVariance);
 	
   ZMSB = deviceMMA8451QState.i2cBuffer[4];
@@ -324,11 +318,10 @@ void classifierAlgorithm(){
   // warpPrint("ZMSB: %d, ZMSB: %d, ZCombined - Decimal: %d, Hexadecimal: %x.\n", ZMSB, ZLSB, ZCombined, ZCombined);
   ZAcceleration = convertAcceleration(ZCombined);
   // warpPrint("ZAcceleration (mms^-2) - Decimal: %d, Hexadecimal: %x.\n", ZAcceleration, ZAcceleration);
-  ZVariance = 0;
-  for(int i = 0; i < 39; i++){
-    ZVariance += ZAcceleration[i]*ZAcceleration[i];
-  }
-  YVariance /= 39;
+
+  ZVariance *= (totalSamples - 1); // Undo the division by n when the variance was calculated last.
+  ZVariance += (ZAcceleration*ZAcceleration);
+  ZVariance /= totalSamples; // Implement the new division by n for this sample.
   warpPrint("ZVariance = %d.\n", ZVariance);
 
   // warpPrint("Calculating the square root of %d + %d + %d.\n", XAcceleration*XAcceleration, YAcceleration*YAcceleration, ZAcceleration*ZAcceleration);
