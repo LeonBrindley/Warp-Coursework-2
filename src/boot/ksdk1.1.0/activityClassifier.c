@@ -106,8 +106,9 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
   numberOfInflectionPoints = 0; // Reset numberOfInflectionPoints. Includes both maxima and minima with the implementation below.
 
   // Firstly, check if the last element of the previous LPFBuffer was an inflection point.
-  if((lastElement > secondToLastElement) && (lastElement > LPFBuffer[0])){ // A concave inflection point (maximum) has been reached.
+  if((lastElement > secondToLastElement) && (lastElement > LPFBuffer[0]) && (minimumSamples > 10)){ // A concave inflection point (maximum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
+    minimumSamples = 0;
     // warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[-1].\n", lastElement, secondToLastElement, lastElement, LPFBuffer[0]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
@@ -117,8 +118,9 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     finalInflectionTime = (numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE);
     // warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
   }
-  else if((lastElement < secondToLastElement) && (lastElement < LPFBuffer[0])){ // A convex inflection point (minimum) has been reached.
+  else if((lastElement < secondToLastElement) && (lastElement < LPFBuffer[0]) && (minimumSamples > 10)){ // A convex inflection point (minimum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
+    minimumSamples = 0;
     // warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[-1].\n", lastElement, secondToLastElement, lastElement, LPFBuffer[0]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
@@ -128,10 +130,12 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     finalInflectionTime = (numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE);
     // warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
   }
+  minimumSamples++;
 
   // Secondly, check if the first element of the current LPFBuffer is an inflection point.
-  if((LPFBuffer[0] > lastElement) && (LPFBuffer[0] > LPFBuffer[1])){ // A concave inflection point (maximum) has been reached.
+  if((LPFBuffer[0] > lastElement) && (LPFBuffer[0] > LPFBuffer[1])  && (minimumSamples > 10)){ // A concave inflection point (maximum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
+    minimumSamples = 0;
     // warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[0].\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
@@ -141,8 +145,9 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
     // warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
   }
-  else if((LPFBuffer[0] < lastElement) && (LPFBuffer[0] < LPFBuffer[1])){ // A convex inflection point (minimum) has been reached.
+  else if((LPFBuffer[0] < lastElement) && (LPFBuffer[0] < LPFBuffer[1])  && (minimumSamples > 10)){ // A convex inflection point (minimum) has been reached.
     numberOfInflectionPoints = numberOfInflectionPoints + 1;
+    minimumSamples = 0;
     // warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[0].\n", LPFBuffer[0], lastElement, LPFBuffer[0], LPFBuffer[1]);
     if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
       firstExcessTest = 0;
@@ -152,11 +157,13 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
     finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + SAMPLE_PERIOD;
     // warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
   }
+  minimumSamples++;
 
   // Thirdly, check the middle 37 points of the buffer in a for loop.
   for(int i = 1; i < BUFFER_SIZE - 1; i++){
-    if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])){ // A concave inflection point (maximum) has been reached.
+    if((LPFBuffer[i] > LPFBuffer[i-1]) && (LPFBuffer[i] > LPFBuffer[i+1])  && (minimumSamples > 10)){ // A concave inflection point (maximum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
+      minimumSamples = 0;
       // warpPrint("simpleDiff(): %d > %d and %d > %d - MAXIMUM detected in LPFBuffer[%d].\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i);
       if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
         firstExcessTest = 0;
@@ -166,8 +173,9 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
       finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
       // warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
     }
-    else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1])){ // A convex inflection point (minimum) has been reached.
+    else if((LPFBuffer[i] < LPFBuffer[i-1]) && (LPFBuffer[i] < LPFBuffer[i+1]) && (minimumSamples > 10)){ // A convex inflection point (minimum) has been reached.
       numberOfInflectionPoints = numberOfInflectionPoints + 1;
+      minimumSamples = 0;
       // warpPrint("simpleDiff(): %d < %d and %d < %d - MINIMUM detected in LPFBuffer[%d].\n", LPFBuffer[i], LPFBuffer[i-1], LPFBuffer[i], LPFBuffer[i+1], i);
       if(firstExcessTest){ // Runs if this is the first inflection point of the experiment.
         firstExcessTest = 0;
@@ -177,6 +185,7 @@ void simpleDiff(){ // Step 3: search for points of inflection by considering the
       finalInflectionTime = ((numberOfCycles - 1) * (SAMPLE_PERIOD * BUFFER_SIZE)) + (SAMPLE_PERIOD * (i + 1));
       // warpPrint("simpleDiff(): finalInflectionTime: %d.\n", finalInflectionTime);
     }
+    minimumSamples++;
   }
   // Save the last and second-to-last elements in the range - this is required to avoid missing inflection points which occur in the 0th and 38th elements of the buffer.
   lastElement = LPFBuffer[BUFFER_SIZE - 1];
