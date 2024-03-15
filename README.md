@@ -8,23 +8,23 @@
 
 <ins>**Summary**</ins>
 
-This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are **stationary**, **walking** or **running** from this. The classification is determined using a five-step algorithm and a **Freescale MMA8451Q** accelerometer. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains an integrated MMA8451Q accelerometer by default.
+This project determines the number of steps taken by an individual over a **10-second** period. It then infers whether they are **stationary**, **walking** or **running** from this. The classification is determined using a five-step algorithm and a **Freescale MMA8451Q** accelerometer. The design was implemented using a **Freescale FRDM-KL03Z** development platform, which contains its own integrated MMA8451Q.
 
 <ins>**Step 1: Magnitude Calculation**</ins>
 
-Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed using bit shift operations. Any unexpected **type A uncertainty** can be identified by statistically analysing the variance of the results and excluding any sudden outliers. The magnitude of these three readings is calculated using Pythagoras' theorem across three cartesian axes. The **sqrt()** function in **math.h** is too large relative to the FRDM-KL03Z's **2 KB** of SRAM, so an integer-based implementation using the Newton-Raphson method is executed in **sqrtInt()** instead. By default, **19** results are stored in the **AccelerationBuffer**.
+Firstly, the **14-bit** acceleration measurements from the X, Y and Z axes are parsed using bit shift operations. Any unexpected **type A uncertainty** can be identified by statistically analysing the variance of the results and excluding any points outside of an acceptable confidence interval. The magnitude of these three readings is calculated using Pythagoras' theorem across three cartesian axes. The **sqrt()** function in **math.h** is too large relative to the FRDM-KL03Z's **2 KB** of SRAM, so an integer-based implementation using the Newton-Raphson method is executed in **sqrtInt()** instead. By default, **19** results are stored in the **AccelerationBuffer**.
 
 <ins>**Step 2: Low-Pass Filter**</ins>
 
-Secondly, the AccelerationBuffer is multiplied by an array of coefficients (**LPFBuffer**) to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated. By default, **19** results are stored in the LPFBuffer.
+Secondly, the AccelerationBuffer is multiplied by an array of coefficients (**LPFWeights**) to low-pass filter the signal. This removes high-frequency noise, so an accurate speed can be calculated. By default, **39** results are stored in the **LPFBuffer**.
 
 <ins>**Step 3: Frequency Calculation**</ins>
 
-Thirdly, the frequency of the signal is extracted by counting the number of **inflection points** (**maxima** and **minima**). The function **simpleDiff()** compares the readings on either side of each array element to identify these inflection points. The **numberOfInflectionPoints** is divided by **2** to give the **numberOfSteps**, as both the maxima and minima are included in the calculation.
+Thirdly, the frequency of the signal is extracted by counting the number of **inflection points** (**maxima** and **minima**) in a known time period. The function **simpleDiff()** compares the readings on either side of each array element to identify these inflection points. To ensure that LPFBuffer[0] and LPFBuffer[38] are not excluded, the **last** and **second-to-last** elements of each cycle are retained for comparison.
 
 <ins>**Step 4: Step Counting and Speed Calculation**</ins>
 
-Fourthly, the **number of steps** in a particular period of time is extracted from the data. By estimating the length of each step ([equal to 0.415 and 0.413 times the user's height for men and women, respectively](https://www.verywellfit.com/set-pedometer-better-accuracy-3432895)), the algorithm also estimates the **speed** at which the device is moving. Please note that the speed results will only become valid once the AccelerationBuffer and LPFBuffer have been filled. 
+Fourthly, the **number of steps** in a particular period of time is extracted from the data. By estimating the length of each step ([equal to 0.415 and 0.413 times the user's height for men and women, respectively](https://www.verywellfit.com/set-pedometer-better-accuracy-3432895)), the algorithm also estimates the **speed** at which the device is moving. Please note that the speed results will only become valid once the AccelerationBuffer and LPFBuffer has been filled at least twice (due to the low-pass filter, hence why steps 3, 4 and 5 are ignored after the first cycle is concluded).
 
 Due to the strict memory requirements of the FRDM-KL03Z, only 39 elements are stored in the AccelerationBuffer and LPFBuffer. Waveforms with **different frequencies** can still have the **same number of inflection points** over this short time period, causing a significant rounding error. Hence, the number of inflection points is retained over **multiple** 39-element cycles using the variable **cumulativeInflectionPoints**. If the program is run for longer, its rounding error decreases substantially (and the speed calculation is more accurate). It is recommended that steps should be counted for at least **10 seconds** for the speed to be determined with sufficient accuracy.
 
@@ -32,7 +32,7 @@ Due to the strict memory requirements of the FRDM-KL03Z, only 39 elements are st
 
 Finally, the aforementioned speed calculation is converted to an activity (**ActivityRunning**, **ActivityWalking** or **ActivityStationary**). [Long and Srinivasan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3627106) found that the characteristic velocity of running, the average velocity with equal amounts of walking and running (a running fraction of 0.5), equals about **2.2 m/s** (**7.92 km/hr**) on average, and [Saibene and Minetti](https://link.springer.com/article/10.1007/s00421-002-0654-9) found that the characteristic velocity calculated in previous literature varied between **1.80** and **2.50 m/s** (**6.48** and **9.00 km/hr**, respectively). By assuming that the characteristic velocity of individual users follows a uniform distribution between these two figures, the activity (and its confidence level) is classified.
 
-The same logic was used to discern between the walking and stationary states, as a threshold of 0 m/s will always be exceeded due to fluctuations in the user's position or the measurement setup. [Graham et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707) have shown that the mean walking speed of older adults in geriatric rehabilitation settings is **0.23 m/s** (**0.828 km/hr**), so this is used as the lower bound. Meanwhile, [Murtagh et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7806575/) have shown that the mean walking speed of healthy adults when purposefully walking slowly is **0.82 m/s** (**2.952 km/hr**), so this is used as the upper bound.
+The same logic was used to discern between the walking and stationary states, as a threshold of 0 m/s will always be exceeded due to fluctuations in the user's position or the measurement setup. [Graham et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2967707) have shown that the mean walking speed of older adults in geriatric rehabilitation settings is **0.23 m/s** (**0.828 km/hr**), so this is used as the lower bound. Meanwhile, [Murtagh et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7806575/) have shown that the typical walking speed of healthy adults when purposefully walking slowly is **0.82 m/s** (**2.952 km/hr**), so this is used as the upper bound.
 
 ![4B25 Uncertainty Graph](https://github.com/LeonBrindley/Warp-Coursework-2/assets/68070085/a8c710e1-cc23-44e6-87a5-a37fde6872a5)
 
@@ -40,13 +40,13 @@ The same logic was used to discern between the walking and stationary states, as
 
 The MMA8451Q accelerometer is configured by writing to the registers **F_SETUP**, **CTRL_REG1**, **HP_FILTER_CUTOFF** and **XYZ_DATA_CFG**. The structures of each register are explained in [Freescale's MMA8451Q datasheet](https://pdf1.alldatasheet.com/datasheet-pdf/download/460022/FREESCALE/MMA8451Q.html).
 
-Firstly, F_SETUP is set to **0x00** to disable the internal first-in, first-out (FIFO) buffer.
+Firstly, F_SETUP is set to **0x00** to disable the internal first-in, first-out (FIFO) buffer, as **AccelerationBuffer** is used instead.
 
 Secondly, CTRL_REG1 is set to **0x05** to select a **14-bit** resolution and activate the **reduced noise mode**. In contrast, if the **F_READ** bit is set to **1**, then an **8-bit** resolution can be used for faster data transfer.
 
-Thirdly, HP_FILTER_CUTOFF is set to **0x00** to enable the MMA8451Q's high-pass filter with its default cut-off frequency of **16 Hz** and its default output data rate (ODR) of **800 Hz**. This high-pass filter removes the acceleration due to **gravity** (g), which forms a DC offset.
+Thirdly, HP_FILTER_CUTOFF is set to **0x03** to ensure the MMA8451Q's high-pass filter is unbypassed and configure its cut-off frequency as **2 Hz**. The output data rate (ODR) is also set to the default value of **800 Hz**. This high-pass filter removes the acceleration due to **gravity** (g), which forms a DC offset.
 
-Finally, XYZ_DATA_CFG is set to **0x11** so the high-pass filter is not bypassed and the accelerometer's full-scale range equals **4g**.
+Finally, XYZ_DATA_CFG is set to **0x12** so the high-pass filter is enabled and the accelerometer's full-scale range equals **8g** (but note that if the LNOISE mode is active, the range is effectively limited to **4g** anyway).
 
 <ins>**Configuration: Sampling Rate**</ins>
 
